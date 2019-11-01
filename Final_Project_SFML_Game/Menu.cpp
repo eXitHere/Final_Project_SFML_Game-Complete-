@@ -35,10 +35,22 @@ Menu::Menu()
 		text_score[i].setFont(font);
 		text_score[i].setString("THANA 123456789");
 		text_score[i].setCharacterSize(40);
-		text_score[i].setFillColor(Color::Magenta);
+		text_score[i].setFillColor(Color::Blue);
 		text_score[i].setStyle(sf::Text::Bold);
 		text_score[i].setPosition(1090, 75*i+150); // name_Show
 	}
+
+	this->T_setting[0].loadFromFile("Texture/Menu/setting.png");
+	this->T_setting[1].loadFromFile("Texture/Menu/setting_hold.png");
+	this->S_setting.setTexture(this->T_setting[0]);
+	this->S_setting.setOrigin(this->T_setting[0].getSize().x / 2, this->T_setting[0].getSize().y / 2);
+	this->S_setting.setPosition(1560, 860);
+
+	this->T_boardSetting.loadFromFile("Texture/Menu/boardSetting.png");
+	this->S_boardSetting.setTexture(this->T_boardSetting);
+	this->S_boardSetting.setOrigin(this->T_boardSetting.getSize().x / 2, 0);
+	//this->S_boardSetting.setPosition(1320, 700);
+	this->S_boardSetting.setPosition(1320, 900);
 }
 
 void Menu::DRAW(RenderWindow* window)
@@ -47,6 +59,8 @@ void Menu::DRAW(RenderWindow* window)
 	checkMouse();
 	moveHima();
 	window->draw(this->S_bg);
+	window->draw(this->S_score);
+	scoreShow();
 	window->draw(this->S_hima);
 	window->draw(this->S_btnStart);
 	if (this->B_focus)
@@ -54,22 +68,62 @@ void Menu::DRAW(RenderWindow* window)
 		window->draw(this->S_focus);
 		focused();
 	}
-	window->draw(this->S_score);
-	scoreShow();
+	loadSetting();
+	window->draw(this->S_setting);
 }
 
 void Menu::checkMouse()
 {
+	// btn start
 	if (Mouse::getPosition(*window).x >= this->S_btnStart.getPosition().x - this->T_btnStart.getSize().x / 2 +70 &&
 		Mouse::getPosition(*window).y >= this->S_btnStart.getPosition().y - this->T_btnStart.getSize().y / 2 +15 &&
 		Mouse::getPosition(*window).x <= this->S_btnStart.getPosition().x + this->T_btnStart.getSize().x / 2 -70 &&
 		Mouse::getPosition(*window).y <= this->S_btnStart.getPosition().y + this->T_btnStart.getSize().y / 2 -15)
 	{
-		B_focus = true;
+		this->B_focus = true;
 	}
 	else
 	{
-		B_focus = false;
+		this->B_focus = false;
+	}
+
+	// btn setting
+	if (Mouse::getPosition(*window).x >= this->S_setting.getPosition().x - this->T_setting[0].getSize().x / 2 &&
+		Mouse::getPosition(*window).y >= this->S_setting.getPosition().y - this->T_setting[0].getSize().y / 2 &&
+		Mouse::getPosition(*window).x <= this->S_setting.getPosition().x + this->T_setting[0].getSize().x / 2 &&
+		Mouse::getPosition(*window).y <= this->S_setting.getPosition().y + this->T_setting[0].getSize().y / 2 )
+	{
+		if (Mouse::isButtonPressed(Mouse::Left) )
+		{
+			if (this -> B_mouse == false)
+			{
+			//	cout << "Click!" << endl;	
+				this->B_mouse = true;
+				if (this->stateSetting == 0 || this->stateSetting == 3)
+				{
+					this->stateSetting = 1;
+					this->B = 0;
+				}
+				else if (this->stateSetting == 1 || this->stateSetting == 2)
+				{
+					this->stateSetting = 3;
+					this->B = 0;
+				}
+			//	cout << this->stateSetting << endl;
+			}		
+		}
+		else
+		{
+			this->B_mouse = false;
+		}
+		//this->B_setting = true;
+		//cout << this->B << endl;
+	}
+	else
+	{
+		//this->B_setting = false;
+		this->S_setting.setTexture(this->T_setting[0]);
+		//this->B = 0;
 	}
 }
 
@@ -126,7 +180,7 @@ void Menu::scoreShow()
 		//if() cout << 'A' + rand() % ('Z' - 'A') << endl;
 		for (int i = 0; i < 5; i++)
 		{
-			if (this->indexSlid < this->string_score[i].length())  this->string_Score_slid[i][this->indexSlid] = '#';
+			if (this->indexSlid < this->string_score[i].length())  this->string_Score_slid[i][this->indexSlid] = '_';
 		}
 		
 		this->totalTimeScore += clock_score.restart().asSeconds();
@@ -168,7 +222,8 @@ void Menu::scoreShow()
 		{
 			this->totalTimeScore = 0;
 			this->stateScore = 4;
-			cout << this->indexSlid << endl;
+			this->indexSlid -= 2;
+			//cout << this->indexSlid << endl;
 		}
 		break;
 		//hide name
@@ -180,7 +235,7 @@ void Menu::scoreShow()
 			for (int i = 0; i < 5; i++)
 			{
 				this->string_Score_slid[i][this->indexSlid + 1] = ' ';
-				this->string_Score_slid[i][this->indexSlid] = '#';
+				this->string_Score_slid[i][this->indexSlid] = '_';
 				this->text_score[i].setString(this->string_Score_slid[i]);
 			}
 			this->indexSlid--;
@@ -232,6 +287,40 @@ void Menu::loadScore()
 		this->string_score[tempIndex++] = temp;
 	}
 	this->myFile.close();
+}
+
+void Menu::loadSetting()
+{
+	switch (this->stateSetting)
+	{
+	case 0:
+		break;
+	case 1:
+		this->S_setting.setTexture(this->T_setting[1]);
+		this->S_setting.rotate(-this->B);
+		this->B += 0.01;
+		this->S_boardSetting.move(0, -this->B);
+		window->draw(this->S_boardSetting);
+		if (this->S_boardSetting.getPosition().y <= 700)
+		{
+			this->stateSetting = 2;
+		}
+		break;
+	case 2:
+		window->draw(this->S_boardSetting);
+		break;
+	case 3:
+		this->S_setting.setTexture(this->T_setting[1]);
+		this->S_setting.rotate(this->B);
+		this->B += 0.01;
+		this->S_boardSetting.move(0, this->B);
+		window->draw(this->S_boardSetting);
+		if (this->S_boardSetting.getPosition().y >= 900)
+		{
+			this->stateSetting = 0;
+		}
+		break;
+	}
 }
 
 
