@@ -586,7 +586,7 @@ void Menu::enterName()
 	switch (this->stateEnterName)
 	{
 	case 0:// unload
-		break;
+		break; //
 	case 1:
 			//cout << "Press!" << endl;
 		if (this->event->type == Event::EventType::KeyReleased && this->last_Char != ' ')
