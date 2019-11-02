@@ -6,9 +6,9 @@ void setupWindow(RenderWindow* window);
 int main()
 {
 	RenderWindow window(VideoMode(SIZE_WIDTH, SIZE_HEIGHT), NAME_GAME);
-	setupWindow(&window);
-	Menu menu;
 	Event event;
+	setupWindow(&window);
+	Menu menu(&window, &event);
 	while (window.isOpen())
 	{
 		while (window.pollEvent(event))
@@ -17,7 +17,7 @@ int main()
 		}
 
 		window.clear();
-		menu.DRAW(&window);
+		if(!menu.isStart()) menu.DRAW();
 		window.display();
 	}
 	return 0;
