@@ -129,10 +129,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EndGame.cpp" />
+    <ClCompile Include="InGame.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EndGame.h" />
+    <ClInclude Include="InGame.h" />
     <ClInclude Include="initial.h" />
     <ClInclude Include="Menu.h" />
   </ItemGroup>

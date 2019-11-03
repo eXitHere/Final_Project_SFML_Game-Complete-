@@ -6,9 +6,8 @@
 class Menu
 {
 public:
-	Menu(RenderWindow* window, Event* event);
+	Menu(RenderWindow* window, Event* event,int *state);
 	void DRAW();
-	bool isStart();
 private:
 	void checkMouse();
 	void moveHima();
@@ -35,4 +34,5 @@ private:
 	IntRect R_hima,R_score,R_soundBar[2];
 	RenderWindow* window;
 	Event* event;
+	int* stateGame;
 };

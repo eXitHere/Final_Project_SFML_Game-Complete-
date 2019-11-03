@@ -1,7 +1,8 @@
 #include "Menu.h"
 
-Menu::Menu(RenderWindow* window, Event* event)
+Menu::Menu(RenderWindow* window, Event* event, int* state)
 {
+	this->stateGame = state;
 	this->window = window;
 	this->event = event;
 	loadScore();
@@ -139,11 +140,6 @@ void Menu::DRAW()
 	}
 	loadSetting();
 	window->draw(this->S_setting);	
-}
-
-bool Menu::isStart()
-{
-	return this->stateEnterName == 2;
 }
 
 void Menu::checkMouse()
@@ -601,6 +597,7 @@ void Menu::enterName()
 			if (this->event->text.unicode == 13 && this->indexGetName !=0) // enter
 			{
 				this->stateEnterName = 2;
+				*this->stateGame = 1;
 			}
 			else if (this->event->text.unicode == 27)
 			{
