@@ -2,7 +2,7 @@
 
 Item::Item()
 {
-	cout << "Load Item complete!" << endl;
+	//cout << "Load Item complete!" << endl;
 }
 
 void Item::loadData(Texture texture, RenderWindow* window,Vector2f position)

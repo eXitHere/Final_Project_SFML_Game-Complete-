@@ -34,7 +34,7 @@ void InGame::DRAW()
 			Item* p = itemList.at(i);
 			delete p;
 			this->itemList.erase(this->itemList.begin()+i);
-			cout << itemList.size() << " -- " << i << endl;
+			//cout << itemList.size() << " -- " << i << endl;
 		}
 	}
 }
@@ -143,7 +143,7 @@ void InGame::loadMapCode()
 
 void InGame::loadItems()
 {
-	cout << "PosNow : " << this->positionNow() << endl;
+	//cout << "PosNow : " << this->positionNow() << endl;
 	if (this->posItems.size() > 0 && this->posItems[0] == this->positionNow())
 	{
 		this->itemList.push_back(new Item());
