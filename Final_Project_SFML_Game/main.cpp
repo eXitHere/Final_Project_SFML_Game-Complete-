@@ -55,6 +55,7 @@ int main()
 			if (!endgame)
 			{
 				delete ingame;
+				ingame = nullptr;
 				endgame = new EndGame(&window, &event, &stateGame);
 			}
 			endgame->DRAW();

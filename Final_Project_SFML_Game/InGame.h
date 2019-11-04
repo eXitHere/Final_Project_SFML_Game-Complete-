@@ -1,5 +1,7 @@
-#include"initial.h"
-
+﻿#include"initial.h"
+#include "Item.h"
+#include<vector>
+#include<fstream>
 class InGame
 {
 public:
@@ -12,12 +14,22 @@ private:
 	void loadTextureAll();
 	void mapManage();
 	void moveMap();
+	void loadMapCode();
+	void loadItems();
+	int positionNow();
+	// Variable for Items
+	Texture T_items[4];
+	vector<Item*> itemList;
+	vector<int> posItems;
+	fstream myFile;
 	// Variable
 	
+	
+
 	Texture T_Map[8];
 	Sprite S_cur_Map, S_new_Map;
 	bool B_nowusemap = true;
-
+	
 	int next = 1;
 
 	RenderWindow* window;

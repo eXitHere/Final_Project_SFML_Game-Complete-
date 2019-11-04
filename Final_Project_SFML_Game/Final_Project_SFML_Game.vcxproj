@@ -131,6 +131,7 @@
   <ItemGroup>
     <ClCompile Include="EndGame.cpp" />
     <ClCompile Include="InGame.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
   </ItemGroup>
@@ -138,6 +139,7 @@
     <ClInclude Include="EndGame.h" />
     <ClInclude Include="InGame.h" />
     <ClInclude Include="initial.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="Menu.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
