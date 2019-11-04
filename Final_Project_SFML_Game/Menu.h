@@ -7,6 +7,7 @@ class Menu
 {
 public:
 	Menu(RenderWindow* window, Event* event,int *state);
+	~Menu() { cout << "delete 'menu' complete" << endl; };
 	void DRAW();
 private:
 	void checkMouse();

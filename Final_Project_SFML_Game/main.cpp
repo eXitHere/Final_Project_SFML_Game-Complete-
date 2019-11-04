@@ -11,9 +11,12 @@ int main()
 	setupWindow(&window);
 
 	int stateGame = 0;
-	Menu* menu = nullptr; // new Menu(&window, &event, &stateGame);
-	InGame* ingame = nullptr;
+	Menu* menu = NULL; // new Menu(&window, &event, &stateGame);
+	InGame* ingame = NULL;
 	EndGame* endgame = new EndGame(&window, &event, &stateGame);
+	delete menu;
+	delete ingame;
+
 	bool B_deleteLastState = false;
 	while (window.isOpen())
 	{
@@ -27,26 +30,29 @@ int main()
 		{
 		case 0:  // --> Menu
 			//cout << "Load Menu" << endl;
-			if (menu == nullptr)
+			if (!menu)
 			{
+				//cout << "Create Menu !" << endl;
 				menu = new Menu(&window, &event, &stateGame);
 				delete endgame;
+				endgame = nullptr;
 			}
 			menu->DRAW();
 			break;
 
 		case 1: // --> In game
 			//cout << "Load In Game " << endl;
-			if (ingame == nullptr)
+			if (!ingame)
 			{
 				delete menu;
+				menu = nullptr;
 				ingame = new InGame(&window, &event, &stateGame);
 			}
 			ingame->DRAW();
 			break;
 
 		case 2: // --> End game
-			if (endgame == nullptr)
+			if (!endgame)
 			{
 				delete ingame;
 				endgame = new EndGame(&window, &event, &stateGame);
