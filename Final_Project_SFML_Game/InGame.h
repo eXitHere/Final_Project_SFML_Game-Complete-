@@ -1,7 +1,11 @@
 ﻿#include"initial.h"
 #include "Item.h"
+#include "Player.h"
+#include "barManager.h"
+
 #include<vector>
 #include<fstream>
+
 class InGame
 {
 public:
@@ -25,6 +29,13 @@ private:
 	// Variable
 	
 	
+	// Player
+	Player player;
+	int indexPlayer = 0;
+
+	// Bar
+	barManager bar;
+
 
 	Texture T_Map[8];
 	Sprite S_cur_Map, S_new_Map;

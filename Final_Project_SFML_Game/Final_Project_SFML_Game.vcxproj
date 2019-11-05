@@ -129,18 +129,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="barManager.cpp" />
     <ClCompile Include="EndGame.cpp" />
     <ClCompile Include="InGame.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="barManager.h" />
     <ClInclude Include="EndGame.h" />
     <ClInclude Include="InGame.h" />
     <ClInclude Include="initial.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

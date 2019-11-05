@@ -11,4 +11,6 @@ using namespace sf;
 #define NAME_GAME "RUN TO DIE"
 //End of Header
 
+#define gameSpeed 1
+
 

@@ -46,6 +46,6 @@ void Item::update()
 void Item::move()
 {
 	//cout << this->body.getPosition().x << " " << this->body.getPosition().y << endl;
-	this->body.move(-6, sin(this->A));
+	this->body.move(-6 * gameSpeed, sin(this->A));
 	this->A -= 0.1;
 }

@@ -594,7 +594,7 @@ void Menu::enterName()
 		{
 			//cout << event->text.unicode << endl;
 			//cout << this->event->text.unicode << endl;
-			if (this->event->text.unicode == 13 && this->indexGetName !=0) // enter
+			if (this->event->text.unicode == 13) // enter
 			{
 				this->stateEnterName = 2;
 				*this->stateGame = 1;

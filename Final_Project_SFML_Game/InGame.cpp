@@ -1,12 +1,16 @@
 #include "InGame.h"
 
-InGame::InGame(RenderWindow* window, Event* event, int* state) 
+InGame::InGame(RenderWindow* window, Event* event, int* state) :
+	player(window, event),
+	bar(window,event)
 {
+	player.updateRec(this->indexPlayer);
 	loadTextureAll();
 	this->stateGame = state;
 	this->window = window;
 	this->event = event;
 	loadMapCode();
+	this->indexPlayer++;
 }
 
 void InGame::DRAW()
@@ -24,6 +28,7 @@ void InGame::DRAW()
 		window->draw(this->S_cur_Map);
 		window->draw(this->S_new_Map);
 	}
+	bar.DRAW();
 	moveMap();
 	loadItems();
 	for (int i = 0; i < itemList.size(); i++)
@@ -37,6 +42,7 @@ void InGame::DRAW()
 			//cout << itemList.size() << " -- " << i << endl;
 		}
 	}
+	player.DRAW();
 }
 
 void InGame::loadTextureAll()
@@ -63,11 +69,18 @@ void InGame::moveMap()
 {
 	if (B_nowusemap)
 	{
-		this->S_cur_Map.move(-4, 0);
+		this->S_cur_Map.move(-4 * gameSpeed, 0);
 
 		if (this->S_new_Map.getPosition().x + this->T_Map[this->next -1].getSize().x != 0)
 		{
-			this->S_new_Map.move(-4, 0);
+			this->S_new_Map.move(-4 * gameSpeed, 0);
+		}
+
+		//cout << S_cur_Map.getPosition().x << endl;
+		if (this->S_cur_Map.getPosition().x == 400)
+		{
+			player.updateRec(this->indexPlayer);
+			indexPlayer++;
 		}
 
 		if (this->S_cur_Map.getPosition().x + this->T_Map[this->next].getSize().x == 1800)
@@ -80,11 +93,17 @@ void InGame::moveMap()
 	}
 	else
 	{
-		this->S_new_Map.move(-4, 0);
+		this->S_new_Map.move(-4 * gameSpeed, 0);
 		if (this->S_cur_Map.getPosition().x + this->T_Map[this->next-1].getSize().x != 0)
 		{
-			this->S_cur_Map.move(-4, 0);
+			this->S_cur_Map.move(-4 * gameSpeed, 0);
 		}
+		if (int(this->S_new_Map.getPosition().x) ==400)
+		{
+			player.updateRec(this->indexPlayer);
+			indexPlayer++;
+		}
+
 		if (this->S_new_Map.getPosition().x + this->T_Map[this->next].getSize().x == 1800)
 		{
 			B_nowusemap = !B_nowusemap;
