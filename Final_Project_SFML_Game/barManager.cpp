@@ -15,23 +15,175 @@ barManager::barManager(RenderWindow* window, Event* event)
 	this->rect[1] = IntRect(0, 0, this->T_value[0].getSize().x, this->T_value[0].getSize().y);
 	this->S_value[0].setTextureRect(this->rect[0]);
 	this->S_value[1].setTextureRect(this->rect[1]);
+	this->S_lop[0].setTexture(this->T_lop);
+	this->S_lop[1].setTexture(this->T_lop);
 	this->S_grid[0].setPosition(0,0);
-	this->S_grid[1].setPosition(750, 0);
+	this->S_grid[1].setPosition(0, 750);
 	this->S_value[0].setPosition(20, 20);
 	this->S_value[1].setPosition(60, 20);
+	this->S_lop[0].setPosition(90.0f, 58.5f);
+	this->S_lop[1].setPosition(520.0f, 59.0f);
+	this->S_value[0].setPosition(90.0f, 58.5f);
+	this->S_value[1].setPosition(520.0f, 59.0f);
+	this->S_hpHappy.setPosition(10.0f, 15.0f);
+
+
+	// DOWN
+	this->S_bgObject[0].setTexture(this->T_object);
+	this->S_bgObject[1].setTexture(this->T_object);
+	this->S_bgObject[2].setTexture(this->T_object);
+	this->S_bgObject[0].setPosition(100, 765);
+	this->S_bgObject[1].setPosition(250, 765);
+	this->S_bgObject[2].setPosition(400, 765);
+
+	for (int i = 0; i < 6; i++) this->S_bgItemCount[i].setTexture(this->T_itemCount);
+	for (int i = 0; i < 3; i++)
+	{
+		this->S_Grid[i].setTexture(this->T_Grid[0]);
+		this->S_onLoad[i].setTexture(this->T_onLoad);
+	}
+	this->S_bgItemCount[0].setPosition(600, 760);
+	this->S_bgItemCount[1].setPosition(600, 825);
+	this->S_bgItemCount[2].setPosition(800, 760);
+	this->S_bgItemCount[3].setPosition(800, 825);
+	this->S_bgItemCount[4].setPosition(1000, 760);
+	this->S_bgItemCount[5].setPosition(1000, 825);
+	this->S_onLoad[0].setPosition(103, 765);
+	this->S_onLoad[1].setPosition(253, 765);
+	this->S_onLoad[2].setPosition(403, 765);
+	this->S_Grid[0].setPosition(98, 763);
+	this->S_Grid[1].setPosition(248, 763);
+	this->S_Grid[2].setPosition(398, 763);
+	this->S_archiveInobject.setPosition(118, 783);
+	this->S_Family.setPosition(268, 783);
+	this->S_Friend.setPosition(418, 783);
+
+	this->font.loadFromFile("Font/impact.ttf");
+	this->countItem[0].setFont(font);
+	this->countItem[0].setString("0/10");
+	this->countItem[0].setCharacterSize(20);
+	this->countItem[0].setFillColor(Color::White);
+	this->countItem[0].setPosition(680, 780);
+
+	this->countItem[1].setFont(font);
+	this->countItem[1].setString("0/10");
+	this->countItem[1].setCharacterSize(20);
+	this->countItem[1].setFillColor(Color::White);
+	this->countItem[1].setPosition(680, 845);
+
+	this->countItem[2].setFont(font);
+	this->countItem[2].setString("0/10");
+	this->countItem[2].setCharacterSize(20);
+	this->countItem[2].setFillColor(Color::White);
+	this->countItem[2].setPosition(880, 780);
+
+	this->countItem[3].setFont(font);
+	this->countItem[3].setString("0/10");
+	this->countItem[3].setCharacterSize(20);
+	this->countItem[3].setFillColor(Color::White);
+	this->countItem[3].setPosition(880, 845);
+
+	this->countItem[4].setFont(font);
+	this->countItem[4].setString("0/10");
+	this->countItem[4].setCharacterSize(20);
+	this->countItem[4].setFillColor(Color::White);
+	this->countItem[4].setPosition(1080, 780);
+
+	this->countItem[5].setFont(font);
+	this->countItem[5].setString("0/10");
+	this->countItem[5].setCharacterSize(20);
+	this->countItem[5].setFillColor(Color::White);
+	this->countItem[5].setPosition(1080, 845);
+
+	// For Test Only!
+	this->S_archiveInobject.setTexture(this->T_Archive[0]);
+	this->S_Family.setTexture(this->T_Family[1]);
+	this->S_Friend.setTexture(this->T_Friend[1]);
 }
 
 void barManager::DRAW()
 {
+	//Top
+	updateHpHappy();
 	this->window->draw(this->S_grid[0]);
 	this->window->draw(this->S_grid[1]);
-	this->window->draw(this->S_hpHappy);
 	this->window->draw(this->S_value[0]);
 	this->window->draw(this->S_value[1]);
+	this->window->draw(this->S_lop[0]);
+	this->window->draw(this->S_lop[1]);
+	this->window->draw(this->S_hpHappy);
+
+	// Down
+	updateCounter();
+	for (int i = 0; i < 3; i++)
+	{
+		this->window->draw(this->S_bgObject[i]);
+	}
+	this->window->draw(this->S_archiveInobject);
+	this->window->draw(this->S_Family);
+	this->window->draw(this->S_Friend);
+	for (int i = 0; i < 3; i++)
+	{
+		this->window->draw(this->S_onLoad[i]);
+		this->window->draw(this->S_Grid[i]);
+	}
+	for (int i = 0; i < 6; i++)
+	{
+		if (IHide[i])
+		{
+			window->draw(this->S_bgItemCount[i]);
+			window->draw(this->countItem[i]);
+		}
+	}
+}
+
+void barManager::setup(int* O1, bool* O2, bool* O3, int* D, int* I1, int* I2, int* I3, int* I4, int* I5, int* I6)
+{
+	//setPointer!
+	this->pointerCount[0] = I1;
+	this->pointerCount[1] = I2;
+	this->pointerCount[2] = I3;
+	this->pointerCount[3] = I4;
+	this->pointerCount[4] = I5;
+	this->pointerCount[5] = I6;
+	// set Active
+	if (*O1) this->active[0] = true;
+	else this->active[0] = false;
+	if (*O2) { this->active[1] = true; this->S_Family.setTexture(this->T_Family[1]); }
+	else { this->active[1] = false; this->S_Family.setTexture(this->T_Family[0]); }
+	if (*O3) { this->active[2] = true; this->S_Friend.setTexture(this->T_Friend[1]); }
+	else { this->active[2] = false; this->S_Friend.setTexture(this->T_Friend[0]); }
+	//for object 1
+	switch (*O1)
+	{ // f p t w // listItem
+	case 1: this->S_archiveInobject.setTexture(this->T_Archive[0]); break;
+	case 2: this->S_archiveInobject.setTexture(this->T_Archive[1]); break;
+	case 3: this->S_archiveInobject.setTexture(this->T_Archive[2]); break;
+	case 4: this->S_archiveInobject.setTexture(this->T_Archive[3]); break;
+	}
+	for (int i = 0; i < 6; i++)
+	{
+		if (*(D + i) != 0)
+		{
+			switch (*(D + i))
+			{
+			case 1: this->S_bgItemCount[i].setTexture(this->T_I[0]); break;
+			case 2: this->S_bgItemCount[i].setTexture(this->T_I[1]);; break;
+			case 3: this->S_bgItemCount[i].setTexture(this->T_I[2]);; break;
+			case 4: this->S_bgItemCount[i].setTexture(this->T_I[3]);; break;
+			}
+			IHide[i] = true;
+		}
+		else
+		{
+			IHide[i] = false;
+		}
+	}
 }
 
 void barManager::loadTextureAll()
 {
+	// Top
 	this->T_value[0].loadFromFile("Texture/barmanage/G1.png");
 	this->T_value[1].loadFromFile("Texture/barmanage/G2.png");
 	this->T_value[2].loadFromFile("Texture/barmanage/G3.png");
@@ -42,17 +194,74 @@ void barManager::loadTextureAll()
 	this->T_hpHappy.loadFromFile("Texture/barmanage/hp_happy_bar.png");
 	this->T_grid[0].loadFromFile("Texture/barmanage/gridTOP.png");
 	this->T_grid[1].loadFromFile("Texture/barmanage/gridDOWN.png");
+	this->T_lop.loadFromFile("Texture/barmanage/E.png");
 
+	// Down
+	this->T_object.loadFromFile("Texture/barmanage/Active1.png");
+	this->T_itemCount.loadFromFile("Texture/barmanage/itemCount.png");
+	this->T_onLoad.loadFromFile("Texture/barmanage/onload.png");
+	this->T_Grid[0].loadFromFile("Texture/barmanage/Grid.png");
+	this->T_Grid[1].loadFromFile("Texture/barmanage/GridActive.png");
+	this->T_Archive[0].loadFromFile("Texture/barmanage/f.png");
+	this->T_Archive[1].loadFromFile("Texture/barmanage/p.png");
+	this->T_Archive[2].loadFromFile("Texture/barmanage/t.png");
+	this->T_Archive[3].loadFromFile("Texture/barmanage/w.png");
+	this->T_Family[0].loadFromFile("Texture/barmanage/family_black.png");
+	this->T_Family[1].loadFromFile("Texture/barmanage/family.png");
+	this->T_Friend[0].loadFromFile("Texture/barmanage/friend_black.png");
+	this->T_Friend[1].loadFromFile("Texture/barmanage/friend.png");
+	this->T_I[0].loadFromFile("Texture/barmanage/i1.png");
+	this->T_I[1].loadFromFile("Texture/barmanage/i2.png");
+	this->T_I[2].loadFromFile("Texture/barmanage/i3.png");
+	this->T_I[3].loadFromFile("Texture/barmanage/i4.png");
+	this->T_I[4].loadFromFile("Texture/barmanage/i5.png");
 }
 
 void barManager::updateHpHappy()
 {
-	this->rect[0].width = (this->hp_Val * 330) / 70;
-	this->rect[1].width = (this->happy_Val * 330) / 70;
+	this->rect[0].width = (this->hp_Val * 330) / 60;
+	this->rect[1].width = (this->happy_Val * 330) / 60;
 	this->S_value[0].setTextureRect(this->rect[0]);
 	this->S_value[1].setTextureRect(this->rect[1]);
 	this->S_value[0].setTexture(this->T_value[int(6 - round(this->hp_Val/10))]);
 	this->S_value[1].setTexture(this->T_value[int(6 - round(this->happy_Val / 10))]);
 	this->S_value[0].setTextureRect(this->rect[0]);
 	this->S_value[1].setTextureRect(this->rect[1]);
+	if (this->S_lop[1].getPosition().x + 14 > this->S_value[1].getPosition().x + (happy_Val * 330) / 60)
+	{
+		this->S_lop[1].setPosition(520.0f, 58.5f);
+	}
+
+	if (this->S_lop[0].getPosition().x + 14 > this->S_value[0].getPosition().x + (hp_Val * 330) / 60)
+	{
+		this->S_lop[0].setPosition(90.0f, 58.5f);
+	}
+	this->S_lop[0].move(2, 0);
+	this->S_lop[1].move(2, 0);
+}
+
+void barManager::updateArchive()
+{
+	if (this->I_indexArchive)
+	{
+		switch (this->I_indexArchive)
+		{
+		case 1: this->S_archiveInobject.setTexture(this->T_Archive[0]);
+			break;
+		case 2: this->S_archiveInobject.setTexture(this->T_Archive[1]);
+			break;
+		case 3: this->S_archiveInobject.setTexture(this->T_Archive[2]);
+			break;
+		case 4: this->S_archiveInobject.setTexture(this->T_Archive[3]);
+			break;
+		}
+	}
+}
+
+void barManager::updateCounter()
+{
+	for (int i = 0; i < 6; i++)
+	{
+		countItem[i].setString(to_string(*pointerCount[i]) + "/10");
+	}
 }

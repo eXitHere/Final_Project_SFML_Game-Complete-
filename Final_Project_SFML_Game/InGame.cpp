@@ -11,6 +11,10 @@ InGame::InGame(RenderWindow* window, Event* event, int* state) :
 	this->event = event;
 	loadMapCode();
 	this->indexPlayer++;
+
+
+	//test
+	bar.setup(&this->Object, &this->Object2[0], &this->Object2[1], &this->ID[0], &this->Status[0], &this->Status[1], &this->Status[2], &this->Status[3], &this->Status[4], &this->Status[5]);
 }
 
 void InGame::DRAW()

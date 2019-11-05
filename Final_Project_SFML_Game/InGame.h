@@ -34,6 +34,8 @@ private:
 	int indexPlayer = 0;
 
 	// Bar
+	int Object = 3, Status[6] = { 0,0,0,0,0,0 }, ID[6] = { 1,2,3,4,1,1 };
+	bool Object2[2] = { true,false };
 	barManager bar;
 
 

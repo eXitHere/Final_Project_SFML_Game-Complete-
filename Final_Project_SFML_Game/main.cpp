@@ -10,7 +10,7 @@ int main()
 	Event event;
 	setupWindow(&window);
 
-	int stateGame = 0;
+	int stateGame = 1;
 	Menu* menu = NULL; // new Menu(&window, &event, &stateGame);
 	InGame* ingame = NULL;
 	EndGame* endgame = new EndGame(&window, &event, &stateGame);
