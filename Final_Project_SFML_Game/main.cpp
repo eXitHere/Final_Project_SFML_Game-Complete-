@@ -3,7 +3,7 @@
 #include "InGame.h"
 #include "EndGame.h"
 void setupWindow(RenderWindow* window);
-
+	
 int main()
 {
 	RenderWindow window(VideoMode(SIZE_WIDTH, SIZE_HEIGHT), NAME_GAME);
@@ -16,7 +16,7 @@ int main()
 	EndGame* endgame = new EndGame(&window, &event, &stateGame);
 	delete menu;
 	delete ingame;
-
+	
 	bool B_deleteLastState = false;
 	while (window.isOpen())
 	{
@@ -27,7 +27,7 @@ int main()
 
 		window.clear();
 		switch (stateGame)
-		{
+		{		
 		case 0:  // --> Menu
 			//cout << "Load Menu" << endl;
 			if (!menu)
@@ -39,7 +39,7 @@ int main()
 			}
 			menu->DRAW();
 			break;
-
+			
 		case 1: // --> In game
 			//cout << "Load In Game " << endl;
 			if (!ingame)

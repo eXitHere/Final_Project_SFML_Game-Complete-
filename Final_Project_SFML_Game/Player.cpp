@@ -19,13 +19,32 @@ void Player::DRAW()
 	controls();
 	jump();
 	update();
+	*this->pointerToY = this->body.getPosition().y;
 	this->window->draw(this->body);
 	//cout << this->body.getPosition().y << endl;
 }
 
+void Player::setPointerToY(float* Y)
+{
+	this->pointerToY = Y;
+}
+
+Vector2f Player::getHalfsize()
+{
+	//cout << "eieieie" << endl;
+	return Vector2f(this->T_texture[this->action_now].getSize().x/this->countPic[this->action_now]/2,this->T_texture[this->action_now].getSize().y/2);
+}
+
+Vector2f Player::getPosition()
+{
+	//cout << this->body.getPosition().x << " " << this->body.getPosition().y << endl;
+	//cout << getHalfsize().x << " " << this->getHalfsize().y << endl;
+	return (this->body.getPosition() - Vector2f(0,this->T_texture[this->action_now].getSize().y/2));
+}
+
 void Player::controls()
 {
-	//cout << "Press" << endl;
+	//cout << "Press" << endl; 
 	if (Keyboard::isKeyPressed(Keyboard::Space) && this->canJump())
 	{
 		this->stateJump = 1;
@@ -73,7 +92,7 @@ void Player::jump()
 		this->jumpPower += 0.1;
 		if (this->body.getPosition().y >= 750)
 		{
-			this->body.setPosition(500, 750);
+			this->body.setPosition(400, 750);
 			this->stateJump = 0;
 			this->jumpPower = 15;
 		}
@@ -91,9 +110,9 @@ void Player::updateRec(int newRec)
 	this->X_now = 0;
 	this->rec = IntRect(0, 0, this->T_texture[this->action_now].getSize().x / this->countPic[this->action_now], this->T_texture[this->action_now].getSize().y);
 	this->body.setTexture(this->T_texture[this->action_now]);
-	this->body.setOrigin(this->T_texture[this->action_now].getSize().x / 2, this->T_texture[this->action_now].getSize().y);
+	this->body.setOrigin(this->T_texture[this->action_now].getSize().x / this->countPic[this->action_now] /2, this->T_texture[this->action_now].getSize().y);
 	this->body.setTextureRect(this->rec);
-	this->body.setPosition(500.0f, 750.0f);
+	this->body.setPosition(400.0f, 750.0f);
 	if (this->stateJump != 2)
 	{
 		this->jumpPower = 15;

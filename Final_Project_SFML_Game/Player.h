@@ -6,8 +6,11 @@ public:
 	Player(RenderWindow *window,Event *event);
 	void updateRec(int newRec);
 	void DRAW();
+	void setPointerToY(float* Y);
+	Vector2f getHalfsize();
+	Vector2f getPosition();
 private:
-
+	float *pointerToY;
 	void controls();
 	void update();
 	void jump();

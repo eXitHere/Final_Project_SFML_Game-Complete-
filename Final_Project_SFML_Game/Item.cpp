@@ -5,10 +5,11 @@ Item::Item()
 	//cout << "Load Item complete!" << endl;
 }
 
-void Item::loadData(Texture texture, RenderWindow* window,Vector2f position)
+void Item::loadData(Texture texture, int ID, RenderWindow* window,Vector2f position)
 {
 	this->window = window;
 	this->texture = texture;
+	this->ID = ID;
 	this->body.setTexture(this->texture);
 	this->rect = IntRect(0, 0, int(this->texture.getSize().x / 4), int(this->texture.getSize().y));
 	this->body.setPosition(position);
@@ -25,6 +26,22 @@ void Item::DRAW()
 bool Item::deleteMe()
 {
 	return (this->body.getPosition().x < 0);
+}
+
+Vector2f Item::getHalfsize()
+{
+	return Vector2f(this->texture.getSize().x / 4 /2, this->texture.getSize().y / 2);
+}
+
+Vector2f Item::getPosition()
+{
+	//cout << getHalfsize().x << " " << this->getHalfsize().y << endl;
+	return this->body.getPosition() + this->getHalfsize();;
+}
+
+int Item::getID()
+{
+	return this->ID;
 }
 
 void Item::update()

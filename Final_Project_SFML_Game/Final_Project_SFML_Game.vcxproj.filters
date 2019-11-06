@@ -39,6 +39,9 @@
     <ClCompile Include="NPC.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="statusFace.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="initial.h">
@@ -63,6 +66,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NPC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="statusFace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IDList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

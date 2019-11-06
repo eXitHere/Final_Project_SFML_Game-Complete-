@@ -137,16 +137,19 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="statusFace.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="barManager.h" />
     <ClInclude Include="EndGame.h" />
+    <ClInclude Include="IDList.h" />
     <ClInclude Include="InGame.h" />
     <ClInclude Include="initial.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="statusFace.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

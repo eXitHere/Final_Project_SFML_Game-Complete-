@@ -1,1 +1,98 @@
 #include "NPC.h"
+
+NPC::NPC()
+{
+
+}
+
+void NPC::setDATA(Texture texture,int positionX, float* yPos, int ID,RenderWindow* window, Event* event)
+{
+	this->yPosPlayer = yPos;
+	this->window = window;
+	this->event = event;
+	this->texture = texture;
+	this->body.setTexture(this->texture);
+	this->body.setPosition(positionX, 740);
+	this->rect = IntRect(0, 0, this->texture.getSize().x / 4, this->texture.getSize().y);
+	this->body.setTextureRect(this->rect);
+	this->xNow = 0;
+	this->body.setOrigin(this->texture.getSize().x / 4 / 2, this->texture.getSize().y);
+	
+	this->Tpess.loadFromFile("Texture/NPC/pressF.png");
+	this->press.setTexture(this->Tpess);
+	this->RECT = IntRect(0, 0, this->Tpess.getSize().x / 4, this->Tpess.getSize().y);
+	this->press.setTextureRect(this->RECT);
+}
+
+void NPC::DRAW()
+{
+	checkOnHold();
+	move();
+	this->update();
+	this->window->draw(this->body);
+}
+
+int NPC::checkState()
+{
+	return this->delme;
+}
+
+void NPC::move()
+{
+	//cout << this->body.getPosition().x << endl; <-- dubug and now complete!!!!!
+	this->body.move(-6, 0);
+	if (this->body.getPosition().x < 0)
+	{
+		this->delme = 2;
+	}
+}
+
+void NPC::update()
+{
+	this->totalTime += this->clock.restart().asSeconds();
+	if (this->totalTime > 0.2)
+	{
+		this->totalTime = 0;
+		this->xNow++;
+		if (this->xNow == 4)
+		{
+			this->xNow = 0;
+		}
+	}
+	this->rect.left = this->rect.width * this->xNow;
+	this->body.setTextureRect(this->rect);
+}
+
+void NPC::checkOnHold()
+{
+	//cout << *this->yPosPlayer << endl;
+	if (abs(this->body.getPosition().x+20 - 350) < this->texture.getSize().x / 4 / 2 +40 &&
+		abs(this->body.getPosition().y-this->texture.getSize().y/2 - *this->yPosPlayer) < this->texture.getSize().y/2 + 100)
+	{
+		updatePress();
+		this->press.setPosition(this->body.getPosition().x, this->body.getPosition().y - this->texture.getSize().y-50);
+		this->window->draw(this->press);
+		if (Keyboard::isKeyPressed(Keyboard::F))
+		{
+			this->delme = 1;
+			//cout << "Press !" << endl;
+		}
+		//cout << "Chon!" << endl;
+	}
+}
+
+void NPC::updatePress()
+{
+	this->totalTimePress += this->clockPress.restart().asSeconds();
+	if (this->totalTimePress > 0.25)
+	{
+		this->totalTimePress = 0;
+		this->XNOW++;
+		if (this->XNOW == 4)
+		{
+			this->XNOW = 0;
+		}
+	}
+	this->RECT.left = this->RECT.width * this->XNOW;
+	this->press.setTextureRect(this->RECT);
+}
