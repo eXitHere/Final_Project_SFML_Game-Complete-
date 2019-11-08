@@ -66,17 +66,22 @@ void NPC::update()
 void NPC::checkOnHold()
 {
 	//cout << *this->yPosPlayer << endl;
-	if (abs(this->body.getPosition().x+20 - 350) < this->texture.getSize().x / 4 / 2 +40 &&
-		abs(this->body.getPosition().y-this->texture.getSize().y/2 - *this->yPosPlayer) < this->texture.getSize().y/2 + 100)
+	/*if (abs(this->body.getPosition().x+20 - 350) < this->texture.getSize().x / 4 / 2 +40 &&
+		abs(this->body.getPosition().y-this->texture.getSize().y/2 - *this->yPosPlayer) < this->texture.getSize().y/2 + 100)*/
+	if (abs(this->body.getPosition().x + 20 - 350) < this->texture.getSize().x / 4 / 2 + 40 &&
+		abs(this->body.getPosition().y - this->texture.getSize().y / 2 - *this->yPosPlayer) < this->texture.getSize().y / 2 + 100)
 	{
-		updatePress();
-		this->press.setPosition(this->body.getPosition().x, this->body.getPosition().y - this->texture.getSize().y-50);
-		this->window->draw(this->press);
 		if (Keyboard::isKeyPressed(Keyboard::F))
 		{
 			this->delme = 1;
 			//cout << "Press !" << endl;
 		}
+	}
+	if(this->body.getPosition().x >= 0 && this->body.getPosition().x <= 1600)
+	{
+		updatePress();
+		this->press.setPosition(this->body.getPosition().x, this->body.getPosition().y - this->texture.getSize().y-50);
+		this->window->draw(this->press);
 		//cout << "Chon!" << endl;
 	}
 }

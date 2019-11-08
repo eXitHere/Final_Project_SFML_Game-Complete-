@@ -60,8 +60,8 @@ private:
 	statusFace* tempFace;
 
 	// MAP
-	Texture T_Map[8];
-	Sprite S_cur_Map, S_new_Map;
+	Texture T_Map[8],T_door;
+	Sprite S_cur_Map, S_new_Map,S_door;
 	bool B_nowusemap = true;
 	
 	int next = 1;

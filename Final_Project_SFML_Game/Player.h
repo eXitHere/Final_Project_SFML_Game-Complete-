@@ -16,7 +16,7 @@ private:
 	void jump();
 	bool canJump();
 	int stateJump = 0;
-	float jumpPower = 15;
+	float jumpPower = 20;
 	int action_now=0;
 
 	Texture T_texture[P_COUNT];

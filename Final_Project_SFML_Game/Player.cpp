@@ -79,12 +79,12 @@ void Player::jump()
 		if (this->action_now == 0 && this->body.getPosition().y < this->baseHeight[0])
 		{
 			this->stateJump = 2;
-			this->jumpPower = 15;
+			this->jumpPower = 12;
 		}
 		else if (this->action_now == 1 && this->body.getPosition().y < this->baseHeight[1])
 		{
 			this->stateJump = 2;
-			this->jumpPower = 15;
+			this->jumpPower = 20;
 		}
 		break;
 	case 2:
@@ -94,7 +94,7 @@ void Player::jump()
 		{
 			this->body.setPosition(400, 750);
 			this->stateJump = 0;
-			this->jumpPower = 15;
+			this->jumpPower = 20;
 		}
 	}
 }
@@ -115,7 +115,7 @@ void Player::updateRec(int newRec)
 	this->body.setPosition(400.0f, 750.0f);
 	if (this->stateJump != 2)
 	{
-		this->jumpPower = 15;
+		this->jumpPower = 20;
 		this->stateJump = 2;
 	}
 }

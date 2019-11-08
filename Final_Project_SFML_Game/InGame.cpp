@@ -19,6 +19,8 @@ InGame::InGame(RenderWindow* window, Event* event, int* state) :
 	
 	npcList.push_back(new NPC());
 	npcList[0]->setDATA(this->T_NPC[0], 2000,&this->yPos, 01, this->window, this->event);
+
+	this->S_door.setPosition(-200, 0);
 }
 
 void InGame::DRAW()
@@ -36,7 +38,6 @@ void InGame::DRAW()
 		window->draw(this->S_cur_Map);
 		window->draw(this->S_new_Map);
 	}
-	bar.DRAW();
 	moveMap();
 	loadItems();
 	//cout << itemList.size() << endl;
@@ -60,6 +61,7 @@ void InGame::DRAW()
 				this->itemList.erase(this->itemList.begin() + i);
 			}
 			delete p;
+			//cout << i << endl;
 			continue;
 			//cout << itemList.size() << " -- " << i << endl;
 		}
@@ -78,6 +80,8 @@ void InGame::DRAW()
 			break;
 		}
 	}
+
+	player.DRAW();
 
 	for (int j = 0; j < npcList.size(); j++)
 	{
@@ -110,7 +114,8 @@ void InGame::DRAW()
 			this->faceList.erase(this->faceList.begin() + k);
 		}
 	}
-	player.DRAW();
+	this->window->draw(this->S_door);
+	bar.DRAW();
 }
 
 
@@ -126,6 +131,9 @@ void InGame::loadTextureAll()
 	this->T_Map[6].loadFromFile("Texture/Map/map3.4.jpg");
 	this->T_Map[7].loadFromFile("Texture/Map/map3.5.jpg");
 	this->S_cur_Map.setTexture(this->T_Map[0]);
+
+	this->T_door.loadFromFile("Texture/Map/door.png");
+	this->S_door.setTexture(this->T_door);
 
 	//ITEM
 	this->T_items[0].loadFromFile("Texture/items/bear.png");
@@ -174,12 +182,13 @@ void InGame::moveMap()
 			indexPlayer++;
 		}
 
-		if (this->S_cur_Map.getPosition().x + this->T_Map[this->next].getSize().x == 1800)
+		if (this->S_cur_Map.getPosition().x + this->T_Map[this->next].getSize().x == 1800)// Load New Map
 		{
 			this->next++;
 			B_nowusemap = !B_nowusemap;
 			this->S_new_Map.setTexture(this->T_Map[this->next]);
 			this->S_new_Map.setPosition(1800.0f, 0.0f);
+			this->S_door.setPosition(1800.0f, 0.0f);
 		}
 	}
 	else
@@ -201,13 +210,14 @@ void InGame::moveMap()
 			this->next++;
 			this->S_cur_Map.setTexture(T_Map[this->next]);
 			this->S_cur_Map.setPosition(1800.0f, 0.0f);
+			this->S_door.setPosition(1800, 0.0f);
 		}
 	}
-	if (this->next == 7)
+	if (this->next == 3)
 	{
 		*this->stateGame = 2;
 	}
-	
+	this->S_door.move(-4 * gameSpeed, 0);
 }
 
 void InGame::loadMapCode()

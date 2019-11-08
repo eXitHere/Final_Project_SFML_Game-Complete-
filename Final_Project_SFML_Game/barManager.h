@@ -20,8 +20,8 @@ private:
 	Texture T_value[7],T_hpHappy,T_grid[2],T_lop;
 	Sprite S_value[2], S_hpHappy, S_grid[2],S_lop[2];
 	IntRect rect[2];
-	int hp_Val = 60;
-	int happy_Val = 60;
+	int hp_Val = 20;
+	int happy_Val = 20;
 
 
 	//-> Bar Down
