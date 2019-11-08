@@ -39,25 +39,43 @@ void InGame::DRAW()
 	bar.DRAW();
 	moveMap();
 	loadItems();
+	//cout << itemList.size() << endl;
 	for (int i = 0; i < itemList.size(); i++)
 	{
 		this->itemList[i]->DRAW();
 		if (this->itemList[i]->deleteMe())
 		{
 			
-			cout << "del Item" << endl;
-			Item* p = itemList.at(i);
+			//cout << "del Item" << endl;
+			Item* p;
+			if (this->itemList.size() == 1)
+			{
+				//cout << "aaaa" << endl;
+				p = itemList.at(0);
+				this->itemList.clear();
+			}
+			else
+			{
+				p = itemList.at(i);
+				this->itemList.erase(this->itemList.begin() + i);
+			}
 			delete p;
-			this->itemList.erase(this->itemList.begin()+i);
+			continue;
 			//cout << itemList.size() << " -- " << i << endl;
 		}
 		if (this->checkColilistion(this->itemList[i]))
 		{
-			cout << "colision Item ID" << this->itemList[i]->getID() << endl;
+			//cout << "colision Item ID" << this->itemList[i]->getID() << endl;
 			showFaceEffect(this->itemList[i]->getID());
 			Item* p = itemList.at(i);
 			delete p;
 			this->itemList.erase(this->itemList.begin() + i);
+			continue;
+		}
+		//cout << this->itemList.size() << endl;
+		if (this->itemList.size() <= 0)
+		{
+			break;
 		}
 	}
 
@@ -67,7 +85,7 @@ void InGame::DRAW()
 		this->npcList[j]->DRAW();
 		if (this->npcList[j]->checkState() == 1) // Press F
 		{
-			cout << "Press F" << endl;
+		//	cout << "Press F" << endl;
 			NPC* p = npcList.at(j);
 			delete p;
 			this->npcList.erase(this->npcList.begin() + j);
@@ -76,7 +94,7 @@ void InGame::DRAW()
 		}
 		else if (this->npcList[j]->checkState() == 2) // <0
 		{
-			cout << "DEl npc" << endl;
+			//cout << "DEl npc" << endl;
 			NPC* p = npcList.at(j);
 			delete p;
 			this->npcList.erase(this->npcList.begin() + j);
@@ -87,7 +105,7 @@ void InGame::DRAW()
 		this->faceList[k]->DRAW(this->window);
 		if (this->faceList[k]->getDelete())
 		{
-			statusFace* temp = faceList.at[k];
+			statusFace* temp = faceList.at(k);
 			delete temp;
 			this->faceList.erase(this->faceList.begin() + k);
 		}
