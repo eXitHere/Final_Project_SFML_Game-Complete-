@@ -7,6 +7,7 @@ NPC::NPC()
 
 void NPC::setDATA(Texture texture,int positionX, float* yPos, int ID,RenderWindow* window, Event* event)
 {
+	if (positionX == -500) spacial = true;
 	this->ID = ID;
 	this->yPosPlayer = yPos;
 	this->window = window;
@@ -23,14 +24,22 @@ void NPC::setDATA(Texture texture,int positionX, float* yPos, int ID,RenderWindo
 	this->press.setTexture(this->Tpess);
 	this->RECT = IntRect(0, 0, this->Tpess.getSize().x / 4, this->Tpess.getSize().y);
 	this->press.setTextureRect(this->RECT);
+	if (this->ID == ID_NPC_CAT || this->ID == ID_NPC_CATLUV)
+	{
+		this->body.setScale(0.8, 0.8);
+	}
 }
 
 void NPC::DRAW()
 {
-	checkOnHold();
-	move();
+	if(!this->spacial) checkOnHold();
 	this->update();
 	this->window->draw(this->body);
+}
+
+void NPC::Move()
+{
+	move();
 }
 
 int NPC::getID()
@@ -41,6 +50,21 @@ int NPC::getID()
 int NPC::checkState()
 {
 	return this->delme;
+}
+
+bool NPC::isSpacial()
+{
+	return spacial;
+}
+
+Vector2f NPC::getPostiosion()
+{
+	return this->body.getPosition();
+}
+
+void NPC::setPosition(Vector2f pos)
+{
+	this->body.setPosition(pos);
 }
 
 void NPC::move()
@@ -77,7 +101,7 @@ void NPC::checkOnHold()
 	if (abs(this->body.getPosition().x + 20 - 350) < this->texture.getSize().x / 4 / 2 + 40 &&
 		abs(this->body.getPosition().y - this->texture.getSize().y / 2 - *this->yPosPlayer) < this->texture.getSize().y / 2 + 100)
 	{
-		if (Keyboard::isKeyPressed(Keyboard::F))
+		if (Keyboard::isKeyPressed(Keyboard::F) && !isSpacial())
 		{
 			this->delme = 1;
 			//cout << "Press !" << endl;

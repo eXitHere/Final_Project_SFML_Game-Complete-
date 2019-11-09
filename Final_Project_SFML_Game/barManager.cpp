@@ -137,9 +137,10 @@ void barManager::DRAW()
 	}
 }
 
-void barManager::setup(int* O1, bool* O2, bool* O3, int* D, int* I1, int* I2, int* I3, int* I4, int* I5, int* I6)
+void barManager::setup(int* O1, bool* O2, bool* O3, int* D, int* I1, int* I2, int* I3, int* I4, int* I5, int* I6,int map)
 {
 	//setPointer!
+	this->map = map;
 	this->pointerCount[0] = I1;
 	this->pointerCount[1] = I2;
 	this->pointerCount[2] = I3;
@@ -174,6 +175,9 @@ void barManager::setup(int* O1, bool* O2, bool* O3, int* D, int* I1, int* I2, in
 			case 4: this->S_bgItemCount[i].setTexture(this->T_I[3]); break;
 			case 5: this->S_bgItemCount[i].setTexture(this->T_I[4]); break;
 			case 6: this->S_bgItemCount[i].setTexture(this->T_I[5]); break;
+			case 7: this->S_bgItemCount[i].setTexture(this->T_I[6]); break;
+			case 8: this->S_bgItemCount[i].setTexture(this->T_I[7]); break;
+			case 9: this->S_bgItemCount[i].setTexture(this->T_I[8]); break;
 			}
 			IHide[i] = true;
 		}
@@ -219,6 +223,9 @@ void barManager::loadTextureAll()
 	this->T_I[3].loadFromFile("Texture/barmanage/i4.png");
 	this->T_I[4].loadFromFile("Texture/barmanage/i5.png");
 	this->T_I[5].loadFromFile("Texture/barmanage/i6.png");
+	this->T_I[6].loadFromFile("Texture/barmanage/i7.png");
+	this->T_I[7].loadFromFile("Texture/barmanage/i8.png");
+	this->T_I[8].loadFromFile("Texture/barmanage/i9.png");
 }
 
 void barManager::updateHpHappy()
@@ -264,12 +271,27 @@ void barManager::updateArchive()
 
 void barManager::updateCounter()
 {
-	for (int i = 0; i < 6; i++)
+	switch (this->map)
 	{
-		if (this->pointerCount[i] != nullptr)
+	case 0:
+		for (int i = 0; i < 6; i++)
 		{
-			if (*this->pointerCount[i] != 0) this->countItem[i].setFillColor(Color::Green);
-			this->countItem[i].setString(to_string(*this->pointerCount[i]) + "/12");
+			if (this->pointerCount[i] != nullptr)
+			{
+				if (*this->pointerCount[i] != 0) this->countItem[i].setFillColor(Color::Green);
+				this->countItem[i].setString(to_string(*this->pointerCount[i]) + "/12");
+			}
 		}
+		break;
+	case 1:
+		for (int i = 0; i < 6; i++)
+		{
+			if (this->pointerCount[i] != nullptr)
+			{
+				if (*this->pointerCount[i] != 0) this->countItem[i].setFillColor(Color::Green);
+				this->countItem[i].setString(to_string(*this->pointerCount[i]) + "/8");
+			}
+		}
+		break;
 	}
 }

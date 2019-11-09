@@ -16,14 +16,19 @@ void Item::loadData(Texture texture, int ID, RenderWindow* window,Vector2f posit
 	this->body.setTexture(this->texture);
 	this->rect = IntRect(0, 0, int(this->texture.getSize().x / 4), int(this->texture.getSize().y));
 	this->body.setPosition(position);
+	this->body.setScale(0.8, 0.8);
 	//cout << "LoadData Complete" << endl;
 }
 
 void Item::DRAW()
 {
 	update();
-	move();
 	window->draw(this->body);
+}
+
+void Item::Move()
+{
+	move();
 }
 
 bool Item::deleteMe()
@@ -33,7 +38,7 @@ bool Item::deleteMe()
 
 Vector2f Item::getHalfsize()
 {
-	return Vector2f(this->texture.getSize().x / 4 /2, this->texture.getSize().y / 2);
+	return Vector2f(this->texture.getSize().x / 4 /2*0.6, this->texture.getSize().y / 2*0.6);
 }
 
 Vector2f Item::getPosition()
@@ -66,6 +71,6 @@ void Item::update()
 void Item::move()
 {
 	//cout << this->body.getPosition().x << " " << this->body.getPosition().y << endl;
-	this->body.move(-7 * gameSpeed, sin(this->A));
-	this->A -= 0.1;
+	this->body.move(-8 * gameSpeed, sin(this->A));
+	this->A -= 0.2;
 }

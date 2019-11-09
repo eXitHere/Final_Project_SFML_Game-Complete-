@@ -8,7 +8,7 @@ statusFace::statusFace(Texture texture, Vector2f pos)
 	this->body.setTexture(this->texture);
 	this->body.setPosition(pos.x, pos.y); // center X and rand Y
 	this->body.setScale(1.5, 1.5);
-	cout << "Load Items" << endl;
+	//cout << "Load Items" << endl;
 }
 
 void statusFace::DRAW(RenderWindow* window)

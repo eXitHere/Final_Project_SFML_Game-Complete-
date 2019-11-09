@@ -54,7 +54,7 @@ private:
 
 	// NPC
 	float yPos;
-	Texture T_NPC[2];
+	Texture T_NPC[4];
 	vector<NPC*> npcList;
 
 	// Face

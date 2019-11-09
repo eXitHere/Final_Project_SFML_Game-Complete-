@@ -6,9 +6,15 @@ public:
 	NPC();
 	void setDATA(Texture texture,int positionX,float *yPos, int ID, RenderWindow* window, Event* event);
 	void DRAW();
+	void Move();
 	int getID();
 	int checkState();
+	bool isSpacial();
+	Vector2f getPostiosion();
+	void setPosition(Vector2f pos);
+
 private:
+	bool spacial = false;
 	void move();
 	void update();
 	void checkOnHold();

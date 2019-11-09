@@ -33,7 +33,7 @@ void Player::setPointerToY(float* Y)
 Vector2f Player::getHalfsize()
 {
 	//cout << "eieieie" << endl;
-	return Vector2f(this->T_texture[this->action_now].getSize().x/this->countPic[this->action_now]/2,this->T_texture[this->action_now].getSize().y/2);
+	return Vector2f(this->T_texture[this->action_now].getSize().x/this->countPic[this->action_now]/2*0.8,this->T_texture[this->action_now].getSize().y/2*0.8);
 }
 
 Vector2f Player::getPosition()
@@ -46,7 +46,7 @@ Vector2f Player::getPosition()
 void Player::controls()
 {
 	//cout << "Press" << endl; 
-	if (Keyboard::isKeyPressed(Keyboard::Space) && this->canJump())
+	if (Keyboard::isKeyPressed(Keyboard::Space) && this->canJump() && this->action_now != 3)
 	{
 		this->stateJump = 1;
 	//	cout << "JUMP!" << endl;
@@ -58,7 +58,7 @@ void Player::update()
 	double time = 0.09;
 	switch (this->action_now)
 	{
-	case 3: time = 0.2;
+	case 3: time = 0.3;
 		break;
 	}
 	
@@ -88,11 +88,11 @@ void Player::jump()
 	{
 	case 1:
 		this->body.move(0, -this->jumpPower);
-		this->jumpPower -= 0.03;
+		this->jumpPower -= 0.3;
 		if (this->action_now == 0 && this->body.getPosition().y < this->baseHeight[0])
 		{
 			this->stateJump = 2;
-			this->jumpPower = 8;
+			this->jumpPower = 5;
 		}
 		//if (this->action_now == 1 && this->body.getPosition().y < this->baseHeight[1])
 		else if (this->body.getPosition().y < this->baseHeight[1])
@@ -103,7 +103,7 @@ void Player::jump()
 		break;
 	case 2:
 		this->body.move(0, this->jumpPower);
-		this->jumpPower += 0.03;
+		this->jumpPower += 0.3;
 		if (this->body.getPosition().y >= 750)
 		{
 			this->body.setPosition(400, 750);
@@ -128,7 +128,7 @@ void Player::updateRec(int newRec)
 	this->rec = IntRect(0, 0, this->T_texture[this->action_now].getSize().x / this->countPic[this->action_now], this->T_texture[this->action_now].getSize().y);
 	this->body.setTextureRect(this->rec);
 	this->stateJump = 0;
-	this->jumpPower = 20;
+	this->jumpPower = 15;
 	if (this->action_now > 1)
 	{
 		this->body.setScale(0.8, 0.8);

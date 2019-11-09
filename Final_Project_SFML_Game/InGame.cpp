@@ -44,7 +44,8 @@ void InGame::DRAW()
 	//cout << itemList.size() << endl;
 	for (int i = 0; i < itemList.size(); i++)
 	{
-		if(!pause) this->itemList[i]->DRAW();
+		if (!pause) this->itemList[i]->Move();
+		this->itemList[i]->DRAW();
 		if (this->itemList[i]->deleteMe())
 		{
 			
@@ -82,16 +83,31 @@ void InGame::DRAW()
 		}
 	}
 
-	if(!pause)
 	for (int j = 0; j < npcList.size(); j++) // <-- Press F to action something
 	{
 		//cout << "do" << endl;
-		this->npcList[j]->DRAW();
+		if(!this->npcList[j]->isSpacial()) this->npcList[j]->DRAW();
+		if (this->npcList[j]->isSpacial() && this->npcList[j]->getPostiosion().x > -500)
+		{
+			this->npcList[j]->DRAW();
+			if (!pause) this->npcList[j]->Move();
+		}
+		//this->npcList[j]->DRAW();
+		if (!pause && !this->npcList[j]->isSpacial()) this->npcList[j]->Move();
 		if (this->npcList[j]->checkState() == 1) // Press F
 		{
 		//	cout << "Press F" << endl;
-			this->indexPlayer = this->npcList[j]->getID();
-			updateChalacter(false);
+			switch (this->npcList[j]->getID())
+			{
+			case 0: this->indexPlayer = 1; updateChalacter(false); break;
+			case 1: this->indexPlayer = 3; updateChalacter(false); break;
+			case ID_NPC_CAT:
+			{
+				cout << "Cat" << endl;
+				this->npcList[j + 1]->setPosition(this->npcList[j]->getPostiosion());
+			}
+			}	
+			//cout << "Del : " << j << endl;
 			NPC* p = npcList.at(j);
 			delete p;
 			this->npcList.erase(this->npcList.begin() + j);
@@ -153,6 +169,8 @@ void InGame::loadTextureAll()
 	//NPC
 	this->T_NPC[0].loadFromFile("Texture/NPC/NPC01.png");
 	this->T_NPC[1].loadFromFile("Texture/NPC/NPC02.png");
+	this->T_NPC[2].loadFromFile("Texture/NPC/cat_-01.png");
+	this->T_NPC[3].loadFromFile("Texture/NPC/cat_luv-01.png");
 	//Face
 	this->T_face[0].loadFromFile("Texture/items/happy.png");
 	this->T_face[1].loadFromFile("Texture/items/sad.png");
@@ -220,38 +238,41 @@ void InGame::moveMap()
 	{
 		*this->stateGame = 2;
 	}
-	this->S_door.move(-6 * gameSpeed, 0);
+	if (!pause) this->S_door.move(-6 * gameSpeed, 0);
 }
 
 
 void InGame::loadItems()
 {
 	srand(time(NULL));
-	int tempPos[5] = { 250,450,250,350,290 };
+	int tempPos[5] = { 280,450,300,350,290 };
+	int tempID;
+	int R = 0;
 	switch (this->next-1)
 	{
 	case 0:
 		for (int j = 0; j < 12; j++)
 		{
 			this->itemList.push_back(new Item());
-			this->itemList[this->itemList.size()-1]->loadData(this->T_items[idItem[this->next	-1][j] - 1], idItem[this->next-1][j], this->window, Vector2f(positionItem[this->next-1][j] + rand() % 200, tempPos[(j + rand() % 5) % 5]));
+			this->itemList[this->itemList.size()-1]->loadData(this->T_items[idItem1[0] - 1], idItem1[0], this->window, Vector2f(positionItem1[j] + rand() % 200, tempPos[(j + rand() % 5) % 5]));
 		}
 		for (int j = 0; j < 1; j++) 
 		{
 			this->npcList.push_back(new NPC());
-			this->npcList[this->npcList.size()-1]->setDATA(T_NPC[idNPC[this->next - 1][j]], positionNPC[this->next-1][j], &this->yPos, 01, this->window, this->event);
+			this->npcList[this->npcList.size()-1]->setDATA(T_NPC[idNPC1[j]], positionNPC1[j], &this->yPos, idNPC1[j], this->window, this->event);
 		}
 		break;
 	case 1:
-		for (int j = 0; j < 12; j++)
+		for (int j = 0; j < 24; j++)
 		{
+			//cout << j%3 << endl;
 			this->itemList.push_back(new Item());
-			this->itemList[this->itemList.size()-1]->loadData(this->T_items[idItem[this->next-1][j] - 1], idItem[this->next-1][j], this->window, Vector2f(positionItem[this->next-1][j] + rand() % 200, tempPos[(j + rand() % 5) % 5]));
+			this->itemList[this->itemList.size()-1]->loadData(this->T_items[idItem2[j%3] - 1], idItem2[j%3], this->window, Vector2f(positionItem2[j] + rand() % 200, tempPos[(j + rand() % 5) % 5]));
 		}
-		for (int j = 0; j < 3; j++)
+		for (int j = 0; j < 9; j++)
 		{
 			this->npcList.push_back(new NPC());
-			this->npcList[this->npcList.size()-1]->setDATA(T_NPC[idNPC[this->next - 1][j]], positionNPC[this->next - 1][j], &this->yPos, 03, this->window, this->event);
+			this->npcList[this->npcList.size()-1]->setDATA(T_NPC[idNPC2[j]], positionNPC2[j], &this->yPos, idNPC2[j], this->window, this->event);
 		}
 		break;
 	}
@@ -314,37 +335,37 @@ void InGame::showFaceEffect(int index)
 		this->faceList.push_back(tempFace);
 		addFace(this->T_face[ID_FACE_MONEYDOWN]);
 		this->faceList.push_back(tempFace);
+		this->counter[ID_BEAR]++;
 		break;
 	case ID_CANDY:
 		addFace(this->T_face[ID_FACE_HAPPY]);
 		this->faceList.push_back(tempFace);
 		addFace(this->T_face[ID_FACE_HPDOWN]);
 		this->faceList.push_back(tempFace);
+		this->counter[ID_CANDY]++;
 		break;
 	case ID_FOOD:
 		addFace(this->T_face[ID_FACE_HAPPY]);
 		this->faceList.push_back(tempFace);
 		addFace(this->T_face[ID_FACE_HPUP]);
 		this->faceList.push_back(tempFace);
-		addFace(this->T_face[ID_FACE_MONEYDOWN]);
-		this->faceList.push_back(tempFace);
+		this->counter[ID_FOOD]++;
 		break;
 	case ID_FOOD2:
 		addFace(this->T_face[ID_FACE_HAPPY]);
 		this->faceList.push_back(tempFace);
 		addFace(this->T_face[ID_FACE_HPUP]);
 		this->faceList.push_back(tempFace);
-		addFace(this->T_face[ID_FACE_MONEYDOWN]);
-		this->faceList.push_back(tempFace); 
+		this->counter[ID_FOOD2]++;
 		break;
 	case ID_FOOTBALL:
 		break;
 	case ID_MILK:
-		this->counter[ID_MILK]++;
 		addFace(this->T_face[ID_FACE_HAPPY]);
 		this->faceList.push_back(tempFace);
 		addFace(this->T_face[ID_FACE_HPUP]);
 		this->faceList.push_back(tempFace);
+		this->counter[ID_MILK]++;
 		break;
 	case ID_MONEY:
 		break;
@@ -379,10 +400,24 @@ void InGame::updateBar()
 		}
 		this->ID[0] = ID_SHOWBAR_MILK;
 		this->Status[0] = &this->counter[ID_MILK];
-		bar.setup(&this->Object, &this->Object2[0], &this->Object2[1], &this->ID[0], this->Status[0], this->Status[1], this->Status[2], this->Status[3], this->Status[4], this->Status[5]);
+		bar.setup(&this->Object, &this->Object2[0], &this->Object2[1], &this->ID[0], this->Status[0], this->Status[1], this->Status[2], this->Status[3], this->Status[4], this->Status[5],this->next-1);
 		break;
 	case 1:
-		//cout << "This case 1" << endl;
+		this->Object = 0;
+		this->Object2[0] = false;
+		this->Object2[1] = false;
+		for (int i = 0; i < 6; i++)
+		{
+			this->ID[i] = 0;
+			this->Status[i] = 0;
+		}
+		this->ID[0] = ID_SHOWBAR_CANDY;
+		this->ID[1] = ID_SHOWBAR_FOOD1;
+		this->ID[2] = ID_SHOWBAR_FOOD2;
+		this->Status[0] = &this->counter[ID_CANDY];
+		this->Status[1] = &this->counter[ID_FOOD];
+		this->Status[2] = &this->counter[ID_FOOD2];
+		bar.setup(&this->Object, &this->Object2[0], &this->Object2[1], &this->ID[0], this->Status[0], this->Status[1], this->Status[2], this->Status[3], this->Status[4], this->Status[5],this->next-1);
 		break;
 	}
 }
