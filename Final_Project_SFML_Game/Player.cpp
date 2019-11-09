@@ -64,7 +64,7 @@ void Player::update()
 	
 	this->totalTime += clock.restart().asSeconds();
 
-	if (this->totalTime >= time)
+	if (this->totalTime >= time && !this->stateJump)
 	{
 		this->totalTime = 0;
 		this->X_now++;

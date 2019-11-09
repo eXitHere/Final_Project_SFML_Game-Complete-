@@ -101,11 +101,7 @@ void InGame::DRAW()
 			{
 			case 0: this->indexPlayer = 1; updateChalacter(false); break;
 			case 1: this->indexPlayer = 3; updateChalacter(false); break;
-			case ID_NPC_CAT:
-			{
-				cout << "Cat" << endl;
-				this->npcList[j + 1]->setPosition(this->npcList[j]->getPostiosion());
-			}
+			case ID_NPC_CAT: this->npcList[j + 1]->setPosition(this->npcList[j]->getPostiosion()); break;
 			}	
 			//cout << "Del : " << j << endl;
 			NPC* p = npcList.at(j);
@@ -121,8 +117,6 @@ void InGame::DRAW()
 		}
 	}
 	
-	player.DRAW();
-
 	for (int k = 0; k < faceList.size(); k++)
 	{
 		this->faceList[k]->DRAW(this->window);
@@ -133,6 +127,7 @@ void InGame::DRAW()
 			this->faceList.erase(this->faceList.begin() + k);
 		}
 	}
+	player.DRAW();
 	this->window->draw(this->S_door);
 	bar.DRAW();
 }
@@ -245,7 +240,7 @@ void InGame::moveMap()
 void InGame::loadItems()
 {
 	srand(time(NULL));
-	int tempPos[5] = { 280,450,300,350,290 };
+	int tempPos[5] = { 280,620,480,350,400 };
 	int tempID;
 	int R = 0;
 	switch (this->next-1)
@@ -320,8 +315,8 @@ bool InGame::checkColilistion(Item* item)
 {
 	//cout << "Player : "<< this->player.getPosition().x << " " << this->player.getPosition().y << endl;
 	//cout << "Item : " << item->getPosition().x << " " << item->getPosition().y << endl;
-	return (abs(this->player.getPosition().x-item->getPosition().x) < this->player.getHalfsize().x + item->getHalfsize().x &&
-			abs(this->player.getPosition().y-item->getPosition().y) < this->player.getHalfsize().y + item->getHalfsize().y);
+	return (abs(this->player.getPosition().x-item->getPosition().x) < this->player.getHalfsize().x*0.8 + item->getHalfsize().x*0.6 &&
+			abs(this->player.getPosition().y-item->getPosition().y) < this->player.getHalfsize().y*0.8 + item->getHalfsize().y*0.6);
 }
 
 void InGame::showFaceEffect(int index)
