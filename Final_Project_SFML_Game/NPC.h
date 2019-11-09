@@ -6,6 +6,7 @@ public:
 	NPC();
 	void setDATA(Texture texture,int positionX,float *yPos, int ID, RenderWindow* window, Event* event);
 	void DRAW();
+	int getID();
 	int checkState();
 private:
 	void move();
@@ -13,6 +14,7 @@ private:
 	void checkOnHold();
 	void updatePress();
 
+	int ID;
 	int delme = 0;
 
 	Sprite press;

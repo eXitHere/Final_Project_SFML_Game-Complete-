@@ -3,9 +3,9 @@
 #include "Player.h"
 #include "barManager.h"
 #include "NPC.h"
-#include"statusFace.h"
-#include<vector>
-#include<fstream>
+#include "statusFace.h"
+#include <vector>
+#include <fstream>
 
 class InGame
 {
@@ -13,27 +13,31 @@ public:
 	InGame(RenderWindow *window,Event *event, int* state);
 	~InGame() { cout << "delete 'ingame' complete" << endl; };
 	void DRAW();
+	
 	 
 private:
+	bool pause = false;
 	// Fuction
 	void loadTextureAll();
-	void mapManage();
 	void moveMap();
-	void loadMapCode();
 	void loadItems();
 	int positionNow();
-
+	void updateChalacter(bool state);
 
 	// Funcion local
 	bool checkColilistion(Item *item);
 	void showFaceEffect(int index);
 	void addFace(Texture texture);
 
+	void updateBar();
+
+	// Variable counter Item all
+	int counter[10] = { 0,0,0,0,0,0,0,0,0,0, };
+
 	// Variable for Items
-	int testItem = 0;
+	//int testItem = 0;
 	Texture T_items[10];
 	vector<Item*> itemList;
-	vector<int> posItems;
 	fstream myFile;
 	// Variable
 	
@@ -44,13 +48,13 @@ private:
 	int indexPlayer = 0;
 
 	// Bar
-	int Object = 3, Status[6] = { 0,0,0,0,0,0 }, ID[6] = { 1,2,3,4,1,1 };
+	int Object = 3, *Status[6], ID[6] = { 1,2,3,4,1,1 };
 	bool Object2[2] = { true,false };
 	barManager bar;
 
 	// NPC
 	float yPos;
-	Texture T_NPC[1];
+	Texture T_NPC[2];
 	vector<NPC*> npcList;
 
 	// Face
@@ -69,5 +73,10 @@ private:
 	RenderWindow* window;
 	Event* event;
 	int* stateGame;
+
+
+
+	
+
 };
 

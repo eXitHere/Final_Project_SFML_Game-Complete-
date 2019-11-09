@@ -1,7 +1,9 @@
 #include "InGame.h"
-
+#include "PositionItem.h"
+#include <stdlib.h>
+#include <time.h>
 InGame::InGame(RenderWindow* window, Event* event, int* state) :
-	player(window, event),
+	player(window, event,&this->pause),
 	bar(window,event)
 {
 	player.updateRec(this->indexPlayer);
@@ -10,17 +12,16 @@ InGame::InGame(RenderWindow* window, Event* event, int* state) :
 	this->stateGame = state;
 	this->window = window;
 	this->event = event;
-	loadMapCode();
-	this->indexPlayer++;
+	//this->indexPlayer++;
 
+	//bar.setup(&this->Object, &this->Object2[0], &this->Object2[1], &this->ID[0], &this->Status[0], &this->Status[1], &this->Status[2], &this->Status[3], &this->Status[4], &this->Status[5]);
+	updateBar();
 
-	//test
-	bar.setup(&this->Object, &this->Object2[0], &this->Object2[1], &this->ID[0], &this->Status[0], &this->Status[1], &this->Status[2], &this->Status[3], &this->Status[4], &this->Status[5]);
-	
-	npcList.push_back(new NPC());
-	npcList[0]->setDATA(this->T_NPC[0], 2000,&this->yPos, 01, this->window, this->event);
+	//npcList.push_back(new NPC());
+	//npcList[0]->setDATA(this->T_NPC[0], 2000,&this->yPos, 01, this->window, this->event);
 
 	this->S_door.setPosition(-200, 0);
+	loadItems();
 }
 
 void InGame::DRAW()
@@ -39,11 +40,11 @@ void InGame::DRAW()
 		window->draw(this->S_new_Map);
 	}
 	moveMap();
-	loadItems();
+	//loadItems();
 	//cout << itemList.size() << endl;
 	for (int i = 0; i < itemList.size(); i++)
 	{
-		this->itemList[i]->DRAW();
+		if(!pause) this->itemList[i]->DRAW();
 		if (this->itemList[i]->deleteMe())
 		{
 			
@@ -81,20 +82,19 @@ void InGame::DRAW()
 		}
 	}
 
-	player.DRAW();
-
-	for (int j = 0; j < npcList.size(); j++)
+	if(!pause)
+	for (int j = 0; j < npcList.size(); j++) // <-- Press F to action something
 	{
 		//cout << "do" << endl;
 		this->npcList[j]->DRAW();
 		if (this->npcList[j]->checkState() == 1) // Press F
 		{
 		//	cout << "Press F" << endl;
+			this->indexPlayer = this->npcList[j]->getID();
+			updateChalacter(false);
 			NPC* p = npcList.at(j);
 			delete p;
 			this->npcList.erase(this->npcList.begin() + j);
-			this->indexPlayer = 1;
-			this->player.updateRec(this->indexPlayer);
 		}
 		else if (this->npcList[j]->checkState() == 2) // <0
 		{
@@ -104,6 +104,9 @@ void InGame::DRAW()
 			this->npcList.erase(this->npcList.begin() + j);
 		}
 	}
+	
+	player.DRAW();
+
 	for (int k = 0; k < faceList.size(); k++)
 	{
 		this->faceList[k]->DRAW(this->window);
@@ -149,7 +152,7 @@ void InGame::loadTextureAll()
 
 	//NPC
 	this->T_NPC[0].loadFromFile("Texture/NPC/NPC01.png");
-
+	this->T_NPC[1].loadFromFile("Texture/NPC/NPC02.png");
 	//Face
 	this->T_face[0].loadFromFile("Texture/items/happy.png");
 	this->T_face[1].loadFromFile("Texture/items/sad.png");
@@ -159,135 +162,137 @@ void InGame::loadTextureAll()
 	this->T_face[5].loadFromFile("Texture/items/moneyD.png");
 }
 
-void InGame::mapManage()
-{
-
-}
-
 void InGame::moveMap()
 {
+	if(!pause)
 	if (B_nowusemap)
 	{
-		this->S_cur_Map.move(-4 * gameSpeed, 0);
+		this->S_cur_Map.move(-6 * gameSpeed, 0);
 
 		if (this->S_new_Map.getPosition().x + this->T_Map[this->next -1].getSize().x != 0)
 		{
-			this->S_new_Map.move(-4 * gameSpeed, 0);
+			this->S_new_Map.move(-6 * gameSpeed, 0);
 		}
 
 		//cout << S_cur_Map.getPosition().x << endl;
-		if (this->S_cur_Map.getPosition().x == 400)
+		if (this->S_cur_Map.getPosition().x == 402)
 		{
-			player.updateRec(this->indexPlayer);
-			indexPlayer++;
+			updateChalacter(true);
+			updateBar();
+			loadItems();
 		}
 
 		if (this->S_cur_Map.getPosition().x + this->T_Map[this->next].getSize().x == 1800)// Load New Map
 		{
-			this->next++;
 			B_nowusemap = !B_nowusemap;
 			this->S_new_Map.setTexture(this->T_Map[this->next]);
 			this->S_new_Map.setPosition(1800.0f, 0.0f);
 			this->S_door.setPosition(1800.0f, 0.0f);
+			this->next++;
 		}
 	}
 	else
 	{
-		this->S_new_Map.move(-4 * gameSpeed, 0);
+		this->S_new_Map.move(-6 * gameSpeed, 0);
 		if (this->S_cur_Map.getPosition().x + this->T_Map[this->next-1].getSize().x != 0)
 		{
-			this->S_cur_Map.move(-4 * gameSpeed, 0);
+			this->S_cur_Map.move(-6 * gameSpeed, 0);
 		}
-		if (int(this->S_new_Map.getPosition().x) ==400)
+		if (int(this->S_new_Map.getPosition().x) ==402)
 		{
-			player.updateRec(this->indexPlayer);
-			indexPlayer++;
+			//player.updateRec(this->indexPlayer);
+			//indexPlayer++;
+			updateChalacter(true);
+			updateBar();
+			loadItems();
 		}
 
 		if (this->S_new_Map.getPosition().x + this->T_Map[this->next].getSize().x == 1800)
 		{
 			B_nowusemap = !B_nowusemap;
-			this->next++;
 			this->S_cur_Map.setTexture(T_Map[this->next]);
 			this->S_cur_Map.setPosition(1800.0f, 0.0f);
 			this->S_door.setPosition(1800, 0.0f);
+			this->next++;
 		}
 	}
-	if (this->next == 3)
+	if (this->next == 6)
 	{
 		*this->stateGame = 2;
 	}
-	this->S_door.move(-4 * gameSpeed, 0);
+	this->S_door.move(-6 * gameSpeed, 0);
 }
 
-void InGame::loadMapCode()
-{
-	this->myFile.open("database/codeMap.txt");
-	string temp;
-	string temp2;
-	int tempint;
-	int tempP = 1;
-	int tempResult =0;
-	int tempIndex = 0;
-	while (!this->myFile.eof())
-	{
-		getline(this->myFile, temp);
-		for (int i = 0; i < temp.length(); i++)
-		{
-			if (temp[i] == ',' || temp[i+1] == '\0')
-			{
-				if (temp[i + 1] == '\0')
-				{
-					temp2 += temp[i];
-				}
-				//cout << "size of temp2 : " << temp2.length() << endl;
-				for (int j = temp2.length()-1,tempP = 1; j >= 0; j--,tempP*=10)
-				{
-					tempResult += (temp2[j] - '0') * tempP;
-				//	cout << " ----- " << temp2[j];
-				}
-				//cout << endl;
-				//cout << tempResult << endl;
-				this->posItems.push_back(tempResult);
-				tempResult = 0;
-				temp2.clear();
-			}
-			else
-			{
-				temp2 += temp[i];
-			}
-		}
-	}
-	this->myFile.close();
-}
 
 void InGame::loadItems()
 {
-	//cout << "PosNow : " << this->positionNow() << endl;
-	if (this->posItems.size() > 0 && this->posItems[0] == this->positionNow())
+	srand(time(NULL));
+	int tempPos[5] = { 250,450,250,350,290 };
+	switch (this->next-1)
 	{
-		this->itemList.push_back(new Item());
-		this->itemList[itemList.size()-1]->loadData(this->T_items[testItem++],testItem,this->window, Vector2f(positionNow(), 450.0f));
-		this->posItems.erase(posItems.begin());
-		
+	case 0:
+		for (int j = 0; j < 12; j++)
+		{
+			this->itemList.push_back(new Item());
+			this->itemList[this->itemList.size()-1]->loadData(this->T_items[idItem[this->next	-1][j] - 1], idItem[this->next-1][j], this->window, Vector2f(positionItem[this->next-1][j] + rand() % 200, tempPos[(j + rand() % 5) % 5]));
+		}
+		for (int j = 0; j < 1; j++) 
+		{
+			this->npcList.push_back(new NPC());
+			this->npcList[this->npcList.size()-1]->setDATA(T_NPC[idNPC[this->next - 1][j]], positionNPC[this->next-1][j], &this->yPos, 01, this->window, this->event);
+		}
+		break;
+	case 1:
+		for (int j = 0; j < 12; j++)
+		{
+			this->itemList.push_back(new Item());
+			this->itemList[this->itemList.size()-1]->loadData(this->T_items[idItem[this->next-1][j] - 1], idItem[this->next-1][j], this->window, Vector2f(positionItem[this->next-1][j] + rand() % 200, tempPos[(j + rand() % 5) % 5]));
+		}
+		for (int j = 0; j < 3; j++)
+		{
+			this->npcList.push_back(new NPC());
+			this->npcList[this->npcList.size()-1]->setDATA(T_NPC[idNPC[this->next - 1][j]], positionNPC[this->next - 1][j], &this->yPos, 03, this->window, this->event);
+		}
+		break;
 	}
-	/*this->itemList.push_back(new Item());
-	for (int i = 0; i < 5; i++)
-	{		
-		this->itemList[i]->loadData(this->T_items[0], this->window,Vector2f(800+i*200,450));
-	}*/
 }
 
 int InGame::positionNow()
 {
 	if (B_nowusemap)
 	{
-		return fabs(this->S_cur_Map.getPosition().x);
+		return round(fabs(this->S_cur_Map.getPosition().x));
 	}
 	else
 	{
-		return fabs(this->S_new_Map.getPosition().x);
+		return round(fabs(this->S_new_Map.getPosition().x));
 	}
+}
+
+
+void InGame::updateChalacter(bool state)
+{
+	if (state)
+	{
+		switch (this->indexPlayer)
+		{
+		case 0: case 1: this->indexPlayer = 2;
+			break;
+		}
+	}
+	else
+	{
+		switch (this->indexPlayer)
+		{
+		case 3:
+			this->pause = true;
+			//cout << "Pause" << endl;
+			break;
+		}
+	}
+	
+	player.updateRec(this->indexPlayer);
+	
 }
 
 bool InGame::checkColilistion(Item* item)
@@ -335,6 +340,7 @@ void InGame::showFaceEffect(int index)
 	case ID_FOOTBALL:
 		break;
 	case ID_MILK:
+		this->counter[ID_MILK]++;
 		addFace(this->T_face[ID_FACE_HAPPY]);
 		this->faceList.push_back(tempFace);
 		addFace(this->T_face[ID_FACE_HPUP]);
@@ -356,4 +362,27 @@ void InGame::addFace(Texture texture)
 	this->tempFace = new statusFace(texture, this->player.getPosition() + Vector2f(this->boxForFace[this->indexFaceX], this->boxForFace[this->indexFaceY]));
 	this->indexFaceX = (this->indexFaceX > 4 ? 0 : this->indexFaceX + 1);
 	this->indexFaceY = (this->indexFaceY > 4 ? 0 : this->indexFaceY + 1);
+}
+
+void InGame::updateBar()
+{
+	switch (this->next-1)
+	{
+	case 0:
+		this->Object = 0;
+		this->Object2[0] = false;
+		this->Object2[1] = false;
+		for (int i = 0; i < 6; i++)
+		{
+			this->ID[i] = 0;
+			this->Status[i] = 0;
+		}
+		this->ID[0] = ID_SHOWBAR_MILK;
+		this->Status[0] = &this->counter[ID_MILK];
+		bar.setup(&this->Object, &this->Object2[0], &this->Object2[1], &this->ID[0], this->Status[0], this->Status[1], this->Status[2], this->Status[3], this->Status[4], this->Status[5]);
+		break;
+	case 1:
+		//cout << "This case 1" << endl;
+		break;
+	}
 }

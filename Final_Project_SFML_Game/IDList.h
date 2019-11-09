@@ -1,3 +1,6 @@
+#include<iostream>
+using namespace std;
+
 #define ID_BEAR 1
 #define ID_CANDY 2
 #define ID_FOOD 3
@@ -15,3 +18,13 @@
 #define ID_FACE_HPDOWN 3
 #define ID_FACE_MONEYUP 4
 #define ID_FACE_MONEYDOWN 5
+
+#define ID_SHOWBAR_FOOTBALL 1
+#define ID_SHOWBAR_PAINTER 2
+#define ID_SHOWBAR_TEACHER 3
+#define ID_SHOWBAR_WRENCH 4
+#define ID_SHOWBAR_BEER 5
+#define ID_SHOWBAR_MILK 6
+
+#define ID_NPC_BABAYCAR 0
+#define	ID_NPC_PAINT 1

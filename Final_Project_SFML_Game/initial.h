@@ -1,6 +1,6 @@
 #include<iostream>
-#include "IDList.h"
 #include<SFML/Graphics.hpp>
+#include "IDList.h"
 
 using namespace std;
 using namespace sf;

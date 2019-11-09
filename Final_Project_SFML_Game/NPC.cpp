@@ -7,6 +7,7 @@ NPC::NPC()
 
 void NPC::setDATA(Texture texture,int positionX, float* yPos, int ID,RenderWindow* window, Event* event)
 {
+	this->ID = ID;
 	this->yPosPlayer = yPos;
 	this->window = window;
 	this->event = event;
@@ -32,6 +33,11 @@ void NPC::DRAW()
 	this->window->draw(this->body);
 }
 
+int NPC::getID()
+{
+	return this->ID;
+}
+
 int NPC::checkState()
 {
 	return this->delme;
@@ -41,7 +47,7 @@ void NPC::move()
 {
 	//cout << this->body.getPosition().x << endl; <-- dubug and now complete!!!!!
 	this->body.move(-6, 0);
-	if (this->body.getPosition().x < 0)
+	if (this->body.getPosition().x < -200)
 	{
 		this->delme = 2;
 	}

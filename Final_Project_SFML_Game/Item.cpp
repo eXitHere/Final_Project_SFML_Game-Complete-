@@ -1,12 +1,15 @@
 #include "Item.h"
-
-Item::Item()
+#include <time.h>
+#include <stdlib.h>
+ Item::Item()
 {
-	cout << "Load Item complete!" << endl;
+	//cout << "Load Item complete!" << endl;
 }
 
 void Item::loadData(Texture texture, int ID, RenderWindow* window,Vector2f position)
 {
+	srand(time(NULL));
+	this->A = rand() % 20000;
 	this->window = window;
 	this->texture = texture;
 	this->ID = ID;
@@ -25,7 +28,7 @@ void Item::DRAW()
 
 bool Item::deleteMe()
 {
-	return (this->body.getPosition().x < 0);
+	return (this->body.getPosition().x < -200);
 }
 
 Vector2f Item::getHalfsize()
@@ -63,6 +66,6 @@ void Item::update()
 void Item::move()
 {
 	//cout << this->body.getPosition().x << " " << this->body.getPosition().y << endl;
-	this->body.move(-6 * gameSpeed, sin(this->A));
+	this->body.move(-7 * gameSpeed, sin(this->A));
 	this->A -= 0.1;
 }

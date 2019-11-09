@@ -3,13 +3,14 @@
 class Player
 {
 public:
-	Player(RenderWindow *window,Event *event);
+	Player(RenderWindow *window,Event *event,bool * pause);
 	void updateRec(int newRec);
 	void DRAW();
 	void setPointerToY(float* Y);
 	Vector2f getHalfsize();
 	Vector2f getPosition();
 private:
+	bool* pause;
 	float *pointerToY;
 	void controls();
 	void update();
@@ -27,7 +28,7 @@ private:
 	Clock clock;
 	int X_now = 0;
 	int countPic[P_COUNT] = { 4,4,6,4,6 };
-	float baseHeight[2] = { 600,450 };
+	float baseHeight[2] = { 600,500 };
 
 
 	//->

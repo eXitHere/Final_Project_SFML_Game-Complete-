@@ -163,14 +163,17 @@ void barManager::setup(int* O1, bool* O2, bool* O3, int* D, int* I1, int* I2, in
 	}
 	for (int i = 0; i < 6; i++)
 	{
+		this->countItem[i].setFillColor(Color::White); // reset color
 		if (*(D + i) != 0)
 		{
 			switch (*(D + i))
 			{
 			case 1: this->S_bgItemCount[i].setTexture(this->T_I[0]); break;
-			case 2: this->S_bgItemCount[i].setTexture(this->T_I[1]);; break;
-			case 3: this->S_bgItemCount[i].setTexture(this->T_I[2]);; break;
-			case 4: this->S_bgItemCount[i].setTexture(this->T_I[3]);; break;
+			case 2: this->S_bgItemCount[i].setTexture(this->T_I[1]); break;
+			case 3: this->S_bgItemCount[i].setTexture(this->T_I[2]); break;
+			case 4: this->S_bgItemCount[i].setTexture(this->T_I[3]); break;
+			case 5: this->S_bgItemCount[i].setTexture(this->T_I[4]); break;
+			case 6: this->S_bgItemCount[i].setTexture(this->T_I[5]); break;
 			}
 			IHide[i] = true;
 		}
@@ -215,6 +218,7 @@ void barManager::loadTextureAll()
 	this->T_I[2].loadFromFile("Texture/barmanage/i3.png");
 	this->T_I[3].loadFromFile("Texture/barmanage/i4.png");
 	this->T_I[4].loadFromFile("Texture/barmanage/i5.png");
+	this->T_I[5].loadFromFile("Texture/barmanage/i6.png");
 }
 
 void barManager::updateHpHappy()
@@ -262,6 +266,10 @@ void barManager::updateCounter()
 {
 	for (int i = 0; i < 6; i++)
 	{
-		countItem[i].setString(to_string(*pointerCount[i]) + "/10");
+		if (this->pointerCount[i] != nullptr)
+		{
+			if (*this->pointerCount[i] != 0) this->countItem[i].setFillColor(Color::Green);
+			this->countItem[i].setString(to_string(*this->pointerCount[i]) + "/12");
+		}
 	}
 }

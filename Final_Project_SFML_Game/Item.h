@@ -4,7 +4,7 @@ class Item
 {
 public:
 	Item();
-	~Item() { cout << "delete 'item' complete" << endl; };
+	~Item() {/* cout << "delete 'item' complete" << endl;*/ };
 	void loadData(Texture texture,int ID, RenderWindow* window,Vector2f position);
 	void DRAW();
 	bool deleteMe();

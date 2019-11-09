@@ -25,7 +25,7 @@ private:
 
 
 	//-> Bar Down
-	Texture T_object,T_itemCount,T_onLoad,T_Grid[2],T_Archive[4],T_Friend[2],T_Family[2],T_I[5];
+	Texture T_object,T_itemCount,T_onLoad,T_Grid[2],T_Archive[4],T_Friend[2],T_Family[2],T_I[6];
 	Sprite S_bgObject[3],S_bgItemCount[6],S_onLoad[3],S_Grid[3],S_archiveInobject,S_Friend,S_Family;
 	int I_indexArchive = 0;
 	bool B_archive[2] = { false,false }, IHide[6], active[3];
