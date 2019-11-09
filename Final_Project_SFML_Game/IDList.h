@@ -33,3 +33,7 @@ using namespace std;
 #define	ID_NPC_PAINT 1
 #define ID_NPC_CAT 2
 #define ID_NPC_CATLUV 3
+#define ID_NPC_PAINTER 4
+#define ID_NPC_FOOTBALL 5
+#define ID_NPC_WRENCH 6
+#define ID_NPC_TEACHER 7

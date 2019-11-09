@@ -1,19 +1,24 @@
 #include"initial.h"
 #define HP 0
 #define HAPPY 1
+#define delay 20
 class barManager
 {
 public:
 	barManager(RenderWindow *window,Event *event);
 	void DRAW();
 	void setup(int* O1, bool* O2, bool* O3, int* D, int* I1, int* I2, int* I3, int* I4, int* I5, int* I6,int map);
+	void pressA();
+	void pressS();
 
 private:
 	// Function
+	void Active();
 	void loadTextureAll();
 	void updateHpHappy();
 	void updateArchive();
 	void updateCounter();
+	void onLoad();
 	// Variable
 
 	//-> Bar Top
@@ -25,14 +30,18 @@ private:
 
 
 	//-> Bar Down
-	Texture T_object,T_itemCount,T_onLoad,T_Grid[2],T_Archive[4],T_Friend[2],T_Family[2],T_I[9];
+	Texture T_object,T_itemCount,T_onLoad,T_Grid[2],T_Archive[4],T_Friend[2],T_Family[2],T_I[9],T_Q;
 	Sprite S_bgObject[3],S_bgItemCount[6],S_onLoad[3],S_Grid[3],S_archiveInobject,S_Friend,S_Family;
 	int I_indexArchive = 0;
-	bool B_archive[2] = { false,false }, IHide[6], active[3];
+	bool B_archive[2] = { false,false }, IHide[6], active[3],B_onLoad,B_Switch=false;
 	int* pointerCount[6];
 	int map;
 	Font font;
 	Text countItem[6];
+	double totalTimeLoad = 0.0 , timeLoad = delay / 0.2, totalTime =0;
+	Clock clock;
+	int RecHeigh;
+	IntRect Rec;
 	//->
 	RenderWindow* window;
 	Event* event;

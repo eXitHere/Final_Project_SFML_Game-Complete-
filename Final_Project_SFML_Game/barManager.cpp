@@ -36,6 +36,9 @@ barManager::barManager(RenderWindow* window, Event* event)
 	this->S_bgObject[1].setPosition(250, 765);
 	this->S_bgObject[2].setPosition(400, 765);
 
+	this->Rec = IntRect(0, 0, this->T_onLoad.getSize().x, this->T_onLoad.getSize().y);
+	this->RecHeigh = T_onLoad.getSize().x;
+
 	for (int i = 0; i < 6; i++) this->S_bgItemCount[i].setTexture(this->T_itemCount);
 	for (int i = 0; i < 3; i++)
 	{
@@ -96,7 +99,7 @@ barManager::barManager(RenderWindow* window, Event* event)
 	this->countItem[5].setPosition(1080, 845);
 
 	// For Test Only!
-	this->S_archiveInobject.setTexture(this->T_Archive[0]);
+	//this->S_archiveInobject.setTexture(this->T_Archive[0]);
 	this->S_Family.setTexture(this->T_Family[1]);
 	this->S_Friend.setTexture(this->T_Friend[1]);
 }
@@ -135,6 +138,8 @@ void barManager::DRAW()
 			window->draw(this->countItem[i]);
 		}
 	}
+	if (this->B_onLoad) onLoad();
+	else Active();
 }
 
 void barManager::setup(int* O1, bool* O2, bool* O3, int* D, int* I1, int* I2, int* I3, int* I4, int* I5, int* I6,int map)
@@ -150,17 +155,18 @@ void barManager::setup(int* O1, bool* O2, bool* O3, int* D, int* I1, int* I2, in
 	// set Active
 	if (*O1) this->active[0] = true;
 	else this->active[0] = false;
-	if (*O2) { this->active[1] = true; this->S_Family.setTexture(this->T_Family[1]); }
+	if (*O3) { this->active[1] = true; this->S_Family.setTexture(this->T_Family[1]); }
 	else { this->active[1] = false; this->S_Family.setTexture(this->T_Family[0]); }
-	if (*O3) { this->active[2] = true; this->S_Friend.setTexture(this->T_Friend[1]); }
+	if (*O2) { this->active[2] = true; this->S_Friend.setTexture(this->T_Friend[1]); }
 	else { this->active[2] = false; this->S_Friend.setTexture(this->T_Friend[0]); }
 	//for object 1
 	switch (*O1)
 	{ // f p t w // listItem
-	case 1: this->S_archiveInobject.setTexture(this->T_Archive[0]); break;
-	case 2: this->S_archiveInobject.setTexture(this->T_Archive[1]); break;
-	case 3: this->S_archiveInobject.setTexture(this->T_Archive[2]); break;
-	case 4: this->S_archiveInobject.setTexture(this->T_Archive[3]); break;
+	case 0: this->S_archiveInobject.setTexture(this->T_Q); break;
+	case ID_NPC_FOOTBALL: this->S_archiveInobject.setTexture(this->T_Archive[0]); break;
+	case ID_NPC_PAINTER : this->S_archiveInobject.setTexture(this->T_Archive[1]); break;
+	case ID_NPC_TEACHER : this->S_archiveInobject.setTexture(this->T_Archive[2]); break;
+	case ID_NPC_WRENCH  : this->S_archiveInobject.setTexture(this->T_Archive[3]); break;
 	}
 	for (int i = 0; i < 6; i++)
 	{
@@ -185,6 +191,29 @@ void barManager::setup(int* O1, bool* O2, bool* O3, int* D, int* I1, int* I2, in
 		{
 			IHide[i] = false;
 		}
+	}
+}
+
+void barManager::pressA()
+{
+
+}
+
+void barManager::Active()
+{
+	totalTime += clock.restart().asSeconds();
+	if (totalTime >= 0.2)
+	{
+		totalTime = 0;
+		for (int i = 0; i < 3; i++)
+		{
+			if (active[i])
+			{
+				//cout << "Active!" << endl;
+				S_Grid[i].setTexture(T_Grid[B_Switch]);
+			}
+		}
+		B_Switch = !B_Switch;
 	}
 }
 
@@ -226,6 +255,7 @@ void barManager::loadTextureAll()
 	this->T_I[6].loadFromFile("Texture/barmanage/i7.png");
 	this->T_I[7].loadFromFile("Texture/barmanage/i8.png");
 	this->T_I[8].loadFromFile("Texture/barmanage/i9.png");
+	this->T_Q.loadFromFile("Texture/barmanage/Q.png");
 }
 
 void barManager::updateHpHappy()
@@ -293,5 +323,26 @@ void barManager::updateCounter()
 			}
 		}
 		break;
+	}
+}
+
+void barManager::onLoad()
+{
+	this->totalTimeLoad += this->clock.restart().asSeconds();
+	if (this->totalTimeLoad > 0.2)
+	{
+		this->Rec.height = float(this->timeLoad / 100 * this->RecHeigh);
+		this->timeLoad--;
+		this->totalTimeLoad = 0;
+		if (this->timeLoad < 0)
+		{
+			this->B_onLoad = false;
+			timeLoad = delay / 0.2;
+		}
+		//cout << Rec.height << endl;
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		this->S_onLoad[i].setTextureRect(this->Rec);
 	}
 }

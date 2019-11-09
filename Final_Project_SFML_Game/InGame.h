@@ -29,6 +29,8 @@ private:
 	void showFaceEffect(int index);
 	void addFace(Texture texture);
 
+	void firstArchive(int index);
+
 	void updateBar();
 
 	// Variable counter Item all
@@ -54,7 +56,7 @@ private:
 
 	// NPC
 	float yPos;
-	Texture T_NPC[4];
+	Texture T_NPC[8];
 	vector<NPC*> npcList;
 
 	// Face

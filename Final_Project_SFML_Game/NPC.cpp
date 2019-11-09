@@ -24,7 +24,7 @@ void NPC::setDATA(Texture texture,int positionX, float* yPos, int ID,RenderWindo
 	this->press.setTexture(this->Tpess);
 	this->RECT = IntRect(0, 0, this->Tpess.getSize().x / 4, this->Tpess.getSize().y);
 	this->press.setTextureRect(this->RECT);
-	if (this->ID == ID_NPC_CAT || this->ID == ID_NPC_CATLUV)
+	if (this->ID == ID_NPC_CAT || this->ID == ID_NPC_CATLUV || this->ID == ID_NPC_PAINT)
 	{
 		this->body.setScale(0.8, 0.8);
 	}

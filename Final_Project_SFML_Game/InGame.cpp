@@ -28,7 +28,7 @@ void InGame::DRAW()
 {
 	//this->T_Map[0].loadFromFile("Texture/Map/map0.jpg");
 	//this->T_Map[1].loadFromFile("Texture/Map/map1.jpg");
-	
+
 	if (B_nowusemap)
 	{	
 		window->draw(this->S_new_Map);
@@ -102,13 +102,17 @@ void InGame::DRAW()
 			case 0: this->indexPlayer = 1; updateChalacter(false); break;
 			case 1: this->indexPlayer = 3; updateChalacter(false); break;
 			case ID_NPC_CAT: this->npcList[j + 1]->setPosition(this->npcList[j]->getPostiosion()); break;
+			case ID_NPC_FOOTBALL: firstArchive(ID_NPC_FOOTBALL); continue; break;
+			case ID_NPC_PAINTER:  firstArchive(ID_NPC_PAINTER);  continue; break;
+			case ID_NPC_TEACHER:  firstArchive(ID_NPC_TEACHER);  continue; break;
+			case ID_NPC_WRENCH:   firstArchive(ID_NPC_WRENCH);   continue; break;
 			}	
 			//cout << "Del : " << j << endl;
 			NPC* p = npcList.at(j);
 			delete p;
 			this->npcList.erase(this->npcList.begin() + j);
 		}
-		else if (this->npcList[j]->checkState() == 2) // <0
+		else if (this->npcList[j]->checkState() == 2) // <-500
 		{
 			//cout << "DEl npc" << endl;
 			NPC* p = npcList.at(j);
@@ -166,6 +170,10 @@ void InGame::loadTextureAll()
 	this->T_NPC[1].loadFromFile("Texture/NPC/NPC02.png");
 	this->T_NPC[2].loadFromFile("Texture/NPC/cat_-01.png");
 	this->T_NPC[3].loadFromFile("Texture/NPC/cat_luv-01.png");
+	this->T_NPC[4].loadFromFile("Texture/NPC/C1.png");
+	this->T_NPC[5].loadFromFile("Texture/NPC/C2.png");
+	this->T_NPC[6].loadFromFile("Texture/NPC/C3.png");
+	this->T_NPC[7].loadFromFile("Texture/NPC/C4.png");
 	//Face
 	this->T_face[0].loadFromFile("Texture/items/happy.png");
 	this->T_face[1].loadFromFile("Texture/items/sad.png");
@@ -258,6 +266,8 @@ void InGame::loadItems()
 		}
 		break;
 	case 1:
+		this->itemList.clear();
+		this->npcList.clear();
 		for (int j = 0; j < 24; j++)
 		{
 			//cout << j%3 << endl;
@@ -269,6 +279,22 @@ void InGame::loadItems()
 			this->npcList.push_back(new NPC());
 			this->npcList[this->npcList.size()-1]->setDATA(T_NPC[idNPC2[j]], positionNPC2[j], &this->yPos, idNPC2[j], this->window, this->event);
 		}
+		break;
+	case 2:
+		this->itemList.clear();
+		this->npcList.clear();
+		/*for (int j = 0; j < 24; j++)
+		{
+			//cout << j%3 << endl;
+			this->itemList.push_back(new Item());
+			this->itemList[this->itemList.size() - 1]->loadData(this->T_items[idItem2[j % 3] - 1], idItem2[j % 3], this->window, Vector2f(positionItem2[j] + rand() % 200, tempPos[(j + rand() % 5) % 5]));
+		}*/
+		for (int j = 0; j < 5; j++)
+		{
+			this->npcList.push_back(new NPC());
+			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC3[j]], positionNPC3[j], &this->yPos, idNPC3[j], this->window, this->event);
+		}
+		//cout << this->npcList.size() << endl;
 		break;
 	}
 }
@@ -380,6 +406,19 @@ void InGame::addFace(Texture texture)
 	this->indexFaceY = (this->indexFaceY > 4 ? 0 : this->indexFaceY + 1);
 }
 
+void InGame::firstArchive(int index)
+{
+	for (int k = 0; k < 4; k++)
+	{
+		NPC* p = npcList.at(0);
+		delete p;
+		this->npcList.erase(this->npcList.begin() + 0);
+	}
+	this->Object = index;
+	bar.setup(&this->Object, &this->Object2[0], &this->Object2[1], &this->ID[0], this->Status[0], this->Status[1], this->Status[2], this->Status[3], this->Status[4], this->Status[5], this->next - 1);
+	//cout << this->npcList.size() << endl;
+}
+
 void InGame::updateBar()
 {
 	switch (this->next-1)
@@ -398,7 +437,7 @@ void InGame::updateBar()
 		bar.setup(&this->Object, &this->Object2[0], &this->Object2[1], &this->ID[0], this->Status[0], this->Status[1], this->Status[2], this->Status[3], this->Status[4], this->Status[5],this->next-1);
 		break;
 	case 1:
-		this->Object = 0;
+		this->Object =0;
 		this->Object2[0] = false;
 		this->Object2[1] = false;
 		for (int i = 0; i < 6; i++)
@@ -413,6 +452,23 @@ void InGame::updateBar()
 		this->Status[1] = &this->counter[ID_FOOD];
 		this->Status[2] = &this->counter[ID_FOOD2];
 		bar.setup(&this->Object, &this->Object2[0], &this->Object2[1], &this->ID[0], this->Status[0], this->Status[1], this->Status[2], this->Status[3], this->Status[4], this->Status[5],this->next-1);
+		break;
+	case 2:
+		this->Object = 0;
+		this->Object2[0] = true;
+		this->Object2[1] = false;
+		for (int i = 0; i < 6; i++)
+		{
+			this->ID[i] = 0;
+			this->Status[i] = 0;
+		}
+		this->ID[0] = ID_SHOWBAR_CANDY;
+		this->ID[1] = ID_SHOWBAR_FOOD1;
+		this->ID[2] = ID_SHOWBAR_FOOD2;
+		this->Status[0] = &this->counter[ID_CANDY];
+		this->Status[1] = &this->counter[ID_FOOD];
+		this->Status[2] = &this->counter[ID_FOOD2];
+		bar.setup(&this->Object, &this->Object2[0], &this->Object2[1], &this->ID[0], this->Status[0], this->Status[1], this->Status[2], this->Status[3], this->Status[4], this->Status[5], this->next - 1);
 		break;
 	}
 }
