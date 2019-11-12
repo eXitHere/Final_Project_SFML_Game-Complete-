@@ -1,15 +1,22 @@
+#ifndef HEADER_H_
+#define HEADER_H_
+#include "soundPlayBack.h"
+#include "actionASD.h"
+#endif
+
 #include"initial.h"
 #define P_COUNT 5
 class Player
 {
 public:
-	Player(RenderWindow *window,Event *event,bool * pause);
+	Player(RenderWindow* window, Event* event, bool* pause, soundPlayBack* soundManage);
 	void updateRec(int newRec);
 	void DRAW();
 	void setPointerToY(float* Y);
 	Vector2f getHalfsize();
 	Vector2f getPosition();
 private:
+	soundPlayBack* soundManage;
 	bool* pause;
 	float *pointerToY;
 	void controls();

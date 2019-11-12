@@ -70,7 +70,7 @@ void NPC::setPosition(Vector2f pos)
 void NPC::move()
 {
 	//cout << this->body.getPosition().x << endl; <-- dubug and now complete!!!!!
-	this->body.move(-6, 0);
+	this->body.move(-3, 0);
 	if (this->body.getPosition().x < -200)
 	{
 		this->delme = 2;

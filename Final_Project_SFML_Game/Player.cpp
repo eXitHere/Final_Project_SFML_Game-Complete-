@@ -1,9 +1,10 @@
 #include "Player.h"
 
-Player::Player(RenderWindow* window, Event* event,bool *pause)
+Player::Player(RenderWindow* window, Event* event,bool *pause, soundPlayBack* soundManage)
 {
 	//cout << "Load Player" << endl;
 	//LoadTexture
+	this->soundManage = soundManage;
 	this->pause = pause;
 	this->window = window;
 	this->event = event;
@@ -48,6 +49,7 @@ void Player::controls()
 	//cout << "Press" << endl; 
 	if (Keyboard::isKeyPressed(Keyboard::Space) && this->canJump() && this->action_now != 3)
 	{
+		this->soundManage->playJump();
 		this->stateJump = 1;
 	//	cout << "JUMP!" << endl;
 	}
@@ -55,7 +57,7 @@ void Player::controls()
 
 void Player::update()
 {
-	double time = 0.09;
+	double time = 0.1;
 	switch (this->action_now)
 	{
 	case 3: time = 0.3;
@@ -88,27 +90,27 @@ void Player::jump()
 	{
 	case 1:
 		this->body.move(0, -this->jumpPower);
-		this->jumpPower -= 0.3;
+		this->jumpPower -= 0.01;
 		if (this->action_now == 0 && this->body.getPosition().y < this->baseHeight[0])
 		{
 			this->stateJump = 2;
-			this->jumpPower = 5;
+			this->jumpPower = 4;
 		}
 		//if (this->action_now == 1 && this->body.getPosition().y < this->baseHeight[1])
 		else if (this->body.getPosition().y < this->baseHeight[1])
 		{
 			this->stateJump = 2;
-			this->jumpPower = 15;
+			this->jumpPower = 7;
 		}
 		break;
 	case 2:
 		this->body.move(0, this->jumpPower);
-		this->jumpPower += 0.3;
+		this->jumpPower += 0.1;
 		if (this->body.getPosition().y >= 750)
 		{
 			this->body.setPosition(400, 750);
 			this->stateJump = 0;
-			this->jumpPower = 15;
+			this->jumpPower = 7;
 		}
 	}
 }
@@ -128,7 +130,7 @@ void Player::updateRec(int newRec)
 	this->rec = IntRect(0, 0, this->T_texture[this->action_now].getSize().x / this->countPic[this->action_now], this->T_texture[this->action_now].getSize().y);
 	this->body.setTextureRect(this->rec);
 	this->stateJump = 0;
-	this->jumpPower = 15;
+	this->jumpPower = 7;
 	if (this->action_now > 1)
 	{
 		this->body.setScale(0.8, 0.8);

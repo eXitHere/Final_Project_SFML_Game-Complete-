@@ -1,3 +1,9 @@
+#ifndef HEADER_H_
+#define HEADER_H_
+#include "soundPlayBack.h"
+#endif
+
+
 #include"initial.h"
 #include<fstream>
 #include<stdlib.h>
@@ -6,10 +12,15 @@
 class Menu
 {
 public:
-	Menu(RenderWindow* window, Event* event,int *state);
+	Menu(RenderWindow* window, Event* event,int *state,soundPlayBack* sound);
 	~Menu() { cout << "delete 'Menu' complete" << endl; };
 	void DRAW();
 private:
+	//sound
+	soundPlayBack* soundManage;
+	void loadSettingSound();
+	void saveSettingSound();
+
 	void checkMouse();
 	void moveHima();
 	void focused();

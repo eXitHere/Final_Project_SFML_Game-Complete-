@@ -1,7 +1,8 @@
 #include "Menu.h"
-
-Menu::Menu(RenderWindow* window, Event* event, int* state)
+Menu::Menu(RenderWindow* window, Event* event, int* state, soundPlayBack* sound)
 {
+	this->soundManage = sound;
+
 	this->stateGame = state;
 	this->window = window;
 	this->event = event;
@@ -120,6 +121,8 @@ Menu::Menu(RenderWindow* window, Event* event, int* state)
 	this->rectangle_focus.setPosition(695, 750);
 	this->rectangle_focus.setFillColor(Color::Black);
 	this->rectangle_focus.setOrigin(Vector2f(1.5f, 22.0f));
+
+	loadSettingSound();
 }
 
 void Menu::DRAW()
@@ -142,6 +145,64 @@ void Menu::DRAW()
 	window->draw(this->S_setting);	
 }
 
+void Menu::loadSettingSound()
+{
+	//cout << "11"
+	this->myFile.open("database/setting.txt");
+	string temp;
+	int tempInt = 0, P = 1, index = 0;
+	while (!this->myFile.eof())
+	{
+		getline(this->myFile, temp);
+		//cout << temp << endl;
+		if (index == 0)
+		{
+			for (int i = temp.length()-1; i>=0 ; i--,P*=10)
+			{
+				tempInt += (temp[i] - '0')*P;
+			}
+			//cout << tempInt << " ---- " << endl;
+			this->valMusic = tempInt;
+			P = 1;
+			index++;
+			tempInt = 0;
+		}
+		else
+		{
+			for (int i = temp.length() - 1; i >= 0; i--, P *= 10)
+			{
+				tempInt += (temp[i] - '0') * P;
+			}
+			this->valEffect = tempInt;
+			//cout << tempInt << " ---- " << endl;
+		}
+	}
+	this->myFile.close();
+	this->soundManage->setVolumeEffect(this->valEffect);
+	this->soundManage->setVolumeMusic(this->valMusic);
+	this->text_ValEffect.setString(to_string(this->valEffect));
+	this->R_soundBar[1].width = float(this->valEffect) / 100 * this->T_soundBar[0].getSize().x;
+	this->S_soundBar[3].setTextureRect(this->R_soundBar[1]);
+	this->S_soundBtn[1].setPosition(this->S_soundBar[1].getPosition().x+ +float(this->valEffect) / 100 * this->T_soundBar[0].getSize().x, this->S_soundBtn[1].getPosition().y);
+
+	this->text_valMusic.setString(to_string(this->valMusic));
+	this->R_soundBar[0].width = float(this->valMusic) / 100 * this->T_soundBar[0].getSize().x;
+	this->S_soundBar[1].setTextureRect(this->R_soundBar[1]);
+	this->S_soundBtn[0].setPosition(this->S_soundBar[1].getPosition().x + +float(this->valMusic) / 100 * this->T_soundBar[0].getSize().x, this->S_soundBtn[0].getPosition().y);
+	//cout << "load" << endl;
+}
+
+void Menu::saveSettingSound()
+{
+	this->myFile.open("database/setting.txt", ios::out);
+	string temp = to_string(this->valMusic) + "\n" + to_string(this->valEffect);
+	int tempIndex = 0;
+	this->myFile << temp;
+	//getline(this->myFile, temp);
+	//this->string_score[tempIndex++] = temp;
+	this->myFile.close();
+}
+
 void Menu::checkMouse()
 {
 	// btn start
@@ -152,9 +213,10 @@ void Menu::checkMouse()
 	{
 		this->B_focus = true;
 		if (Mouse::isButtonPressed(Mouse::Left))
-		{
+		{		
 			if (!this->B_enterStart)
 			{
+				this->soundManage->playClick();
 				this->B_enterStart = true;
 				this->stateEnterName = 1;
 			}
@@ -175,7 +237,9 @@ void Menu::checkMouse()
 		{
 			if (this->B_mouse == false)
 			{
+				
 				//	cout << "Click!" << endl;	
+				this->soundManage->playClick();
 				this->B_mouse = true;
 				if (this->stateSetting == 0 || this->stateSetting == 3)
 				{
@@ -184,7 +248,9 @@ void Menu::checkMouse()
 				}
 				else if (this->stateSetting == 1 || this->stateSetting == 2)
 				{
+					saveSettingSound();
 					this->stateSetting = 3;
+					//cout << "Save" << endl;
 					this->B = 0;
 				}
 				//	cout << this->stateSetting << endl;
@@ -214,6 +280,8 @@ void Menu::checkMouse()
 		{
 			if (this->B_mouse == false)
 			{
+				//saveSettingSound();
+				this->soundManage->playClick();
 				//	cout << "Click!" << endl;
 				this->B_Holdon[0] = true;
 				this->B_mouse = true;
@@ -242,6 +310,7 @@ void Menu::checkMouse()
 
 			if (this->B_mouse == false)
 			{
+				this->soundManage->playClick();
 					//	cout << "Click!" << endl;	
 				this->B_mouse = true;
 				this->B_Holdon[1] = true;
@@ -262,7 +331,7 @@ void Menu::checkMouse()
 
 void Menu::moveHima()
 {
-	this->S_hima.move(0, 0.5);
+	this->S_hima.move(0, 0.25);
 	if (this->S_hima.getPosition().y > 1600)
 	{
 		this->S_hima.setPosition(0, -20000);
@@ -279,12 +348,12 @@ void Menu::focused()
 		{
 			if (this->B_swap)
 			{
-				this->S_focus.move(-2, sin(this->A));
+				this->S_focus.move(-0.5, sin(this->A));
 				this->S_btnStart.move(sin(this->A), 0);
 			}
 			else if (!this->B_swap)
 			{
-				this->S_focus.move(2, sin(this->A));
+				this->S_focus.move(0.5, sin(this->A));
 				this->S_btnStart.move(sin(this->A), 0);
 			}
 			if (this->S_focus.getPosition().x > 1000) this->B_swap = true;
@@ -300,12 +369,12 @@ void Menu::scoreShow()
 	{
 		//show board only
 	case 1: 
-		this->R_score.height += 2;
+		this->R_score.height += 1;
 		this->S_score.setTextureRect(this->R_score);
 		if (this->R_score.height > this->T_score.getSize().y)
 		{
 			this->stateScore = 2;
-			cout << "Load board complete!" << endl;
+			//cout << "Load board complete!" << endl;
 		}
 		break;
 		//slid text
@@ -387,13 +456,13 @@ void Menu::scoreShow()
 		this->totalTimeScore += this->clock_score.restart().asSeconds();
 		if (this->totalTimeScore > 0.5)
 		{
-			this->R_score.height -= 2;
+			this->R_score.height -= 1;
 			this->S_score.setTextureRect(this->R_score);
 			if (this->R_score.height < 0)
 			{
 				this->totalTimeScore = 0;
 				this->stateScore = 0;
-				cout << "unload board complete!" << endl;
+				//cout << "unload board complete!" << endl;
 			}
 		}
 		break;
@@ -504,6 +573,7 @@ void Menu::moveBTNsoundBar(int index)
 		this->R_soundBar[0].width = float(this->valMusic)/ 100 * this->T_soundBar[0].getSize().x;
 		this->S_soundBar[1].setTextureRect(this->R_soundBar[0]);
 		this->text_valMusic.setString(to_string(this->valMusic));
+		this->soundManage->setVolumeMusic(this->valMusic);
 		//cout << (this->S_soundBtn[0].getPosition().x - 1100) << " -- " << this->T_soundBtn.getSize().x << endl;
 		//cout << this->valMusic << endl;
 		this->S_soundBtn[0].setPosition(Mouse::getPosition(*window).x, this->S_soundBtn[0].getPosition().y);
@@ -514,6 +584,7 @@ void Menu::moveBTNsoundBar(int index)
 	{
 		this->valEffect = float((this->S_soundBtn[1].getPosition().x - 1100.0f) / this->T_soundBar[0].getSize().x) * 100;
 		this->text_ValEffect.setString(to_string(this->valEffect));
+		this->soundManage->setVolumeEffect(this->valEffect);
 		this->R_soundBar[1].width = float(this->valEffect) / 100 * this->T_soundBar[0].getSize().x;
 		this->S_soundBar[3].setTextureRect(this->R_soundBar[1]);
 		this->S_soundBtn[1].setPosition(Mouse::getPosition(*window).x, this->S_soundBtn[1].getPosition().y);
@@ -546,14 +617,14 @@ void Menu::moveMyname()
 				this->S_myName.setPosition(1700, rand() % 100 + 30);
 				this->S_myName.setScale(1.0f, 1.0f);
 			}
-			this->C = rand()%10;
+			this->C = rand()%2;
 		}
 		break;
 
 	case 1: 
 		//cout << "Do case 1" << endl;
 		this->S_myName.move(this->C, sin(this->C));
-		this->C += 0.01;
+		this->C += 0.005;
 		window->draw(this->S_myName);
 		if (this->S_myName.getPosition().x > this->T_myName.getSize().x + 1600)
 		{
@@ -565,7 +636,7 @@ void Menu::moveMyname()
 	case 2:
 		//cout << "Do case 2" << endl;
 		this->S_myName.move(-this->C, sin(this->C));
-		this->C += 0.01;
+		this->C += 0.005;
 		window->draw(this->S_myName);
 		if (this->S_myName.getPosition().x < (-((float)this->T_myName.getSize().x)))
 		{

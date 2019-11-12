@@ -55,7 +55,7 @@ int Item::getID()
 void Item::update()
 {
 	this->totalTime += this->clock.restart().asSeconds();
-	if (this->totalTime >= 0.3)
+	if (this->totalTime >= 0.2)
 	{
 		this->totalTime = 0;
 		this->X++;
@@ -71,6 +71,6 @@ void Item::update()
 void Item::move()
 {
 	//cout << this->body.getPosition().x << " " << this->body.getPosition().y << endl;
-	this->body.move(-8 * gameSpeed, sin(this->A));
-	this->A -= 0.2;
+	this->body.move(-3.8* gameSpeed,0); // sin(this->A)/4
+	this->A -= 0.1;
 }

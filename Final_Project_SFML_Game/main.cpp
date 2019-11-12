@@ -1,7 +1,15 @@
+#ifndef HEADER_H_
+#define HEADER_H_
+#include "soundPlayBack.h"
+#endif
+
 #include "initial.h"
 #include "Menu.h"
 #include "InGame.h"
 #include "EndGame.h"
+
+
+
 void setupWindow(RenderWindow* window);
 	
 int main()
@@ -9,10 +17,11 @@ int main()
 	RenderWindow window(VideoMode(SIZE_WIDTH, SIZE_HEIGHT), NAME_GAME);
 	Event event;
 	setupWindow(&window);
+	soundPlayBack soundManage;
 
-	int stateGame = 1;
-	Menu* menu = NULL; // new Menu(&window, &event, &stateGame);
-	InGame* ingame = NULL;
+	int stateGame = 0;
+	Menu* menu = nullptr; // new Menu(&window, &event, &stateGame);
+	InGame* ingame = nullptr;
 	EndGame* endgame = new EndGame(&window, &event, &stateGame);
 	delete menu;
 	delete ingame;
@@ -32,8 +41,9 @@ int main()
 			//cout << "Load Menu" << endl;
 			if (!menu)
 			{
+				soundManage.restartMusicBackground();
 				//cout << "Create Menu !" << endl;
-				menu = new Menu(&window, &event, &stateGame);
+				menu = new Menu(&window, &event, &stateGame,&soundManage);
 				delete endgame;
 				endgame = nullptr;
 			}
@@ -44,9 +54,10 @@ int main()
 			//cout << "Load In Game " << endl;
 			if (!ingame)
 			{
+				soundManage.restartMusicBackground();
 				delete menu;
 				menu = nullptr;
-				ingame = new InGame(&window, &event, &stateGame);
+				ingame = new InGame(&window, &event, &stateGame, &soundManage);
 			}
 			ingame->DRAW();
 			break;
@@ -68,5 +79,5 @@ int main()
 
 void setupWindow(RenderWindow *window)
 {
-	window->setFramerateLimit(60);
+	window->setFramerateLimit(120);
 }

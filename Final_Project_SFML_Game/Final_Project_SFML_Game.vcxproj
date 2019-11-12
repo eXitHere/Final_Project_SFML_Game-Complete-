@@ -129,6 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="actionASD.cpp" />
     <ClCompile Include="barManager.cpp" />
     <ClCompile Include="EndGame.cpp" />
     <ClCompile Include="InGame.cpp" />
@@ -137,9 +138,11 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="soundPlayBack.cpp" />
     <ClCompile Include="statusFace.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="actionASD.h" />
     <ClInclude Include="barManager.h" />
     <ClInclude Include="EndGame.h" />
     <ClInclude Include="IDList.h" />
@@ -150,6 +153,7 @@
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PositionItem.h" />
+    <ClInclude Include="soundPlayBack.h" />
     <ClInclude Include="statusFace.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

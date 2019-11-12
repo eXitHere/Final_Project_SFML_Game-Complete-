@@ -1,4 +1,10 @@
-﻿#include"initial.h"
+﻿#ifndef HEADER_H_
+#define HEADER_H_
+#include "soundPlayBack.h"
+#include"initial.h"
+#endif
+
+
 #include "Item.h"
 #include "Player.h"
 #include "barManager.h"
@@ -10,12 +16,19 @@
 class InGame
 {
 public:
-	InGame(RenderWindow *window,Event *event, int* state);
+	InGame(RenderWindow *window,Event *event, int* state,soundPlayBack *soundManage);
 	~InGame() { cout << "delete 'ingame' complete" << endl; };
 	void DRAW();
 	
 	 
 private:
+
+
+	Clock clockMain;
+	double mainTime = 0.0;
+
+	soundPlayBack* soundManage;
+
 	bool pause = false;
 	// Fuction
 	void loadTextureAll();
@@ -34,11 +47,11 @@ private:
 	void updateBar();
 
 	// Variable counter Item all
-	int counter[10] = { 0,0,0,0,0,0,0,0,0,0, };
+	int counter[12] = { 0,0,0,0,0,0,0,0,0,0,0,0 };
 
 	// Variable for Items
 	//int testItem = 0;
-	Texture T_items[10];
+	Texture T_items[11];
 	vector<Item*> itemList;
 	fstream myFile;
 	// Variable

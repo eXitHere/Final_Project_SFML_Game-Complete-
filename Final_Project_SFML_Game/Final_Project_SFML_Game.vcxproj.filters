@@ -42,6 +42,12 @@
     <ClCompile Include="statusFace.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="soundPlayBack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="actionASD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="initial.h">
@@ -75,6 +81,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PositionItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="soundPlayBack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="actionASD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

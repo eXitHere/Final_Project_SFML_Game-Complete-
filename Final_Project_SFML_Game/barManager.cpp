@@ -2,6 +2,7 @@
 
 barManager::barManager(RenderWindow* window, Event* event)
 {
+	//this->ASDControl = ASD;
 	this->window = window;
 	this->event = event;
 	this->loadTextureAll();
@@ -58,9 +59,8 @@ barManager::barManager(RenderWindow* window, Event* event)
 	this->S_Grid[1].setPosition(248, 763);
 	this->S_Grid[2].setPosition(398, 763);
 	this->S_archiveInobject.setPosition(118, 783);
-	this->S_Family.setPosition(268, 783);
-	this->S_Friend.setPosition(418, 783);
-
+	this->S_Family.setPosition(418, 783);
+	this->S_Friend.setPosition(268, 783);
 	this->font.loadFromFile("Font/impact.ttf");
 	this->countItem[0].setFont(font);
 	this->countItem[0].setString("0/10");
@@ -106,6 +106,7 @@ barManager::barManager(RenderWindow* window, Event* event)
 
 void barManager::DRAW()
 {
+
 	//Top
 	updateHpHappy();
 	this->window->draw(this->S_grid[0]);
@@ -117,6 +118,7 @@ void barManager::DRAW()
 	this->window->draw(this->S_hpHappy);
 
 	// Down
+	press();
 	updateCounter();
 	for (int i = 0; i < 3; i++)
 	{
@@ -140,11 +142,23 @@ void barManager::DRAW()
 	}
 	if (this->B_onLoad) onLoad();
 	else Active();
+	this->ASD.draw(this->window);
 }
 
 void barManager::setup(int* O1, bool* O2, bool* O3, int* D, int* I1, int* I2, int* I3, int* I4, int* I5, int* I6,int map)
 {
 	//setPointer!
+	if (this->map == 1 && !this->setFirst)
+	{
+		setFirst = true;
+		this->B_onLoad = false;
+		this->Rec.height = 0;
+		for (int i = 0; i < 3; i++)
+		{
+		
+			this->S_onLoad[i].setTextureRect(this->Rec);
+		}
+	}
 	this->map = map;
 	this->pointerCount[0] = I1;
 	this->pointerCount[1] = I2;
@@ -155,10 +169,10 @@ void barManager::setup(int* O1, bool* O2, bool* O3, int* D, int* I1, int* I2, in
 	// set Active
 	if (*O1) this->active[0] = true;
 	else this->active[0] = false;
-	if (*O3) { this->active[1] = true; this->S_Family.setTexture(this->T_Family[1]); }
-	else { this->active[1] = false; this->S_Family.setTexture(this->T_Family[0]); }
-	if (*O2) { this->active[2] = true; this->S_Friend.setTexture(this->T_Friend[1]); }
-	else { this->active[2] = false; this->S_Friend.setTexture(this->T_Friend[0]); }
+	if (*O3) { this->active[2] = true; this->S_Family.setTexture(this->T_Family[1]); }
+	else { this->active[2] = false; this->S_Family.setTexture(this->T_Family[0]); }
+	if (*O2) { this->active[1] = true; this->S_Friend.setTexture(this->T_Friend[1]); }
+	else { this->active[1] = false; this->S_Friend.setTexture(this->T_Friend[0]); }
 	//for object 1
 	switch (*O1)
 	{ // f p t w // listItem
@@ -184,6 +198,7 @@ void barManager::setup(int* O1, bool* O2, bool* O3, int* D, int* I1, int* I2, in
 			case 7: this->S_bgItemCount[i].setTexture(this->T_I[6]); break;
 			case 8: this->S_bgItemCount[i].setTexture(this->T_I[7]); break;
 			case 9: this->S_bgItemCount[i].setTexture(this->T_I[8]); break;
+			case 10:this->S_bgItemCount[i].setTexture(this->T_I[9]); break;
 			}
 			IHide[i] = true;
 		}
@@ -194,26 +209,52 @@ void barManager::setup(int* O1, bool* O2, bool* O3, int* D, int* I1, int* I2, in
 	}
 }
 
-void barManager::pressA()
+void barManager::press()
 {
+	if (!this->B_onLoad)
+	{
+		//cout << "Can press!" << endl;
+		if (Keyboard::isKeyPressed(Keyboard::A) && this->active[0])
+		{
+			cout << "barManager :: Press A" << endl;
+			this->ASD.setAction(0);
+			this->B_onLoad = true;
+			this->S_Grid[0].setTexture(this->T_Grid[0]);
+			this->S_Grid[1].setTexture(this->T_Grid[0]);
+			this->S_Grid[2].setTexture(this->T_Grid[0]);
+		}	
+	}
+}
 
+void barManager::hp(float val)
+{
+	this->hp_Val += val;
+	if (this->hp_Val > 60) this->hp_Val = 60;
+	if (this->hp_Val < 0) this->hp_Val = 0;
+}
+
+void barManager::happy(float val)
+{
+	this->happy_Val += val;
+	if (this->happy_Val > 60) this->happy_Val = 60;
+	if (this->happy_Val < 0 ) this->happy_Val = 0;
 }
 
 void barManager::Active()
 {
-	totalTime += clock.restart().asSeconds();
-	if (totalTime >= 0.2)
+	this->totalTime += this->clock.restart().asSeconds();
+	if (this->totalTime >= 0.2)
 	{
-		totalTime = 0;
+		this->totalTime = 0;
 		for (int i = 0; i < 3; i++)
 		{
-			if (active[i])
+			if (this->active[i])
 			{
 				//cout << "Active!" << endl;
-				S_Grid[i].setTexture(T_Grid[B_Switch]);
+				if(this->active[i])this->S_Grid[i].setTexture(this->T_Grid[this->B_Switch]);
 			}
 		}
-		B_Switch = !B_Switch;
+		this->B_Switch = !this->B_Switch;
 	}
 }
 
@@ -255,6 +296,7 @@ void barManager::loadTextureAll()
 	this->T_I[6].loadFromFile("Texture/barmanage/i7.png");
 	this->T_I[7].loadFromFile("Texture/barmanage/i8.png");
 	this->T_I[8].loadFromFile("Texture/barmanage/i9.png");
+	this->T_I[9].loadFromFile("Texture/barmanage/i10.png");
 	this->T_Q.loadFromFile("Texture/barmanage/Q.png");
 }
 
@@ -319,7 +361,7 @@ void barManager::updateCounter()
 			if (this->pointerCount[i] != nullptr)
 			{
 				if (*this->pointerCount[i] != 0) this->countItem[i].setFillColor(Color::Green);
-				this->countItem[i].setString(to_string(*this->pointerCount[i]) + "/8");
+				this->countItem[i].setString(to_string(*this->pointerCount[i]) + "/9");
 			}
 		}
 		break;
@@ -331,18 +373,19 @@ void barManager::onLoad()
 	this->totalTimeLoad += this->clock.restart().asSeconds();
 	if (this->totalTimeLoad > 0.2)
 	{
-		this->Rec.height = float(this->timeLoad / 100 * this->RecHeigh);
-		this->timeLoad--;
+		//cout << "barmanager :: "<<this->timeLoad << endl;
+		this->Rec.height = float(this->timeLoad / delay * this->RecHeigh);
+		this->timeLoad-=0.2;
 		this->totalTimeLoad = 0;
 		if (this->timeLoad < 0)
 		{
 			this->B_onLoad = false;
-			timeLoad = delay / 0.2;
+			this->timeLoad = delay;
 		}
 		//cout << Rec.height << endl;
 	}
 	for (int i = 0; i < 3; i++)
 	{
-		this->S_onLoad[i].setTextureRect(this->Rec);
+		if(this->active[i]) this->S_onLoad[i].setTextureRect(this->Rec);
 	}
 }

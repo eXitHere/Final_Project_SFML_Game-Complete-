@@ -11,6 +11,7 @@ using namespace std;
 #define ID_PAINTER 8
 #define ID_TEACHER 9
 #define ID_WRENCH 10
+#define ID_IQ 11
 
 #define ID_FACE_HAPPY 0
 #define ID_FACE_SAD 1
@@ -28,6 +29,7 @@ using namespace std;
 #define ID_SHOWBAR_CANDY 7
 #define ID_SHOWBAR_FOOD1 8
 #define ID_SHOWBAR_FOOD2 9
+#define ID_SHOWBAR_IQ 10
 
 #define ID_NPC_BABAYCAR 0
 #define	ID_NPC_PAINT 1
@@ -37,3 +39,11 @@ using namespace std;
 #define ID_NPC_FOOTBALL 5
 #define ID_NPC_WRENCH 6
 #define ID_NPC_TEACHER 7
+
+
+#define ID_ACTION_PAINT 0
+#define ID_ACTION_FOOTBALL 1
+#define ID_ACTION_WRENCH 2
+#define ID_ACTION_TEACHER 3
+#define ID_ACTION_FRIEND 4
+#define ID_ACTION_FAMILY 5

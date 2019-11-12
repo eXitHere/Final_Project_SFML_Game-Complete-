@@ -2,10 +2,11 @@
 #include "PositionItem.h"
 #include <stdlib.h>
 #include <time.h>
-InGame::InGame(RenderWindow* window, Event* event, int* state) :
-	player(window, event,&this->pause),
+InGame::InGame(RenderWindow* window, Event* event, int* state,soundPlayBack* soundManage) :
+	player(window, event,&this->pause,soundManage),
 	bar(window,event)
 {
+	this->soundManage = soundManage;
 	player.updateRec(this->indexPlayer);
 	player.setPointerToY(&this->yPos);
 	loadTextureAll();
@@ -28,6 +29,14 @@ void InGame::DRAW()
 {
 	//this->T_Map[0].loadFromFile("Texture/Map/map0.jpg");
 	//this->T_Map[1].loadFromFile("Texture/Map/map1.jpg");
+
+	this->mainTime += this->clockMain.restart().asSeconds();
+	if (this->mainTime >= 3)
+	{
+		this->mainTime = 0;
+		this->bar.hp(-0.8 * (this->next));
+		this->bar.happy(-0.9 * (this->next));
+	}
 
 	if (B_nowusemap)
 	{	
@@ -69,6 +78,7 @@ void InGame::DRAW()
 		}
 		if (this->checkColilistion(this->itemList[i]))
 		{
+			this->soundManage->playHitItem();
 			//cout << "colision Item ID" << this->itemList[i]->getID() << endl;
 			showFaceEffect(this->itemList[i]->getID());
 			Item* p = itemList.at(i);
@@ -101,7 +111,7 @@ void InGame::DRAW()
 			{
 			case 0: this->indexPlayer = 1; updateChalacter(false); break;
 			case 1: this->indexPlayer = 3; updateChalacter(false); break;
-			case ID_NPC_CAT: this->npcList[j + 1]->setPosition(this->npcList[j]->getPostiosion()); break;
+			case ID_NPC_CAT: this->npcList[j + 1]->setPosition(this->npcList[j]->getPostiosion()); this->bar.happy(1); this->soundManage->playCat(); break;
 			case ID_NPC_FOOTBALL: firstArchive(ID_NPC_FOOTBALL); continue; break;
 			case ID_NPC_PAINTER:  firstArchive(ID_NPC_PAINTER);  continue; break;
 			case ID_NPC_TEACHER:  firstArchive(ID_NPC_TEACHER);  continue; break;
@@ -132,6 +142,7 @@ void InGame::DRAW()
 		}
 	}
 	player.DRAW();
+	if (this->S_door.getPosition().x == 1590) this->soundManage->playDoor();
 	this->window->draw(this->S_door);
 	bar.DRAW();
 }
@@ -164,6 +175,7 @@ void InGame::loadTextureAll()
 	this->T_items[7].loadFromFile("Texture/items/painter.png");
 	this->T_items[8].loadFromFile("Texture/items/teacher.png");
 	this->T_items[9].loadFromFile("Texture/items/wrench.png");
+	this->T_items[10].loadFromFile("Texture/items/IQ.png");
 
 	//NPC
 	this->T_NPC[0].loadFromFile("Texture/NPC/NPC01.png");
@@ -188,11 +200,11 @@ void InGame::moveMap()
 	if(!pause)
 	if (B_nowusemap)
 	{
-		this->S_cur_Map.move(-6 * gameSpeed, 0);
+		this->S_cur_Map.move(-3 * gameSpeed, 0);
 
 		if (this->S_new_Map.getPosition().x + this->T_Map[this->next -1].getSize().x != 0)
 		{
-			this->S_new_Map.move(-6 * gameSpeed, 0);
+			this->S_new_Map.move(-3 * gameSpeed, 0);
 		}
 
 		//cout << S_cur_Map.getPosition().x << endl;
@@ -214,10 +226,10 @@ void InGame::moveMap()
 	}
 	else
 	{
-		this->S_new_Map.move(-6 * gameSpeed, 0);
+		this->S_new_Map.move(-3 * gameSpeed, 0);
 		if (this->S_cur_Map.getPosition().x + this->T_Map[this->next-1].getSize().x != 0)
 		{
-			this->S_cur_Map.move(-6 * gameSpeed, 0);
+			this->S_cur_Map.move(-3 * gameSpeed, 0);
 		}
 		if (int(this->S_new_Map.getPosition().x) ==402)
 		{
@@ -241,14 +253,14 @@ void InGame::moveMap()
 	{
 		*this->stateGame = 2;
 	}
-	if (!pause) this->S_door.move(-6 * gameSpeed, 0);
+	if (!pause) this->S_door.move(-3 * gameSpeed, 0);
 }
 
 
 void InGame::loadItems()
 {
 	srand(time(NULL));
-	int tempPos[5] = { 280,620,480,350,400 };
+	int tempPos[5] = { 290,650,300,630,320 };
 	int tempID;
 	int R = 0;
 	switch (this->next-1)
@@ -268,11 +280,11 @@ void InGame::loadItems()
 	case 1:
 		this->itemList.clear();
 		this->npcList.clear();
-		for (int j = 0; j < 24; j++)
+		for (int j = 0; j < 9; j++)
 		{
 			//cout << j%3 << endl;
 			this->itemList.push_back(new Item());
-			this->itemList[this->itemList.size()-1]->loadData(this->T_items[idItem2[j%3] - 1], idItem2[j%3], this->window, Vector2f(positionItem2[j] + rand() % 200, tempPos[(j + rand() % 5) % 5]));
+			this->itemList[this->itemList.size()-1]->loadData(this->T_items[idItem2[0] - 1], idItem2[0], this->window, Vector2f(positionItem2[j], tempPos[0]));
 		}
 		for (int j = 0; j < 9; j++)
 		{
@@ -321,18 +333,20 @@ void InGame::updateChalacter(bool state)
 		case 0: case 1: this->indexPlayer = 2;
 			break;
 		}
+		this->soundManage->playLvUp();
 	}
 	else
 	{
 		switch (this->indexPlayer)
 		{
 		case 3:
+			this->soundManage->playPaint();
 			this->pause = true;
 			//cout << "Pause" << endl;
 			break;
 		}
 	}
-	
+	if (this->indexPlayer == 1) this->soundManage->playLvUp();
 	player.updateRec(this->indexPlayer);
 	
 }
@@ -357,6 +371,8 @@ void InGame::showFaceEffect(int index)
 		addFace(this->T_face[ID_FACE_MONEYDOWN]);
 		this->faceList.push_back(tempFace);
 		this->counter[ID_BEAR]++;
+		this->bar.hp(-0.5);
+		this->bar.happy(0.3);
 		break;
 	case ID_CANDY:
 		addFace(this->T_face[ID_FACE_HAPPY]);
@@ -364,6 +380,8 @@ void InGame::showFaceEffect(int index)
 		addFace(this->T_face[ID_FACE_HPDOWN]);
 		this->faceList.push_back(tempFace);
 		this->counter[ID_CANDY]++;
+		this->bar.hp(-0.3);
+		this->bar.happy(0.3);
 		break;
 	case ID_FOOD:
 		addFace(this->T_face[ID_FACE_HAPPY]);
@@ -371,6 +389,8 @@ void InGame::showFaceEffect(int index)
 		addFace(this->T_face[ID_FACE_HPUP]);
 		this->faceList.push_back(tempFace);
 		this->counter[ID_FOOD]++;
+		this->bar.hp(0.3);
+		this->bar.happy(0.3);
 		break;
 	case ID_FOOD2:
 		addFace(this->T_face[ID_FACE_HAPPY]);
@@ -378,6 +398,8 @@ void InGame::showFaceEffect(int index)
 		addFace(this->T_face[ID_FACE_HPUP]);
 		this->faceList.push_back(tempFace);
 		this->counter[ID_FOOD2]++;
+		this->bar.hp(0.3);
+		this->bar.happy(0.3);
 		break;
 	case ID_FOOTBALL:
 		break;
@@ -387,6 +409,14 @@ void InGame::showFaceEffect(int index)
 		addFace(this->T_face[ID_FACE_HPUP]);
 		this->faceList.push_back(tempFace);
 		this->counter[ID_MILK]++;
+		this->bar.hp(0.3);
+		this->bar.happy(0.3);
+		break;
+	case ID_IQ:
+		addFace(this->T_face[ID_FACE_HAPPY]);
+		this->faceList.push_back(tempFace);
+		this->bar.happy(0.3);
+		this->counter[ID_IQ]++;
 		break;
 	case ID_MONEY:
 		break;
@@ -413,7 +443,9 @@ void InGame::firstArchive(int index)
 		NPC* p = npcList.at(0);
 		delete p;
 		this->npcList.erase(this->npcList.begin() + 0);
+		//cout << "this is a npcList size : " << this->npcList.size() << endl;
 	}
+	
 	this->Object = index;
 	bar.setup(&this->Object, &this->Object2[0], &this->Object2[1], &this->ID[0], this->Status[0], this->Status[1], this->Status[2], this->Status[3], this->Status[4], this->Status[5], this->next - 1);
 	//cout << this->npcList.size() << endl;
@@ -445,12 +477,12 @@ void InGame::updateBar()
 			this->ID[i] = 0;
 			this->Status[i] = 0;
 		}
-		this->ID[0] = ID_SHOWBAR_CANDY;
-		this->ID[1] = ID_SHOWBAR_FOOD1;
-		this->ID[2] = ID_SHOWBAR_FOOD2;
-		this->Status[0] = &this->counter[ID_CANDY];
-		this->Status[1] = &this->counter[ID_FOOD];
-		this->Status[2] = &this->counter[ID_FOOD2];
+		this->ID[0] = ID_SHOWBAR_IQ;
+		//this->ID[1] = ID_SHOWBAR_FOOD1;
+		//this->ID[2] = ID_SHOWBAR_FOOD2;
+		this->Status[0] = &this->counter[ID_IQ];
+		//this->Status[1] = &this->counter[ID_FOOD];
+		//this->Status[2] = &this->counter[ID_FOOD2];
 		bar.setup(&this->Object, &this->Object2[0], &this->Object2[1], &this->ID[0], this->Status[0], this->Status[1], this->Status[2], this->Status[3], this->Status[4], this->Status[5],this->next-1);
 		break;
 	case 2:

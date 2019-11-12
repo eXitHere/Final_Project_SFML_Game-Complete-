@@ -25,7 +25,7 @@ bool statusFace::getDelete()
 void statusFace::move()
 {
 	totalTime += clock.restart().asSeconds();
-	if (totalTime >= 1.5 || this->body.getPosition().y <= 130) this->Del = true;
+	if (totalTime >= 2.0 || this->body.getPosition().y <= 130) this->Del = true;
 	this->body.move(0, -A);
-	A += 0.05;
+	A += 0.01;
 }
