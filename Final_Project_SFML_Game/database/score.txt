@@ -1,5 +1,5 @@
-thana 123456
-thana1 12345
-thana2 12335
-thana3 12345
-thana4 12345
+Player1 400
+Player2 300
+Player3 200
+Player4 100
+Player5 50

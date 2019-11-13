@@ -40,9 +40,9 @@ private:
 
 
 	//-> Bar Down
-	Texture T_object,T_itemCount,T_onLoad,T_Grid[2],T_Archive[4],T_Friend[2],T_Family[2],T_I[10],T_Q;
+	Texture T_object,T_itemCount,T_onLoad,T_Grid[2],T_Archive[4],T_Friend[2],T_Family[2],T_I[12],T_Q;
 	Sprite S_bgObject[3],S_bgItemCount[6],S_onLoad[3],S_Grid[3],S_archiveInobject,S_Friend,S_Family;
-	int I_indexArchive = 0;
+	int I_indexArchive = 0,I_choose = -1;
 	bool B_archive[2] = { false,false }, IHide[6], active[3],B_onLoad,B_Switch=false,setFirst = false;
 	int* pointerCount[6];
 	int map;

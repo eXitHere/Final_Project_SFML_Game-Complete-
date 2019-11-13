@@ -7,7 +7,7 @@ public:
 	~Item() {/* cout << "delete 'item' complete" << endl;*/ };
 	void loadData(Texture texture,int ID, RenderWindow* window,Vector2f position);
 	void DRAW();
-	void Move();
+	void Move(float speed);
 	bool deleteMe();
 	Vector2f getHalfsize();
 	Vector2f getPosition();
@@ -16,7 +16,6 @@ public:
 private:
 	// function
 	void update();
-	void move();
 
 	int ID;
 	float A = 2000;

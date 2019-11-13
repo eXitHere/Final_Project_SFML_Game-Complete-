@@ -177,10 +177,10 @@ void barManager::setup(int* O1, bool* O2, bool* O3, int* D, int* I1, int* I2, in
 	switch (*O1)
 	{ // f p t w // listItem
 	case 0: this->S_archiveInobject.setTexture(this->T_Q); break;
-	case ID_NPC_FOOTBALL: this->S_archiveInobject.setTexture(this->T_Archive[0]); break;
-	case ID_NPC_PAINTER : this->S_archiveInobject.setTexture(this->T_Archive[1]); break;
-	case ID_NPC_TEACHER : this->S_archiveInobject.setTexture(this->T_Archive[2]); break;
-	case ID_NPC_WRENCH  : this->S_archiveInobject.setTexture(this->T_Archive[3]); break;
+	case ID_NPC_FOOTBALL: this->S_archiveInobject.setTexture(this->T_Archive[0]); this->I_choose = 1; break;
+	case ID_NPC_PAINTER : this->S_archiveInobject.setTexture(this->T_Archive[1]); this->I_choose = 0; break;
+	case ID_NPC_TEACHER : this->S_archiveInobject.setTexture(this->T_Archive[2]); this->I_choose = 2; break;
+	case ID_NPC_WRENCH  : this->S_archiveInobject.setTexture(this->T_Archive[3]); this->I_choose = 3; break;
 	}
 	for (int i = 0; i < 6; i++)
 	{
@@ -199,6 +199,8 @@ void barManager::setup(int* O1, bool* O2, bool* O3, int* D, int* I1, int* I2, in
 			case 8: this->S_bgItemCount[i].setTexture(this->T_I[7]); break;
 			case 9: this->S_bgItemCount[i].setTexture(this->T_I[8]); break;
 			case 10:this->S_bgItemCount[i].setTexture(this->T_I[9]); break;
+			case 11:this->S_bgItemCount[i].setTexture(this->T_I[10]); break;
+			case 12:this->S_bgItemCount[i].setTexture(this->T_I[11]); break;
 			}
 			IHide[i] = true;
 		}
@@ -217,12 +219,20 @@ void barManager::press()
 		if (Keyboard::isKeyPressed(Keyboard::A) && this->active[0])
 		{
 			cout << "barManager :: Press A" << endl;
-			this->ASD.setAction(0);
+			this->ASD.setAction(this->I_choose);
 			this->B_onLoad = true;
 			this->S_Grid[0].setTexture(this->T_Grid[0]);
 			this->S_Grid[1].setTexture(this->T_Grid[0]);
 			this->S_Grid[2].setTexture(this->T_Grid[0]);
 		}	
+		/*if (Keyboard::isKeyPressed(Keyboard::S))
+		{
+			cout << "barManager :: Press Test" << endl;
+			this->ASD.setAction(0);
+			this->S_Grid[0].setTexture(this->T_Grid[0]);
+			this->S_Grid[1].setTexture(this->T_Grid[0]);
+			this->S_Grid[2].setTexture(this->T_Grid[0]);
+		}*/
 	}
 }
 
@@ -297,6 +307,9 @@ void barManager::loadTextureAll()
 	this->T_I[7].loadFromFile("Texture/barmanage/i8.png");
 	this->T_I[8].loadFromFile("Texture/barmanage/i9.png");
 	this->T_I[9].loadFromFile("Texture/barmanage/i10.png");
+	this->T_I[10].loadFromFile("Texture/barmanage/i11.png");
+	this->T_I[11].loadFromFile("Texture/barmanage/i12.png");
+
 	this->T_Q.loadFromFile("Texture/barmanage/Q.png");
 }
 
@@ -361,7 +374,14 @@ void barManager::updateCounter()
 			if (this->pointerCount[i] != nullptr)
 			{
 				if (*this->pointerCount[i] != 0) this->countItem[i].setFillColor(Color::Green);
-				this->countItem[i].setString(to_string(*this->pointerCount[i]) + "/9");
+				if (i == 1 || i == 2)
+				{
+					this->countItem[i].setString(to_string(*this->pointerCount[i]) + "/3");
+				}
+				else
+				{
+					this->countItem[i].setString(to_string(*this->pointerCount[i]) + "/9");
+				}
 			}
 		}
 		break;

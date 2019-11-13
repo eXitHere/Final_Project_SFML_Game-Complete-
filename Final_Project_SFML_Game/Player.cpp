@@ -90,27 +90,27 @@ void Player::jump()
 	{
 	case 1:
 		this->body.move(0, -this->jumpPower);
-		this->jumpPower -= 0.01;
+		this->jumpPower -= 0.003;
 		if (this->action_now == 0 && this->body.getPosition().y < this->baseHeight[0])
 		{
 			this->stateJump = 2;
-			this->jumpPower = 4;
+			this->jumpPower = 3;
 		}
 		//if (this->action_now == 1 && this->body.getPosition().y < this->baseHeight[1])
 		else if (this->body.getPosition().y < this->baseHeight[1])
 		{
 			this->stateJump = 2;
-			this->jumpPower = 7;
+			this->jumpPower = 5;
 		}
 		break;
 	case 2:
 		this->body.move(0, this->jumpPower);
-		this->jumpPower += 0.1;
+		this->jumpPower += 0.003;
 		if (this->body.getPosition().y >= 750)
 		{
 			this->body.setPosition(400, 750);
 			this->stateJump = 0;
-			this->jumpPower = 7;
+			this->jumpPower = 5;
 		}
 	}
 }
@@ -130,10 +130,15 @@ void Player::updateRec(int newRec)
 	this->rec = IntRect(0, 0, this->T_texture[this->action_now].getSize().x / this->countPic[this->action_now], this->T_texture[this->action_now].getSize().y);
 	this->body.setTextureRect(this->rec);
 	this->stateJump = 0;
-	this->jumpPower = 7;
-	if (this->action_now > 1)
+	
+	if (this->action_now >= 1)
 	{
 		this->body.setScale(0.8, 0.8);
+		this->jumpPower = 5;
+	}
+	else
+	{
+		this->jumpPower = 3;
 	}
 	switch (newRec) // set origin
 	{

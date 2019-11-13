@@ -4,25 +4,32 @@ actionASD::actionASD()
 {
 	reset();
 	this->T_texture[0].loadFromFile("Texture/Action/a0.png");
+	this->T_texture[1].loadFromFile("Texture/Action/a1.png");
+
+	this->body.setPosition(1400,760);
 }
 
 void actionASD::setAction(int index)
 {
 	reset();
 	this->indexAction = index;
+	this->body.setTexture(this->T_texture[this->indexAction]);
 	this->rect = IntRect(0, 0, this->T_texture[this->indexAction].getSize().x / 4, this->T_texture[this->indexAction].getSize().y);
 	this->body.setTextureRect(this->rect);
 	this->B_stop = false;
-	this->body.setTexture(this->T_texture[this->indexAction]);
+	this->X = 0;
+	this->deltaTime = 0;
+//	cout << "Debug in Action ASD" << endl;
+//	cout << this->rect.left << " -- " << this->rect.top << endl;
 }
 
 void actionASD::draw(RenderWindow* window)
 {
 	if (!this->B_stop)
 	{
-		update();
 		window->draw(this->body);
-		cout << "Action : " << this->indexAction << endl;
+		update();
+		//cout << "Action : " << this->indexAction << endl;
 	}
 }
 

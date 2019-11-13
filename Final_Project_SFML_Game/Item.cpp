@@ -26,9 +26,10 @@ void Item::DRAW()
 	window->draw(this->body);
 }
 
-void Item::Move()
+void Item::Move(float speed)
 {
-	move();
+	this->body.move(speed * gameSpeed, 0); // sin(this->A)/4
+	this->A -= 0.1;
 }
 
 bool Item::deleteMe()
@@ -66,11 +67,4 @@ void Item::update()
 	}
 	this->rect.left = this->X * this->rect.width;
 	this->body.setTextureRect(this->rect);
-}
-
-void Item::move()
-{
-	//cout << this->body.getPosition().x << " " << this->body.getPosition().y << endl;
-	this->body.move(-3.8* gameSpeed,0); // sin(this->A)/4
-	this->A -= 0.1;
 }

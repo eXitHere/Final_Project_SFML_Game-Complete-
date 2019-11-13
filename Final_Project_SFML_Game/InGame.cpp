@@ -53,7 +53,8 @@ void InGame::DRAW()
 	//cout << itemList.size() << endl;
 	for (int i = 0; i < itemList.size(); i++)
 	{
-		if (!pause) this->itemList[i]->Move();
+		if(!this->pause) this->itemList[i]->Move(-4.8);
+		else this->itemList[i]->Move(-2.4);
 		this->itemList[i]->DRAW();
 		if (this->itemList[i]->deleteMe())
 		{
@@ -109,9 +110,9 @@ void InGame::DRAW()
 		//	cout << "Press F" << endl;
 			switch (this->npcList[j]->getID())
 			{
-			case 0: this->indexPlayer = 1; updateChalacter(false); break;
+			case 0: this->indexPlayer = 1; updateChalacter(false); this->counter[ID_PAINTACTION]++; break;
 			case 1: this->indexPlayer = 3; updateChalacter(false); break;
-			case ID_NPC_CAT: this->npcList[j + 1]->setPosition(this->npcList[j]->getPostiosion()); this->bar.happy(1); this->soundManage->playCat(); break;
+			case ID_NPC_CAT: this->npcList[j + 1]->setPosition(this->npcList[j]->getPostiosion()); this->bar.happy(1); this->soundManage->playCat(); this->counter[ID_CAT]++; break;
 			case ID_NPC_FOOTBALL: firstArchive(ID_NPC_FOOTBALL); continue; break;
 			case ID_NPC_PAINTER:  firstArchive(ID_NPC_PAINTER);  continue; break;
 			case ID_NPC_TEACHER:  firstArchive(ID_NPC_TEACHER);  continue; break;
@@ -125,9 +126,16 @@ void InGame::DRAW()
 		else if (this->npcList[j]->checkState() == 2) // <-500
 		{
 			//cout << "DEl npc" << endl;
-			NPC* p = npcList.at(j);
-			delete p;
-			this->npcList.erase(this->npcList.begin() + j);
+			if (this->npcList[j]->getID() != ID_NPC_FOOTBALL &&
+				this->npcList[j]->getID() != ID_NPC_PAINTER &&
+				this->npcList[j]->getID() != ID_NPC_TEACHER &&
+				this->npcList[j]->getID() != ID_NPC_WRENCH)
+			{ /// <<--- don't delete npc
+				cout << "Delete " << this->npcList[j]->getID() << endl;
+				NPC* p = npcList.at(j);
+				delete p;
+				this->npcList.erase(this->npcList.begin() + j);
+			}
 		}
 	}
 	
@@ -237,7 +245,7 @@ void InGame::moveMap()
 			//indexPlayer++;
 			updateChalacter(true);
 			updateBar();
-			loadItems();
+			loadItems();	
 		}
 
 		if (this->S_new_Map.getPosition().x + this->T_Map[this->next].getSize().x == 1800)
@@ -330,25 +338,29 @@ void InGame::updateChalacter(bool state)
 	{
 		switch (this->indexPlayer)
 		{
-		case 0: case 1: this->indexPlayer = 2;
+		case 0: case 1: this->indexPlayer = 2; // Player in map2
+			break;
+		case 2: case 3: this->indexPlayer = 4; // set player to Map 3 --> boy in school
+			//cout << "Check case" << endl;
 			break;
 		}
 		this->soundManage->playLvUp();
 	}
 	else
 	{
-		switch (this->indexPlayer)
+		switch (this->indexPlayer) // this is a paint Action!!! <<<---
 		{
 		case 3:
 			this->soundManage->playPaint();
 			this->pause = true;
+			this->counter[ID_PAINTACTION]++;
 			//cout << "Pause" << endl;
 			break;
 		}
 	}
 	if (this->indexPlayer == 1) this->soundManage->playLvUp();
 	player.updateRec(this->indexPlayer);
-	
+	//cout << this->indexPlayer << endl;
 }
 
 bool InGame::checkColilistion(Item* item)
@@ -455,7 +467,7 @@ void InGame::updateBar()
 {
 	switch (this->next-1)
 	{
-	case 0:
+	case 0: // MAP 1
 		this->Object = 0;
 		this->Object2[0] = false;
 		this->Object2[1] = false;
@@ -468,7 +480,7 @@ void InGame::updateBar()
 		this->Status[0] = &this->counter[ID_MILK];
 		bar.setup(&this->Object, &this->Object2[0], &this->Object2[1], &this->ID[0], this->Status[0], this->Status[1], this->Status[2], this->Status[3], this->Status[4], this->Status[5],this->next-1);
 		break;
-	case 1:
+	case 1: // MAP2
 		this->Object =0;
 		this->Object2[0] = false;
 		this->Object2[1] = false;
@@ -478,9 +490,13 @@ void InGame::updateBar()
 			this->Status[i] = 0;
 		}
 		this->ID[0] = ID_SHOWBAR_IQ;
+		this->ID[1] = ID_SHOWBAR_CAT;
+		this->ID[2] = ID_SHOWBAR_PAINTACTION;
 		//this->ID[1] = ID_SHOWBAR_FOOD1;
 		//this->ID[2] = ID_SHOWBAR_FOOD2;
 		this->Status[0] = &this->counter[ID_IQ];
+		this->Status[1] = &this->counter[ID_CAT];
+		this->Status[2] = &this->counter[ID_PAINTACTION];
 		//this->Status[1] = &this->counter[ID_FOOD];
 		//this->Status[2] = &this->counter[ID_FOOD2];
 		bar.setup(&this->Object, &this->Object2[0], &this->Object2[1], &this->ID[0], this->Status[0], this->Status[1], this->Status[2], this->Status[3], this->Status[4], this->Status[5],this->next-1);

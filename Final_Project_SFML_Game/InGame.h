@@ -47,7 +47,7 @@ private:
 	void updateBar();
 
 	// Variable counter Item all
-	int counter[12] = { 0,0,0,0,0,0,0,0,0,0,0,0 };
+	int counter[14] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
 
 	// Variable for Items
 	//int testItem = 0;
