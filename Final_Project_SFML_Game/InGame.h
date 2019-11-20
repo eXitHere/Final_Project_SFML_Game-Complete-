@@ -77,7 +77,7 @@ private:
 
 	// NPC
 	float yPos;
-	Texture T_NPC[8];
+	Texture T_NPC[12];
 	vector<NPC*> npcList;
 
 	// Face
@@ -87,7 +87,7 @@ private:
 	statusFace* tempFace;
 
 	// MAP
-	Texture T_Map[8],T_door;
+	Texture T_Map[9],T_door;
 	Sprite S_cur_Map, S_new_Map,S_door;
 	bool B_nowusemap = true;
 	

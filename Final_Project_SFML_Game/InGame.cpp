@@ -181,11 +181,12 @@ void InGame::loadTextureAll()
 	this->T_Map[0].loadFromFile("Texture/Map/map0.jpg");
 	this->T_Map[1].loadFromFile("Texture/Map/map1.jpg");
 	this->T_Map[2].loadFromFile("Texture/Map/map2.jpg");
-	this->T_Map[3].loadFromFile("Texture/Map/map3.1.jpg");
-	this->T_Map[4].loadFromFile("Texture/Map/map3.2.jpg");
-	this->T_Map[5].loadFromFile("Texture/Map/map3.3.jpg");
-	this->T_Map[6].loadFromFile("Texture/Map/map3.4.jpg");
-	this->T_Map[7].loadFromFile("Texture/Map/map3.5.jpg");
+	this->T_Map[3].loadFromFile("Texture/Map/map2.jpg");
+	this->T_Map[4].loadFromFile("Texture/Map/map3.1.jpg");
+	this->T_Map[5].loadFromFile("Texture/Map/map3.2.jpg");
+	this->T_Map[6].loadFromFile("Texture/Map/map3.3.jpg");
+	this->T_Map[7].loadFromFile("Texture/Map/map3.4.jpg");
+	this->T_Map[8].loadFromFile("Texture/Map/map3.5.jpg");
 	this->S_cur_Map.setTexture(this->T_Map[0]);
 
 	this->T_door.loadFromFile("Texture/Map/door.png");
@@ -213,6 +214,11 @@ void InGame::loadTextureAll()
 	this->T_NPC[5].loadFromFile("Texture/NPC/C2.png");
 	this->T_NPC[6].loadFromFile("Texture/NPC/C3.png");
 	this->T_NPC[7].loadFromFile("Texture/NPC/C4.png");
+	this->T_NPC[8].loadFromFile("Texture/NPC/F1.png");
+	this->T_NPC[9].loadFromFile("Texture/NPC/F2.png");
+	this->T_NPC[10].loadFromFile("Texture/NPC/F3.png");
+	this->T_NPC[11].loadFromFile("Texture/NPC/F4.png");
+
 	//Face
 	this->T_face[0].loadFromFile("Texture/items/happy.png");
 	this->T_face[1].loadFromFile("Texture/items/sad.png");
@@ -481,7 +487,7 @@ void InGame::showFaceEffect(int index)
 		{
 			addFace(this->T_face[ID_FACE_SAD]);
 			this->faceList.push_back(tempFace);
-			this->bar.happy(-0.8);
+			this->bar.happy(-0.3);
 		}
 		break;
 	case ID_MILK:
@@ -508,7 +514,7 @@ void InGame::showFaceEffect(int index)
 		{
 			addFace(this->T_face[ID_FACE_SAD]);
 			this->faceList.push_back(tempFace);
-			this->bar.happy(-0.8);
+			this->bar.happy(-0.3);
 		}
 		break;
 	case ID_TEACHER:
@@ -517,7 +523,7 @@ void InGame::showFaceEffect(int index)
 		{
 			addFace(this->T_face[ID_FACE_SAD]);
 			this->faceList.push_back(tempFace);
-			this->bar.happy(-0.8);
+			this->bar.happy(-0.3);
 		}
 		break;
 	case ID_WRENCH:
@@ -526,7 +532,7 @@ void InGame::showFaceEffect(int index)
 		{
 			addFace(this->T_face[ID_FACE_SAD]);
 			this->faceList.push_back(tempFace);
-			this->bar.happy(-0.8);
+			this->bar.happy(-0.3);
 		}
 		break;
 	}
