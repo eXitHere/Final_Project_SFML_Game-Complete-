@@ -48,6 +48,9 @@
     <ClCompile Include="actionASD.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MutiChoice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="initial.h">
@@ -87,6 +90,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="actionASD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MutiChoice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

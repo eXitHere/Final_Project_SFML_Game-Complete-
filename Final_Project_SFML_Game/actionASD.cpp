@@ -5,7 +5,10 @@ actionASD::actionASD()
 	reset();
 	this->T_texture[0].loadFromFile("Texture/Action/a0.png");
 	this->T_texture[1].loadFromFile("Texture/Action/a1.png");
-
+	this->T_texture[2].loadFromFile("Texture/Action/a2.png");
+	this->T_texture[3].loadFromFile("Texture/Action/a3.png");
+	this->T_texture[4].loadFromFile("Texture/Action/a4.png");
+	this->T_texture[5].loadFromFile("Texture/Action/a5.png");
 	this->body.setPosition(1400,760);
 }
 
@@ -42,7 +45,7 @@ void actionASD::reset()
 void actionASD::update()
 {
 	this->deltaTime += this->clock.restart().asSeconds();
-	if (this->deltaTime > 0.5)
+	if (this->deltaTime > 1.0f)
 	{
 		this->deltaTime = 0;
 		this->X++;

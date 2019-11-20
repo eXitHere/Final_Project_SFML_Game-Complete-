@@ -224,7 +224,25 @@ void barManager::press()
 			this->S_Grid[0].setTexture(this->T_Grid[0]);
 			this->S_Grid[1].setTexture(this->T_Grid[0]);
 			this->S_Grid[2].setTexture(this->T_Grid[0]);
-		}	
+		}
+		if (Keyboard::isKeyPressed(Keyboard::S) && this->active[1])
+		{
+			cout << "barManager :: Press S" << endl;
+			this->ASD.setAction(4);
+			this->B_onLoad = true;
+			this->S_Grid[0].setTexture(this->T_Grid[0]);
+			this->S_Grid[1].setTexture(this->T_Grid[0]);
+			this->S_Grid[2].setTexture(this->T_Grid[0]);
+		}
+		if (Keyboard::isKeyPressed(Keyboard::D) && this->active[2])
+		{
+			cout << "barManager :: Press D" << endl;
+			this->ASD.setAction(5);
+			this->B_onLoad = true;
+			this->S_Grid[0].setTexture(this->T_Grid[0]);
+			this->S_Grid[1].setTexture(this->T_Grid[0]);
+			this->S_Grid[2].setTexture(this->T_Grid[0]);
+		}
 		/*if (Keyboard::isKeyPressed(Keyboard::S))
 		{
 			cout << "barManager :: Press Test" << endl;
@@ -358,7 +376,7 @@ void barManager::updateCounter()
 {
 	switch (this->map)
 	{
-	case 0:
+	case 0: // Map1 setup
 		for (int i = 0; i < 6; i++)
 		{
 			if (this->pointerCount[i] != nullptr)
@@ -368,7 +386,7 @@ void barManager::updateCounter()
 			}
 		}
 		break;
-	case 1:
+	case 1: // Map2 setup
 		for (int i = 0; i < 6; i++)
 		{
 			if (this->pointerCount[i] != nullptr)
@@ -382,6 +400,16 @@ void barManager::updateCounter()
 				{
 					this->countItem[i].setString(to_string(*this->pointerCount[i]) + "/9");
 				}
+			}
+		}
+		break;
+	case 2: // Map3 setup
+		for (int i = 0; i < 6; i++)
+		{
+			if (this->pointerCount[i] != nullptr)
+			{
+				if (*this->pointerCount[i] != 0) this->countItem[i].setFillColor(Color::Green);
+				this->countItem[i].setString(to_string(*this->pointerCount[i]) + "/8");
 			}
 		}
 		break;

@@ -5,12 +5,12 @@ using namespace std;
 #define ID_CANDY 2
 #define ID_FOOD 3
 #define ID_FOOD2 4
-#define ID_FOOTBALL 5
+#define ID_FOOTBALL 5 // <-
 #define ID_MILK 6
 #define ID_MONEY 7
-#define ID_PAINTER 8
-#define ID_TEACHER 9
-#define ID_WRENCH 10
+#define ID_PAINTER 8 // <-
+#define ID_TEACHER 9 // <-
+#define ID_WRENCH 10 // -<
 #define ID_IQ 11
 #define ID_CAT 12
 #define ID_PAINTACTION 13

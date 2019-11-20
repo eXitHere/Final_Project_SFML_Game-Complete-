@@ -7,6 +7,7 @@
 
 #include "Item.h"
 #include "Player.h"
+#include"MutiChoice.h"
 #include "barManager.h"
 #include "NPC.h"
 #include "statusFace.h"
@@ -23,6 +24,9 @@ public:
 	 
 private:
 
+	MutiChoice mutiChoice;
+	int countChoice = 0;
+	int mainArchiveChoice = 0;
 
 	Clock clockMain;
 	double mainTime = 0.0;
@@ -46,8 +50,12 @@ private:
 
 	void updateBar();
 
+	int mainArchive = 0; //// <----------  -----------> \\\\\\\\\\\
+
 	// Variable counter Item all
 	int counter[14] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
+	int countSpawn[4] = { 0,0,0,0 };
+
 
 	// Variable for Items
 	//int testItem = 0;

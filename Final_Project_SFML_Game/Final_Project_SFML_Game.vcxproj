@@ -136,6 +136,7 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="MutiChoice.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="soundPlayBack.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="initial.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="MutiChoice.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PositionItem.h" />

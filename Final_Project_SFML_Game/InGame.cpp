@@ -4,7 +4,8 @@
 #include <time.h>
 InGame::InGame(RenderWindow* window, Event* event, int* state,soundPlayBack* soundManage) :
 	player(window, event,&this->pause,soundManage),
-	bar(window,event)
+	bar(window,event),
+	mutiChoice(window,event)
 {
 	this->soundManage = soundManage;
 	player.updateRec(this->indexPlayer);
@@ -30,7 +31,7 @@ void InGame::DRAW()
 	//this->T_Map[0].loadFromFile("Texture/Map/map0.jpg");
 	//this->T_Map[1].loadFromFile("Texture/Map/map1.jpg");
 
-	this->mainTime += this->clockMain.restart().asSeconds();
+	if(!this->pause) this->mainTime += this->clockMain.restart().asSeconds();
 	if (this->mainTime >= 3)
 	{
 		this->mainTime = 0;
@@ -48,7 +49,6 @@ void InGame::DRAW()
 		window->draw(this->S_cur_Map);
 		window->draw(this->S_new_Map);
 	}
-	moveMap();
 	//loadItems();
 	//cout << itemList.size() << endl;
 	for (int i = 0; i < itemList.size(); i++)
@@ -105,19 +105,24 @@ void InGame::DRAW()
 		}
 		//this->npcList[j]->DRAW();
 		if (!pause && !this->npcList[j]->isSpacial()) this->npcList[j]->Move();
-		if (this->npcList[j]->checkState() == 1) // Press F
+		if (this->npcList[j]->checkState() == 1 ||
+			(this->next-1==2 && this->npcList.size()>3 && this-> npcList[3]->getPostiosion().x < 400)) // Press F
 		{
 		//	cout << "Press F" << endl;
+			if (this->next - 1 == 2)
+			{
+				//cout << this->npcList[3]->getPostiosion().x << endl;
+			}
 			switch (this->npcList[j]->getID())
 			{
-			case 0: this->indexPlayer = 1; updateChalacter(false); this->counter[ID_PAINTACTION]++; break;
+			case 0: this->indexPlayer = 1; updateChalacter(false); break;
 			case 1: this->indexPlayer = 3; updateChalacter(false); break;
 			case ID_NPC_CAT: this->npcList[j + 1]->setPosition(this->npcList[j]->getPostiosion()); this->bar.happy(1); this->soundManage->playCat(); this->counter[ID_CAT]++; break;
 			case ID_NPC_FOOTBALL: firstArchive(ID_NPC_FOOTBALL); continue; break;
 			case ID_NPC_PAINTER:  firstArchive(ID_NPC_PAINTER);  continue; break;
 			case ID_NPC_TEACHER:  firstArchive(ID_NPC_TEACHER);  continue; break;
 			case ID_NPC_WRENCH:   firstArchive(ID_NPC_WRENCH);   continue; break;
-			}	
+			}
 			//cout << "Del : " << j << endl;
 			NPC* p = npcList.at(j);
 			delete p;
@@ -131,7 +136,7 @@ void InGame::DRAW()
 				this->npcList[j]->getID() != ID_NPC_TEACHER &&
 				this->npcList[j]->getID() != ID_NPC_WRENCH)
 			{ /// <<--- don't delete npc
-				cout << "Delete " << this->npcList[j]->getID() << endl;
+				//cout << "Delete " << this->npcList[j]->getID() << endl;
 				NPC* p = npcList.at(j);
 				delete p;
 				this->npcList.erase(this->npcList.begin() + j);
@@ -152,7 +157,21 @@ void InGame::DRAW()
 	player.DRAW();
 	if (this->S_door.getPosition().x == 1590) this->soundManage->playDoor();
 	this->window->draw(this->S_door);
+	moveMap();
+
+
+	if (this->countChoice > 0 && this->mainArchiveChoice ==0)
+	{
+		//cout << this->mutiChoice.getChoice() << endl;
+		if (this->mainArchiveChoice == 0 && this->mutiChoice.getChoice()!=0)
+		{
+			this->mainArchiveChoice = this->mutiChoice.getChoice();
+			this->pause = false;
+		}
+	}
+
 	bar.DRAW();
+
 }
 
 
@@ -218,6 +237,7 @@ void InGame::moveMap()
 		//cout << S_cur_Map.getPosition().x << endl;
 		if (this->S_cur_Map.getPosition().x == 402)
 		{
+			
 			updateChalacter(true);
 			updateBar();
 			loadItems();
@@ -239,8 +259,22 @@ void InGame::moveMap()
 		{
 			this->S_cur_Map.move(-3 * gameSpeed, 0);
 		}
+
 		if (int(this->S_new_Map.getPosition().x) ==402)
 		{
+			if (this->next - 1 == 3) // P T W F
+			{
+				//cout << "EIEI" << endl;
+				if (this->counter[ID_FOOTBALL] >= 5) { this->mutiChoice.Set(3); this->countChoice++; cout << "EIEI" << endl; }
+				if (this->counter[ID_PAINTER] >= 5) { this->mutiChoice.Set(0); this->countChoice++; cout << "EIEI" << endl; }
+				if (this->counter[ID_WRENCH] >= 5) { this->mutiChoice.Set(2); this->countChoice++; cout << "EIEI" << endl; }
+				if (this->counter[ID_TEACHER] >= 5) { this->mutiChoice.Set(1); this->countChoice++; cout << "EIEI" << endl; }
+				if (this->countChoice > 1)
+				{
+					//cout << "Show" << endl;
+					this->pause = true;
+				}
+			}
 			//player.updateRec(this->indexPlayer);
 			//indexPlayer++;
 			updateChalacter(true);
@@ -303,18 +337,46 @@ void InGame::loadItems()
 	case 2:
 		this->itemList.clear();
 		this->npcList.clear();
-		/*for (int j = 0; j < 24; j++)
+		for (int j = 0; j < 32; j++)
 		{
 			//cout << j%3 << endl;
 			this->itemList.push_back(new Item());
-			this->itemList[this->itemList.size() - 1]->loadData(this->T_items[idItem2[j % 3] - 1], idItem2[j % 3], this->window, Vector2f(positionItem2[j] + rand() % 200, tempPos[(j + rand() % 5) % 5]));
-		}*/
-		for (int j = 0; j < 5; j++)
-		{
-			this->npcList.push_back(new NPC());
-			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC3[j]], positionNPC3[j], &this->yPos, idNPC3[j], this->window, this->event);
+			this->itemList[this->itemList.size() - 1]->loadData(this->T_items[idItem3[j % 4] - 1], idItem3[j % 4], this->window, Vector2f(positionItem3[j] + rand() % 200, tempPos[(j + rand() % 5) % 5]));
 		}
-		//cout << this->npcList.size() << endl;
+		int randTemp = rand() % 3;
+		switch (randTemp)
+		{
+		case 0: 
+				this->npcList.push_back(new NPC());
+				this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_WRENCH], positionNPC3[0], &this->yPos, ID_NPC_WRENCH, this->window, this->event);
+				this->npcList.push_back(new NPC());
+				this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_PAINTER], positionNPC3[1], &this->yPos, ID_NPC_PAINTER, this->window, this->event);
+				this->npcList.push_back(new NPC());
+				this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_FOOTBALL], positionNPC3[2], &this->yPos, ID_NPC_FOOTBALL, this->window, this->event);
+				this->npcList.push_back(new NPC());
+				this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_TEACHER], positionNPC3[3], &this->yPos, ID_NPC_TEACHER, this->window, this->event);
+			break;
+		case 1: 
+				this->npcList.push_back(new NPC());
+				this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_TEACHER], positionNPC3[0], &this->yPos, ID_NPC_TEACHER, this->window, this->event);
+				this->npcList.push_back(new NPC());
+				this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_FOOTBALL], positionNPC3[1], &this->yPos, ID_NPC_FOOTBALL, this->window, this->event);
+				this->npcList.push_back(new NPC());
+				this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_WRENCH], positionNPC3[2], &this->yPos, ID_NPC_WRENCH, this->window, this->event);
+				this->npcList.push_back(new NPC());
+				this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_PAINTER], positionNPC3[3], &this->yPos, ID_NPC_PAINTER, this->window, this->event);	
+				break;
+		case 2: this->npcList.push_back(new NPC());
+				this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_FOOTBALL], positionNPC3[0], &this->yPos, ID_NPC_FOOTBALL, this->window, this->event);
+				this->npcList.push_back(new NPC());
+				this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_PAINTER], positionNPC3[1], &this->yPos, ID_NPC_PAINTER, this->window, this->event);
+				this->npcList.push_back(new NPC());
+				this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_TEACHER], positionNPC3[2], &this->yPos, ID_NPC_TEACHER, this->window, this->event);
+				this->npcList.push_back(new NPC());
+				this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_WRENCH], positionNPC3[3], &this->yPos, ID_NPC_WRENCH, this->window, this->event);
+				break;
+		}
+		//cout <<"Debug map3 : <- : "<< this->itemList.size() << endl;
 		break;
 	}
 }
@@ -414,6 +476,13 @@ void InGame::showFaceEffect(int index)
 		this->bar.happy(0.3);
 		break;
 	case ID_FOOTBALL:
+		this->counter[ID_FOOTBALL]++;
+		if (this->mainArchive != ID_FOOTBALL)
+		{
+			addFace(this->T_face[ID_FACE_SAD]);
+			this->faceList.push_back(tempFace);
+			this->bar.happy(-0.8);
+		}
 		break;
 	case ID_MILK:
 		addFace(this->T_face[ID_FACE_HAPPY]);
@@ -431,12 +500,34 @@ void InGame::showFaceEffect(int index)
 		this->counter[ID_IQ]++;
 		break;
 	case ID_MONEY:
+		
 		break;
 	case ID_PAINTER:
+		this->counter[ID_PAINTER]++;
+		if (this->mainArchive != ID_PAINTER)
+		{
+			addFace(this->T_face[ID_FACE_SAD]);
+			this->faceList.push_back(tempFace);
+			this->bar.happy(-0.8);
+		}
 		break;
 	case ID_TEACHER:
+		this->counter[ID_TEACHER]++;
+		if (this->mainArchive != ID_TEACHER)
+		{
+			addFace(this->T_face[ID_FACE_SAD]);
+			this->faceList.push_back(tempFace);
+			this->bar.happy(-0.8);
+		}
 		break;
 	case ID_WRENCH:
+		this->counter[ID_WRENCH]++;
+		if (this->mainArchive != ID_WRENCH)
+		{
+			addFace(this->T_face[ID_FACE_SAD]);
+			this->faceList.push_back(tempFace);
+			this->bar.happy(-0.8);
+		}
 		break;
 	}
 }
@@ -450,6 +541,16 @@ void InGame::addFace(Texture texture)
 
 void InGame::firstArchive(int index)
 {
+
+	//cout << "Main Archive : " << index << endl;
+	switch (index)
+	{
+	case ID_NPC_FOOTBALL: this->mainArchive = ID_FOOTBALL; break;
+	case ID_NPC_WRENCH:   this->mainArchive = ID_WRENCH;   break;
+	case ID_NPC_TEACHER:  this->mainArchive = ID_TEACHER;  break;
+	case ID_NPC_PAINTER:  this->mainArchive = ID_PAINTER;  break;
+	}
+
 	for (int k = 0; k < 4; k++)
 	{
 		NPC* p = npcList.at(0);
@@ -501,22 +602,25 @@ void InGame::updateBar()
 		//this->Status[2] = &this->counter[ID_FOOD2];
 		bar.setup(&this->Object, &this->Object2[0], &this->Object2[1], &this->ID[0], this->Status[0], this->Status[1], this->Status[2], this->Status[3], this->Status[4], this->Status[5],this->next-1);
 		break;
-	case 2:
+	case 2: // Map 3 
 		this->Object = 0;
 		this->Object2[0] = true;
-		this->Object2[1] = false;
+		this->Object2[1] = true;
 		for (int i = 0; i < 6; i++)
 		{
 			this->ID[i] = 0;
 			this->Status[i] = 0;
 		}
-		this->ID[0] = ID_SHOWBAR_CANDY;
-		this->ID[1] = ID_SHOWBAR_FOOD1;
-		this->ID[2] = ID_SHOWBAR_FOOD2;
-		this->Status[0] = &this->counter[ID_CANDY];
-		this->Status[1] = &this->counter[ID_FOOD];
-		this->Status[2] = &this->counter[ID_FOOD2];
+		this->ID[0] = ID_SHOWBAR_FOOTBALL;
+		this->ID[1] = ID_SHOWBAR_TEACHER;
+		this->ID[2] = ID_SHOWBAR_PAINTER;
+		this->ID[3] = ID_SHOWBAR_WRENCH;
+		this->Status[0] = &this->counter[ID_FOOTBALL];
+		this->Status[1] = &this->counter[ID_TEACHER];
+		this->Status[2] = &this->counter[ID_PAINTER];
+		this->Status[3] = &this->counter[ID_WRENCH];
 		bar.setup(&this->Object, &this->Object2[0], &this->Object2[1], &this->ID[0], this->Status[0], this->Status[1], this->Status[2], this->Status[3], this->Status[4], this->Status[5], this->next - 1);
 		break;
+
 	}
 }
