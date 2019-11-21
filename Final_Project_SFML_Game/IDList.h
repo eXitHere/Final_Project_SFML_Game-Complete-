@@ -14,6 +14,10 @@ using namespace std;
 #define ID_IQ 11
 #define ID_CAT 12
 #define ID_PAINTACTION 13
+#define ID_FRIEND1 14
+#define ID_FRIEND2 15
+#define ID_FRIEND3 16
+#define ID_FRIEND4 17
 
 #define ID_FACE_HAPPY 0
 #define ID_FACE_SAD 1
@@ -43,6 +47,10 @@ using namespace std;
 #define ID_NPC_FOOTBALL 5
 #define ID_NPC_WRENCH 6
 #define ID_NPC_TEACHER 7
+#define ID_NPC_FRIEND1 8
+#define ID_NPC_FRIEND2 9
+#define ID_NPC_FRIEND3 10
+#define ID_NPC_FRIEND4 11
 
 
 #define ID_ACTION_PAINT 0

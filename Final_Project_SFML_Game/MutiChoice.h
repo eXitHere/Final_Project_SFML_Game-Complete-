@@ -15,6 +15,7 @@ public:
 private:
 	void DRAW();
 	vector<Texture> textProcess;
+	vector<int> compare;
 	bool keyReleased = false;
 	int index = 0, forReturn = 0;
 	Event* event;

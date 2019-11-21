@@ -2,7 +2,7 @@
 
 NPC::NPC()
 {
-
+	//cout << "Hello Wolrd";
 }
 
 void NPC::setDATA(Texture texture,int positionX, float* yPos, int ID,RenderWindow* window, Event* event)
@@ -15,26 +15,61 @@ void NPC::setDATA(Texture texture,int positionX, float* yPos, int ID,RenderWindo
 	this->texture = texture;
 	this->body.setTexture(this->texture);
 	this->body.setPosition(positionX, 740);
-	this->rect = IntRect(0, 0, this->texture.getSize().x / 4, this->texture.getSize().y);
-	this->body.setTextureRect(this->rect);
+	this->rect = IntRect(0, 0, this->texture.getSize().x / 4, this->texture.getSize().y);	
 	this->xNow = 0;
-	this->body.setOrigin(this->texture.getSize().x / 4 / 2, this->texture.getSize().y);
-	
 	this->Tpess.loadFromFile("Texture/NPC/pressF.png");
 	this->press.setTexture(this->Tpess);
 	this->RECT = IntRect(0, 0, this->Tpess.getSize().x / 4, this->Tpess.getSize().y);
-	this->press.setTextureRect(this->RECT);
+	if (this->ID != ID_NPC_FRIEND1 && this->ID != ID_NPC_FRIEND2 && this->ID != ID_NPC_FRIEND3 && this->ID != ID_NPC_FRIEND4)
+	{
+		this->press.setTextureRect(this->RECT);
+		this->body.setOrigin(this->texture.getSize().x / 4 / 2, this->texture.getSize().y);
+		this->body.setTextureRect(this->rect);
+	}
+	else
+	{
+		this->body.setOrigin(this->texture.getSize().x / 2, this->texture.getSize().y);
+	}
+
 	if (this->ID == ID_NPC_CAT || this->ID == ID_NPC_CATLUV || this->ID == ID_NPC_PAINT)
 	{
 		this->body.setScale(0.8, 0.8);
 	}
+	
+	this->T_yesno[0].loadFromFile("Texture/NPC/yes.png");
+	this->T_yesno[1].loadFromFile("Texture/NPC/no.png");
+//	this->body_yesno.setOrigin(this->T_yesno[0].getSize().x / 2, this->T_yesno[0].getSize().y / 2);
+//	this->body_yesno.setPosition(this->body.getPosition().x, this->body.getPosition().y - this->T_yesno[0].getSize().y - 50);
 }
 
 void NPC::DRAW()
 {
 	if(!this->spacial) checkOnHold();
-	this->update();
+	if(this->ID != ID_NPC_FRIEND1 && this->ID != ID_NPC_FRIEND2 && this->ID != ID_NPC_FRIEND3 && this->ID != ID_NPC_FRIEND4)
+		this->update();
 	this->window->draw(this->body);
+	if (this->yesno == 1)
+	{
+		if (!this->setTexture)
+		{
+			this->body_yesno.setTexture(this->T_yesno[1]);
+			this->setTexture = true;
+		}
+		this->body_yesno.setPosition(this->body.getPosition().x, this->body.getPosition().y - this->texture.getSize().y - 100);
+		this->window->draw(this->body_yesno);
+		//cout << this->body_yesno.getPosition().x << endl;
+		//cout << "AA" << endl;
+	}
+	else if (this->yesno == 2)
+	{
+		if (!this->setTexture)
+		{
+			this->body_yesno.setTexture(this->T_yesno[0]);
+			this->setTexture = true;
+		}
+		this->body_yesno.setPosition(this->body.getPosition().x, this->body.getPosition().y - this->texture.getSize().y - 100);
+		this->window->draw(this->body_yesno);
+	}
 }
 
 void NPC::Move()
@@ -65,6 +100,17 @@ Vector2f NPC::getPostiosion()
 void NPC::setPosition(Vector2f pos)
 {
 	this->body.setPosition(pos);
+}
+
+void NPC::setYesNo(int state)
+{
+	this->yesno = state;
+	//cout << "Set :: " << this->yesno << endl;
+}
+
+int NPC::getYesNo()
+{
+	return this->yesno;
 }
 
 void NPC::move()
@@ -103,11 +149,18 @@ void NPC::checkOnHold()
 	{
 		if (Keyboard::isKeyPressed(Keyboard::F) && !isSpacial())
 		{
-			this->delme = 1;
+			if (this->ID != ID_NPC_FRIEND1 && this->ID != ID_NPC_FRIEND2 && this->ID != ID_NPC_FRIEND3 && this->ID != ID_NPC_FRIEND4)
+			{
+				this->delme = 1;
+			}
+			else
+			{
+				this->delme = 3;
+			}
 			//cout << "Press !" << endl;
 		}
 	}
-	if(this->body.getPosition().x >= 0 && this->body.getPosition().x <= 1600)
+	if(this->body.getPosition().x >= 0 && this->body.getPosition().x <= 1600 && this->delme != 3)
 	{
 		updatePress();
 		this->press.setPosition(this->body.getPosition().x, this->body.getPosition().y - this->texture.getSize().y-50);

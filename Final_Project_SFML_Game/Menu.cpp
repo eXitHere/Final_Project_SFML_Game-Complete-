@@ -13,42 +13,42 @@ Menu::Menu(RenderWindow* window, Event* event, int* state, soundPlayBack* sound)
 	this->T_hima.loadFromFile("Texture/Menu/hima.png");
 	this->S_hima.setTexture(this->T_hima);
 	this->T_hima.setRepeated(true);
-	this->R_hima = IntRect(0, 0, 1600, 20000);
-	this->S_hima.setPosition(0, -20000);
+	this->R_hima = IntRect(0.0f, 0.0f, 1600.0f, 20000.0f);
+	this->S_hima.setPosition(0.0f, -20000.0f);
 	this->S_hima.setTextureRect(this->R_hima);
 
 	this->T_btnStart.loadFromFile("Texture/Menu/startBTN-01.png");
 	this->S_btnStart.setTexture(this->T_btnStart);
-	this->S_btnStart.setOrigin(this->T_btnStart.getSize().x / 2, this->T_btnStart.getSize().y / 2);
-	this->S_btnStart.setPosition(800, 750);
+	this->S_btnStart.setOrigin(this->T_btnStart.getSize().x / 2.0f, this->T_btnStart.getSize().y / 2.0f);
+	this->S_btnStart.setPosition(800.0f, 750.0f);
 
 	this->T_focus.loadFromFile("Texture/Menu/focus.png");
 	this->S_focus.setTexture(this->T_focus);
-	this->S_focus.setOrigin(this->T_focus.getSize().x / 2, this->T_focus.getSize().y / 2);
-	this->S_focus.setPosition(800, 660);
+	this->S_focus.setOrigin(this->T_focus.getSize().x / 2.0f, this->T_focus.getSize().y / 2.0f);
+	this->S_focus.setPosition(800.0f, 660.0f);
 
 	this->T_score.loadFromFile("Texture/Menu/bg_score.png");
 	this->S_score.setTexture(this->T_score);
-	this->S_score.setOrigin(this->T_score.getSize().y / 2, 0);
-	this->S_score.setPosition(1200, 0);
-	this->R_score = IntRect(0, 0, this->T_score.getSize().x, 0);
+	this->S_score.setOrigin(this->T_score.getSize().y / 2.0f, 0.0f);
+	this->S_score.setPosition(1200.0f, 0.0f);
+	this->R_score = IntRect(0.0f, 0.0f, this->T_score.getSize().x, 0.0f);
 	this->S_score.setTextureRect(this->R_score);
 	font.loadFromFile("font/Cloud-Bold.otf");
 	for (int i = 0; i < 5; i++)
 	{
 		this->text_score[i].setFont(font);
 		this->text_score[i].setString("THANA 123456789");
-		this->text_score[i].setCharacterSize(40);
+		this->text_score[i].setCharacterSize(40.0f);
 		this->text_score[i].setFillColor(Color::Blue);
 		this->text_score[i].setStyle(sf::Text::Bold);
-		this->text_score[i].setPosition(1090, 75*i+150); // name_Show
+		this->text_score[i].setPosition(1090.0f, 75.0f *i+150.0f); // name_Show
 	}
 
 	this->T_setting[0].loadFromFile("Texture/Menu/setting.png");
 	this->T_setting[1].loadFromFile("Texture/Menu/setting_hold.png");
 	this->S_setting.setTexture(this->T_setting[0]);
-	this->S_setting.setOrigin(this->T_setting[0].getSize().x / 2, this->T_setting[0].getSize().y / 2);
-	this->S_setting.setPosition(1560, 860);
+	this->S_setting.setOrigin(this->T_setting[0].getSize().x / 2.0f, this->T_setting[0].getSize().y / 2.0f);
+	this->S_setting.setPosition(1560.0f, 860.0f);
 
 	this->T_boardSetting.loadFromFile("Texture/Menu/boardSetting.png");
 	this->S_boardSetting.setTexture(this->T_boardSetting);

@@ -12,8 +12,12 @@ public:
 	bool isSpacial();
 	Vector2f getPostiosion();
 	void setPosition(Vector2f pos);
+	void setYesNo(int state);
+	int getYesNo();
 
 private:
+	bool setTexture = false;
+	int yesno = 0;
 	bool spacial = false;
 	void move();
 	void update();
@@ -30,8 +34,8 @@ private:
 	IntRect RECT;
 	Clock clockPress;
 
-	Sprite body;
-	Texture texture;
+	Sprite body,body_yesno;
+	Texture texture,T_yesno[2];
 	IntRect rect;
 	float totalTime = 0;
 	Clock clock;

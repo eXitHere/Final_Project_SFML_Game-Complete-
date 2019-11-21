@@ -7,7 +7,7 @@
 
 #include "Item.h"
 #include "Player.h"
-#include"MutiChoice.h"
+#include "MutiChoice.h"
 #include "barManager.h"
 #include "NPC.h"
 #include "statusFace.h"
@@ -52,8 +52,10 @@ private:
 
 	int mainArchive = 0; //// <----------  -----------> \\\\\\\\\\\
 
+	int calc(int idNPC);
+
 	// Variable counter Item all
-	int counter[14] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
+	int counter[18] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
 	int countSpawn[4] = { 0,0,0,0 };
 
 

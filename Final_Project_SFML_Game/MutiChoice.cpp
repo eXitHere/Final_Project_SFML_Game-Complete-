@@ -27,10 +27,11 @@ void MutiChoice::DRAW()
 	{
 		//cout << this->event->text.unicode << endl;
 
-		if ((this->event->text.unicode == 13 || this->event->text.unicode == 102) && !this->keyReleased) // F OR Enter
+		if (((this->event->text.unicode == 13 || this->event->text.unicode == 102) && !this->keyReleased) || this->textProcess.size() == 1) // F OR Enter
 		{
 			this->keyReleased = true;
-			this->forReturn = this->index+1;
+			//this->forReturn = this->index + 1;
+			this->forReturn = this->compare[this->index];
 			//cout << "Set" << endl;
 		}
 	}
@@ -65,10 +66,26 @@ void MutiChoice::DRAW()
 
 void MutiChoice::Set(int number)
 {
-	if (number == 0) this->textProcess.push_back(this->texture[1]);
-	if (number == 1) this->textProcess.push_back(this->texture[2]);
-	if (number == 2) this->textProcess.push_back(this->texture[3]);
-	if (number == 3) this->textProcess.push_back(this->texture[4]);
+	if (number == 0)
+	{
+		this->textProcess.push_back(this->texture[1]);
+		this->compare.push_back(1);
+	}
+	if (number == 1)
+	{
+		this->textProcess.push_back(this->texture[2]);
+		this->compare.push_back(2);
+	}
+	if (number == 2)
+	{
+		this->textProcess.push_back(this->texture[3]);
+		this->compare.push_back(3);
+	}
+	if (number == 3)
+	{
+		this->textProcess.push_back(this->texture[4]);
+		this->compare.push_back(4);
+	}
 	if (this->textProcess.size() > 0)
 	{
 		this->body.setTexture(this->textProcess[0]);

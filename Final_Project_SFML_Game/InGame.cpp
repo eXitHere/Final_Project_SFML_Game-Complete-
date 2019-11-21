@@ -35,8 +35,8 @@ void InGame::DRAW()
 	if (this->mainTime >= 3)
 	{
 		this->mainTime = 0;
-		this->bar.hp(-0.8 * (this->next));
-		this->bar.happy(-0.9 * (this->next));
+		this->bar.hp(float(-0.8f * this->next));
+		this->bar.happy(-0.9f * this->next);
 	}
 
 	if (B_nowusemap)
@@ -53,8 +53,8 @@ void InGame::DRAW()
 	//cout << itemList.size() << endl;
 	for (int i = 0; i < itemList.size(); i++)
 	{
-		if(!this->pause) this->itemList[i]->Move(-4.8);
-		else this->itemList[i]->Move(-2.4);
+		if(!this->pause) this->itemList[i]->Move(-4.8f);
+		else this->itemList[i]->Move(-2.4f);
 		this->itemList[i]->DRAW();
 		if (this->itemList[i]->deleteMe())
 		{
@@ -117,7 +117,7 @@ void InGame::DRAW()
 			{
 			case 0: this->indexPlayer = 1; updateChalacter(false); break;
 			case 1: this->indexPlayer = 3; updateChalacter(false); break;
-			case ID_NPC_CAT: this->npcList[j + 1]->setPosition(this->npcList[j]->getPostiosion()); this->bar.happy(1); this->soundManage->playCat(); this->counter[ID_CAT]++; break;
+			case ID_NPC_CAT: this->npcList[(__int64)j+1]->setPosition(this->npcList[j]->getPostiosion()); this->bar.happy(1); this->soundManage->playCat(); this->counter[ID_CAT]++; break;
 			case ID_NPC_FOOTBALL: firstArchive(ID_NPC_FOOTBALL); continue; break;
 			case ID_NPC_PAINTER:  firstArchive(ID_NPC_PAINTER);  continue; break;
 			case ID_NPC_TEACHER:  firstArchive(ID_NPC_TEACHER);  continue; break;
@@ -142,6 +142,49 @@ void InGame::DRAW()
 				this->npcList.erase(this->npcList.begin() + j);
 			}
 		}
+		else if (this->npcList[j]->checkState() == 3)
+		{
+			//cout << "Check state!" << endl;
+			switch (this->npcList[j]->getID())
+			{
+			case ID_NPC_FRIEND1:
+				if (counter[ID_FRIEND1] == 0)
+				{
+					this->npcList[j]->setYesNo(this->calc(ID_NPC_FRIEND1));
+					this->counter[ID_FRIEND1] = 1;
+					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-3);
+					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(3);
+				}
+				break;
+			case ID_NPC_FRIEND2: 
+				if (counter[ID_FRIEND2] == 0)
+				{
+					this->npcList[j]->setYesNo(this->calc(ID_NPC_FRIEND2));
+					this->counter[ID_FRIEND2] = 1;
+					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-3);
+					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(3);
+				}
+				break;
+			case ID_NPC_FRIEND3:
+				if (counter[ID_FRIEND3] == 0)
+				{
+					this->npcList[j]->setYesNo(this->calc(ID_NPC_FRIEND3));
+					this->counter[ID_FRIEND3] = 1;
+					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-3);
+					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(3);
+				}
+				break;
+			case ID_NPC_FRIEND4:
+				if (counter[ID_FRIEND4] == 0)
+				{
+					this->npcList[j]->setYesNo(this->calc(ID_NPC_FRIEND4));
+					this->counter[ID_FRIEND4] = 1;
+					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-3);
+					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(3);
+				}
+				break;
+			}
+		}
 	}
 	
 	for (int k = 0; k < faceList.size(); k++)
@@ -160,13 +203,29 @@ void InGame::DRAW()
 	moveMap();
 
 
-	if (this->countChoice > 0 && this->mainArchiveChoice ==0)
+	if (this->countChoice > 1 && this->mainArchiveChoice ==0)
 	{
 		//cout << this->mutiChoice.getChoice() << endl;
 		if (this->mainArchiveChoice == 0 && this->mutiChoice.getChoice()!=0)
 		{
 			this->mainArchiveChoice = this->mutiChoice.getChoice();
 			this->pause = false;
+			//cout << "Next Map : " << this->next << endl;
+			switch (this->mainArchiveChoice)
+			{
+			case 1:
+				cout << "paint MAP " << endl;
+				break;
+			case 2:
+				cout << "Teacher MAP " << endl;
+				break;
+			case 3:
+				cout << "Wrench MAP" << endl;
+				break;
+			case 4:
+				cout << "Football MAP" << endl;
+
+			}
 		}
 	}
 
@@ -311,6 +370,7 @@ void InGame::loadItems()
 	int tempPos[5] = { 290,650,300,630,320 };
 	int tempID;
 	int R = 0;
+	int randTemp;
 	switch (this->next-1)
 	{
 	case 0:
@@ -349,40 +409,49 @@ void InGame::loadItems()
 			this->itemList.push_back(new Item());
 			this->itemList[this->itemList.size() - 1]->loadData(this->T_items[idItem3[j % 4] - 1], idItem3[j % 4], this->window, Vector2f(positionItem3[j] + rand() % 200, tempPos[(j + rand() % 5) % 5]));
 		}
-		int randTemp = rand() % 3;
-		switch (randTemp)
+	    randTemp = rand() % 3;
+		if (randTemp == 0)
 		{
-		case 0: 
-				this->npcList.push_back(new NPC());
-				this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_WRENCH], positionNPC3[0], &this->yPos, ID_NPC_WRENCH, this->window, this->event);
-				this->npcList.push_back(new NPC());
-				this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_PAINTER], positionNPC3[1], &this->yPos, ID_NPC_PAINTER, this->window, this->event);
-				this->npcList.push_back(new NPC());
-				this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_FOOTBALL], positionNPC3[2], &this->yPos, ID_NPC_FOOTBALL, this->window, this->event);
-				this->npcList.push_back(new NPC());
-				this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_TEACHER], positionNPC3[3], &this->yPos, ID_NPC_TEACHER, this->window, this->event);
-			break;
-		case 1: 
-				this->npcList.push_back(new NPC());
-				this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_TEACHER], positionNPC3[0], &this->yPos, ID_NPC_TEACHER, this->window, this->event);
-				this->npcList.push_back(new NPC());
-				this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_FOOTBALL], positionNPC3[1], &this->yPos, ID_NPC_FOOTBALL, this->window, this->event);
-				this->npcList.push_back(new NPC());
-				this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_WRENCH], positionNPC3[2], &this->yPos, ID_NPC_WRENCH, this->window, this->event);
-				this->npcList.push_back(new NPC());
-				this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_PAINTER], positionNPC3[3], &this->yPos, ID_NPC_PAINTER, this->window, this->event);	
-				break;
-		case 2: this->npcList.push_back(new NPC());
-				this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_FOOTBALL], positionNPC3[0], &this->yPos, ID_NPC_FOOTBALL, this->window, this->event);
-				this->npcList.push_back(new NPC());
-				this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_PAINTER], positionNPC3[1], &this->yPos, ID_NPC_PAINTER, this->window, this->event);
-				this->npcList.push_back(new NPC());
-				this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_TEACHER], positionNPC3[2], &this->yPos, ID_NPC_TEACHER, this->window, this->event);
-				this->npcList.push_back(new NPC());
-				this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_WRENCH], positionNPC3[3], &this->yPos, ID_NPC_WRENCH, this->window, this->event);
-				break;
+			this->npcList.push_back(new NPC());
+			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_WRENCH], positionNPC3[0], &this->yPos, ID_NPC_WRENCH, this->window, this->event);
+			this->npcList.push_back(new NPC());
+			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_PAINTER], positionNPC3[1], &this->yPos, ID_NPC_PAINTER, this->window, this->event);
+			this->npcList.push_back(new NPC());
+			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_FOOTBALL], positionNPC3[2], &this->yPos, ID_NPC_FOOTBALL, this->window, this->event);
+			this->npcList.push_back(new NPC());
+			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_TEACHER], positionNPC3[3], &this->yPos, ID_NPC_TEACHER, this->window, this->event);
 		}
-		//cout <<"Debug map3 : <- : "<< this->itemList.size() << endl;
+		else if (randTemp == 1)
+		{
+			this->npcList.push_back(new NPC());
+			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_TEACHER], positionNPC3[0], &this->yPos, ID_NPC_TEACHER, this->window, this->event);
+			this->npcList.push_back(new NPC());
+			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_FOOTBALL], positionNPC3[1], &this->yPos, ID_NPC_FOOTBALL, this->window, this->event);
+			this->npcList.push_back(new NPC());
+			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_WRENCH], positionNPC3[2], &this->yPos, ID_NPC_WRENCH, this->window, this->event);
+			this->npcList.push_back(new NPC());
+			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_PAINTER], positionNPC3[3], &this->yPos, ID_NPC_PAINTER, this->window, this->event);
+		}
+		else if (randTemp == 2)
+		{
+			this->npcList.push_back(new NPC());
+			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_FOOTBALL], positionNPC3[0], &this->yPos, ID_NPC_FOOTBALL, this->window, this->event);
+			this->npcList.push_back(new NPC());
+			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_PAINTER], positionNPC3[1], &this->yPos, ID_NPC_PAINTER, this->window, this->event);
+			this->npcList.push_back(new NPC());
+			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_TEACHER], positionNPC3[2], &this->yPos, ID_NPC_TEACHER, this->window, this->event);
+			this->npcList.push_back(new NPC());
+			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_WRENCH], positionNPC3[3], &this->yPos, ID_NPC_WRENCH, this->window, this->event);
+		}
+		break;
+	case 3:
+		this->itemList.clear();
+		this->npcList.clear();
+		for (int i = 0; i < 4; i++)
+		{
+			this->npcList.push_back(new NPC());
+			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC4[i]], positionNPC4[i], &this->yPos, idNPC4[i], this->window, this->event);
+		}
 		break;
 	}
 }
@@ -391,11 +460,11 @@ int InGame::positionNow()
 {
 	if (B_nowusemap)
 	{
-		return round(fabs(this->S_cur_Map.getPosition().x));
+		return int(round(fabs(this->S_cur_Map.getPosition().x)));
 	}
 	else
 	{
-		return round(fabs(this->S_new_Map.getPosition().x));
+		return int(round(fabs(this->S_new_Map.getPosition().x)));
 	}
 }
 
@@ -451,8 +520,8 @@ void InGame::showFaceEffect(int index)
 		addFace(this->T_face[ID_FACE_MONEYDOWN]);
 		this->faceList.push_back(tempFace);
 		this->counter[ID_BEAR]++;
-		this->bar.hp(-0.5);
-		this->bar.happy(0.3);
+		this->bar.hp(-0.5f);
+		this->bar.happy(0.3f);
 		break;
 	case ID_CANDY:
 		addFace(this->T_face[ID_FACE_HAPPY]);
@@ -460,8 +529,8 @@ void InGame::showFaceEffect(int index)
 		addFace(this->T_face[ID_FACE_HPDOWN]);
 		this->faceList.push_back(tempFace);
 		this->counter[ID_CANDY]++;
-		this->bar.hp(-0.3);
-		this->bar.happy(0.3);
+		this->bar.hp(-0.3f);
+		this->bar.happy(0.3f);
 		break;
 	case ID_FOOD:
 		addFace(this->T_face[ID_FACE_HAPPY]);
@@ -469,8 +538,8 @@ void InGame::showFaceEffect(int index)
 		addFace(this->T_face[ID_FACE_HPUP]);
 		this->faceList.push_back(tempFace);
 		this->counter[ID_FOOD]++;
-		this->bar.hp(0.3);
-		this->bar.happy(0.3);
+		this->bar.hp(0.3f);
+		this->bar.happy(0.3f);
 		break;
 	case ID_FOOD2:
 		addFace(this->T_face[ID_FACE_HAPPY]);
@@ -478,8 +547,8 @@ void InGame::showFaceEffect(int index)
 		addFace(this->T_face[ID_FACE_HPUP]);
 		this->faceList.push_back(tempFace);
 		this->counter[ID_FOOD2]++;
-		this->bar.hp(0.3);
-		this->bar.happy(0.3);
+		this->bar.hp(0.3f);
+		this->bar.happy(0.3f);
 		break;
 	case ID_FOOTBALL:
 		this->counter[ID_FOOTBALL]++;
@@ -487,7 +556,7 @@ void InGame::showFaceEffect(int index)
 		{
 			addFace(this->T_face[ID_FACE_SAD]);
 			this->faceList.push_back(tempFace);
-			this->bar.happy(-0.3);
+			this->bar.happy(-0.3f);
 		}
 		break;
 	case ID_MILK:
@@ -496,13 +565,13 @@ void InGame::showFaceEffect(int index)
 		addFace(this->T_face[ID_FACE_HPUP]);
 		this->faceList.push_back(tempFace);
 		this->counter[ID_MILK]++;
-		this->bar.hp(0.3);
-		this->bar.happy(0.3);
+		this->bar.hp(0.3f);
+		this->bar.happy(0.3f);
 		break;
 	case ID_IQ:
 		addFace(this->T_face[ID_FACE_HAPPY]);
 		this->faceList.push_back(tempFace);
-		this->bar.happy(0.3);
+		this->bar.happy(0.3f);
 		this->counter[ID_IQ]++;
 		break;
 	case ID_MONEY:
@@ -514,7 +583,7 @@ void InGame::showFaceEffect(int index)
 		{
 			addFace(this->T_face[ID_FACE_SAD]);
 			this->faceList.push_back(tempFace);
-			this->bar.happy(-0.3);
+			this->bar.happy(-0.3f);
 		}
 		break;
 	case ID_TEACHER:
@@ -523,7 +592,7 @@ void InGame::showFaceEffect(int index)
 		{
 			addFace(this->T_face[ID_FACE_SAD]);
 			this->faceList.push_back(tempFace);
-			this->bar.happy(-0.3);
+			this->bar.happy(-0.3f);
 		}
 		break;
 	case ID_WRENCH:
@@ -532,7 +601,7 @@ void InGame::showFaceEffect(int index)
 		{
 			addFace(this->T_face[ID_FACE_SAD]);
 			this->faceList.push_back(tempFace);
-			this->bar.happy(-0.3);
+			this->bar.happy(-0.3f);
 		}
 		break;
 	}
@@ -540,7 +609,7 @@ void InGame::showFaceEffect(int index)
 
 void InGame::addFace(Texture texture)
 {
-	this->tempFace = new statusFace(texture, this->player.getPosition() + Vector2f(this->boxForFace[this->indexFaceX], this->boxForFace[this->indexFaceY]));
+	this->tempFace = new statusFace(texture, this->player.getPosition() + Vector2f(float(this->boxForFace[this->indexFaceX]), float(this->boxForFace[this->indexFaceY])));
 	this->indexFaceX = (this->indexFaceX > 4 ? 0 : this->indexFaceX + 1);
 	this->indexFaceY = (this->indexFaceY > 4 ? 0 : this->indexFaceY + 1);
 }
@@ -627,6 +696,41 @@ void InGame::updateBar()
 		this->Status[3] = &this->counter[ID_WRENCH];
 		bar.setup(&this->Object, &this->Object2[0], &this->Object2[1], &this->ID[0], this->Status[0], this->Status[1], this->Status[2], this->Status[3], this->Status[4], this->Status[5], this->next - 1);
 		break;
-
+	case 3: // Map4 
+		for (int i = 0; i < 6; i++)
+		{
+			this->ID[i] = 0;
+			this->Status[i] = 0;
+		}
+		bar.setup(&this->Object, &this->Object2[0], &this->Object2[1], &this->ID[0], this->Status[0], this->Status[1], this->Status[2], this->Status[3], this->Status[4], this->Status[5], this->next - 1);
+		break;
 	}
+}
+
+int InGame::calc(int idNPC)
+{
+	srand(time(NULL));
+	int ran = rand() % 100 + 1;
+	int base = 10;
+	switch (idNPC)
+	{
+	case ID_NPC_FRIEND1:
+		base += this->counter[ID_PAINTACTION] * 25;
+		break;
+	case ID_NPC_FRIEND2:
+		base += this->counter[ID_CAT] * 25;
+		break;
+	case ID_NPC_FRIEND3:
+		base += this->counter[ID_CAT] * 25;
+		break;
+	case ID_NPC_FRIEND4:
+		base += this->counter[ID_CAT] * 25;
+		break;
+	}
+	cout << "----- :: ID " << idNPC << " : rand : " << ran << " : base : " << base << endl;
+	if (ran <= base)
+	{
+		return 2;
+	}
+	return 1;
 }
