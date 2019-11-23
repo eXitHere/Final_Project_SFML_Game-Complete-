@@ -20,7 +20,8 @@ void NPC::setDATA(Texture texture,int positionX, float* yPos, int ID,RenderWindo
 	this->Tpess.loadFromFile("Texture/NPC/pressF.png");
 	this->press.setTexture(this->Tpess);
 	this->RECT = IntRect(0, 0, this->Tpess.getSize().x / 4, this->Tpess.getSize().y);
-	if (this->ID != ID_NPC_FRIEND1 && this->ID != ID_NPC_FRIEND2 && this->ID != ID_NPC_FRIEND3 && this->ID != ID_NPC_FRIEND4)
+	if (this->ID != ID_NPC_FRIEND1 && this->ID != ID_NPC_FRIEND2 && this->ID != ID_NPC_FRIEND3 && this->ID != ID_NPC_FRIEND4
+	 && this->ID != ID_NPC_PAINT_1 && this->ID != ID_NPC_PAINT_2 && this->ID != ID_NPC_BOX && this->ID != ID_NPC_OFFICE_1 && this->ID != ID_NPC_OFFICE_2)
 	{
 		this->press.setTextureRect(this->RECT);
 		this->body.setOrigin(this->texture.getSize().x / 4 / 2, this->texture.getSize().y);
@@ -45,7 +46,8 @@ void NPC::setDATA(Texture texture,int positionX, float* yPos, int ID,RenderWindo
 void NPC::DRAW()
 {
 	if(!this->spacial) checkOnHold();
-	if(this->ID != ID_NPC_FRIEND1 && this->ID != ID_NPC_FRIEND2 && this->ID != ID_NPC_FRIEND3 && this->ID != ID_NPC_FRIEND4)
+	if(this->ID != ID_NPC_FRIEND1 && this->ID != ID_NPC_FRIEND2 && this->ID != ID_NPC_FRIEND3 && this->ID != ID_NPC_FRIEND4 
+	&& this->ID != ID_NPC_PAINT_1 && this->ID != ID_NPC_PAINT_2 && this->ID != ID_NPC_BOX && this->ID != ID_NPC_OFFICE_1 && this->ID != ID_NPC_OFFICE_2)
 		this->update();
 	this->window->draw(this->body);
 	if (this->yesno == 1)

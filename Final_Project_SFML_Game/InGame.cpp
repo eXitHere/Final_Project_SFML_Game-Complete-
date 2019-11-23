@@ -35,8 +35,8 @@ void InGame::DRAW()
 	if (this->mainTime >= 3)
 	{
 		this->mainTime = 0;
-		this->bar.hp(float(-0.8f * this->next));
-		this->bar.happy(-0.9f * this->next);
+		this->bar.hp(float(-0.2f * this->next));
+		this->bar.happy(-0.2f * this->next);
 	}
 
 	if (B_nowusemap)
@@ -145,45 +145,75 @@ void InGame::DRAW()
 		else if (this->npcList[j]->checkState() == 3)
 		{
 			//cout << "Check state!" << endl;
-			switch (this->npcList[j]->getID())
+			if (this->next - 1 >= 5 && this->next - 1 <= 9)
 			{
-			case ID_NPC_FRIEND1:
-				if (counter[ID_FRIEND1] == 0)
+				switch (this->next - 1)
 				{
-					this->npcList[j]->setYesNo(this->calc(ID_NPC_FRIEND1));
-					this->counter[ID_FRIEND1] = 1;
-					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-3);
-					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(3);
+				case 5:
+					if (counter[ID_FRIEND1] == 0)
+					{
+						this->npcList[j]->setYesNo(this->calc(ID_NPC_FRIEND1));
+						this->counter[ID_FRIEND1] = 1;
+						if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-3);
+						else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(3);
+					}
+					break;
+				case 6: //             24                    
+				
+					break;
+				case 7: //             24                    
+					
+					break;
+				case 8: //             24                    
+				
+					break;
+				case 9: //             24                    
+					
+					break;
 				}
-				break;
-			case ID_NPC_FRIEND2: 
-				if (counter[ID_FRIEND2] == 0)
-				{
-					this->npcList[j]->setYesNo(this->calc(ID_NPC_FRIEND2));
-					this->counter[ID_FRIEND2] = 1;
-					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-3);
-					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(3);
-				}
-				break;
-			case ID_NPC_FRIEND3:
-				if (counter[ID_FRIEND3] == 0)
-				{
-					this->npcList[j]->setYesNo(this->calc(ID_NPC_FRIEND3));
-					this->counter[ID_FRIEND3] = 1;
-					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-3);
-					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(3);
-				}
-				break;
-			case ID_NPC_FRIEND4:
-				if (counter[ID_FRIEND4] == 0)
-				{
-					this->npcList[j]->setYesNo(this->calc(ID_NPC_FRIEND4));
-					this->counter[ID_FRIEND4] = 1;
-					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-3);
-					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(3);
-				}
-				break;
 			}
+			else
+			{
+				switch (this->npcList[j]->getID())
+				{
+				case ID_NPC_FRIEND1:
+					if (counter[ID_FRIEND1] == 0)
+					{
+						this->npcList[j]->setYesNo(this->calc(ID_NPC_FRIEND1));
+						this->counter[ID_FRIEND1] = 1;
+						if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-3);
+						else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(3);
+					}
+					break;
+				case ID_NPC_FRIEND2:
+					if (counter[ID_FRIEND2] == 0)
+					{
+						this->npcList[j]->setYesNo(this->calc(ID_NPC_FRIEND2));
+						this->counter[ID_FRIEND2] = 1;
+						if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-3);
+						else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(3);
+					}
+					break;
+				case ID_NPC_FRIEND3:
+					if (counter[ID_FRIEND3] == 0)
+					{
+						this->npcList[j]->setYesNo(this->calc(ID_NPC_FRIEND3));
+						this->counter[ID_FRIEND3] = 1;
+						if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-3);
+						else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(3);
+					}
+					break;
+				case ID_NPC_FRIEND4:
+					if (counter[ID_FRIEND4] == 0)
+					{
+						this->npcList[j]->setYesNo(this->calc(ID_NPC_FRIEND4));
+						this->counter[ID_FRIEND4] = 1;
+						if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-3);
+						else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(3);
+					}
+					break;
+				}
+			}		
 		}
 	}
 	
@@ -215,7 +245,7 @@ void InGame::DRAW()
 			{
 			case 1:
 				this->next = 5;
-				cout << "paint MAP " << endl; ////<<< ---- -
+				cout << "paint MAP " << endl; ////<<< ---- --
 				break;
 			case 2:
 				this->next = 7;
@@ -281,6 +311,11 @@ void InGame::loadTextureAll()
 	this->T_NPC[9].loadFromFile("Texture/NPC/F2.png");
 	this->T_NPC[10].loadFromFile("Texture/NPC/F3.png");
 	this->T_NPC[11].loadFromFile("Texture/NPC/F4.png");
+	this->T_NPC[12].loadFromFile("Texture/NPC/map3.1.1.png");
+	this->T_NPC[13].loadFromFile("Texture/NPC/map3.1.2.png");
+	this->T_NPC[14].loadFromFile("Texture/NPC/map3.2.1.png");
+	this->T_NPC[15].loadFromFile("Texture/NPC/map3.2.2.png");
+	this->T_NPC[16].loadFromFile("Texture/NPC/Box.png");
 
 	//Face
 	this->T_face[0].loadFromFile("Texture/items/happy.png");
@@ -334,10 +369,10 @@ void InGame::moveMap()
 			if (this->next - 1 == 3) // P T W F
 			{
 				//cout << "EIEI" << endl;
-				if (this->counter[ID_FOOTBALL] >= 5) { this->mutiChoice.Set(3); this->countChoice++; cout << "EIEI" << endl; }
-				if (this->counter[ID_PAINTER] >= 5) { this->mutiChoice.Set(0); this->countChoice++; cout << "EIEI" << endl; }
-				if (this->counter[ID_WRENCH] >= 5) { this->mutiChoice.Set(2); this->countChoice++; cout << "EIEI" << endl; }
-				if (this->counter[ID_TEACHER] >= 5) { this->mutiChoice.Set(1); this->countChoice++; cout << "EIEI" << endl; }
+				if (this->counter[ID_FOOTBALL] >= 5) { this->mutiChoice.Set(3); this->countChoice++;/* cout << "EIEI" << endl;*/ }
+				if (this->counter[ID_PAINTER] >= 5) { this->mutiChoice.Set(0); this->countChoice++; /*cout << "EIEI" << endl; */}
+				if (this->counter[ID_WRENCH] >= 5) { this->mutiChoice.Set(2); this->countChoice++; /*cout << "EIEI" << endl;*/ }
+				if (this->counter[ID_TEACHER] >= 5) { this->mutiChoice.Set(1); this->countChoice++;/* cout << "EIEI" << endl; */}
 				if (this->countChoice > 1)
 				{
 					//cout << "Show" << endl;
@@ -361,7 +396,7 @@ void InGame::moveMap()
 			this->next++;
 		}
 	}
-	if (this->next == 3)
+	if (this->next == 10)
 	{
 		*this->stateGame = 2;
 	}
@@ -449,13 +484,58 @@ void InGame::loadItems()
 			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[ID_NPC_WRENCH], positionNPC3[3], &this->yPos, ID_NPC_WRENCH, this->window, this->event);
 		}
 		break;
-	case 3:
+	case 3: // MAP4
 		this->itemList.clear();
 		this->npcList.clear();
 		for (int i = 0; i < 4; i++)
 		{
 			this->npcList.push_back(new NPC());
 			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC4[i]], positionNPC4[i], &this->yPos, idNPC4[i], this->window, this->event);
+		}
+		break;
+	case 4: // MAP5
+		this->itemList.clear();
+		this->npcList.clear();
+		for (int i = 0; i < 3; i++)
+		{
+			this->npcList.push_back(new NPC());
+			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC5[i]], positionNPC5[i], &this->yPos, idNPC5[i], this->window, this->event);
+		}
+		break;
+	case 5: // MAP6
+		this->itemList.clear();
+		this->npcList.clear();
+		for (int i = 0; i < 3; i++)
+		{
+			this->npcList.push_back(new NPC());
+			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC6[i]], positionNPC6[i], &this->yPos, idNPC6[i], this->window, this->event);
+		}
+		break;
+	case 6: // MAP7
+		this->itemList.clear();
+		this->npcList.clear();
+		for (int i = 0; i < 3; i++)
+		{
+			this->npcList.push_back(new NPC());
+			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC7[i]], positionNPC7[i], &this->yPos, idNPC7[i], this->window, this->event);
+		}
+		break;
+	case 7: // MAP5
+		this->itemList.clear();
+		this->npcList.clear();
+		for (int i = 0; i < 3; i++)
+		{
+			this->npcList.push_back(new NPC());
+			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC8[i]], positionNPC8[i], &this->yPos, idNPC8[i], this->window, this->event);
+		}
+		break;
+	case 8: // MAP5
+		this->itemList.clear();
+		this->npcList.clear();
+		for (int i = 0; i < 3; i++)
+		{
+			this->npcList.push_back(new NPC());
+			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC9[i]], positionNPC9[i], &this->yPos, idNPC9[i], this->window, this->event);
 		}
 		break;
 	}
@@ -484,6 +564,26 @@ void InGame::updateChalacter(bool state)
 			break;
 		case 2: case 3: this->indexPlayer = 4; // set player to Map 3 --> boy in school
 			//cout << "Check case" << endl;
+			break;
+		case 4:
+			switch (this->next)
+			{
+			case 5:
+				this->indexPlayer = 5;
+				break;
+			case 6: // Paint
+				this->indexPlayer = 6;
+				break;
+			case 7:
+				this->indexPlayer = 7;
+				break;
+			case 8:
+				this->indexPlayer = 8;
+				break;
+			case 9:
+				this->indexPlayer = 9;
+				break;
+			}
 			break;
 		}
 		this->soundManage->playLvUp();
@@ -712,35 +812,64 @@ void InGame::updateBar()
 	}
 }
 
+
+///----------///
+/*
+map 5 normal
+map 6 paint
+map 7 wrench
+map 8 teacher
+map 9 football
+*/
+///----------///
+
 int InGame::calc(int idNPC)
 {
 	srand(time(NULL));
 	int ran = rand() % 100 + 1;
 	int base = 10;
-	switch (idNPC)
+
+	if (this->next-1 >=5 && this->next-1 <=9)
 	{
-	case ID_NPC_FRIEND1:
-		base += this->counter[ID_PAINTACTION] * 25;
-		base += this->counter[ID_PAINTACTION] * 25;
-		base += this->counter[ID_PAINTACTION] * 25;
-		base += this->counter[ID_PAINTACTION] * 25;
-		base += this->counter[ID_PAINTACTION] * 25;
-		base += this->counter[ID_PAINTACTION] * 25;
-		base += this->counter[ID_PAINTACTION] * 25;
-		base += this->counter[ID_PAINTACTION] * 25;
-		base += this->counter[ID_PAINTACTION] * 25;
-		base += this->counter[ID_PAINTACTION] * 25;
-		break;
-	case ID_NPC_FRIEND2:
-		base += this->counter[ID_CAT] * 25;
-		break;
-	case ID_NPC_FRIEND3:
-		base += this->counter[ID_CAT] * 25;
-		break;
-	case ID_NPC_FRIEND4:
-		base += this->counter[ID_CAT] * 25;
-		break;
+		switch (this->next-1)
+		{
+		case 5:
+			base += this->counter[ID_IQ] * 5;
+			break;
+		case 6: //             24                    
+			base += this->counter[ID_IQ] * 2 + this->counter[ID_PAINTER] *3 ;
+			break;
+		case 7: //             24                    
+			base += this->counter[ID_IQ] * 2 + this->counter[ID_WRENCH] * 3;
+			break;
+		case 8: //             24                    
+			base += this->counter[ID_IQ] * 2 + this->counter[ID_TEACHER] * 3;
+			break;
+		case 9: //             24                    
+			base += this->counter[ID_IQ] * 2 + this->counter[ID_FOOTBALL] * 3;
+			break;
+		}
 	}
+	else
+	{
+		switch (idNPC)
+		{
+		case ID_NPC_FRIEND1:
+			base += this->counter[ID_PAINTACTION] * 25;
+			break;
+		case ID_NPC_FRIEND2:
+			base += this->counter[ID_CAT] * 25;
+			break;
+		case ID_NPC_FRIEND3:
+			base += this->counter[ID_CAT] * 25;
+			break;
+		case ID_NPC_FRIEND4:
+			base += this->counter[ID_CAT] * 25;
+			break;
+		}
+	}
+	
+	
 	cout << "----- :: ID " << idNPC << " : rand : " << ran << " : base : " << base << endl;
 	if (ran <= base)
 	{

@@ -18,6 +18,11 @@ using namespace std;
 #define ID_FRIEND2 15
 #define ID_FRIEND3 16
 #define ID_FRIEND4 17
+#define ID_OF 18
+#define ID_PA 19
+#define ID_WR 20
+#define ID_TA 21
+#define ID_FO 22
 
 #define ID_FACE_HAPPY 0
 #define ID_FACE_SAD 1
@@ -51,7 +56,22 @@ using namespace std;
 #define ID_NPC_FRIEND2 9
 #define ID_NPC_FRIEND3 10
 #define ID_NPC_FRIEND4 11
+#define ID_NPC_OFFICE_1 12
+#define ID_NPC_OFFICE_2 16
+#define ID_NPC_OFFICE_3 13
+#define ID_NPC_PAINT_1 14
+#define ID_NPC_PAINT_2 16
+#define ID_NPC_PAINT_3 15
+#define ID_NPC_WRENCH_1 15
+#define ID_NPC_WRENCH_2 15
+#define ID_NPC_WRENCH_3 15
+#define ID_NPC_TEACHER_1 15
+#define ID_NPC_FOOTBALL_1 15
+#define ID_NPC_FOOTBALL_2 15
+#define ID_NPC_FOOTBALL_3 15
 
+
+#define ID_NPC_BOX 16
 
 #define ID_ACTION_PAINT 0
 #define ID_ACTION_FOOTBALL 1

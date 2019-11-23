@@ -13,8 +13,30 @@ int positionNPC1[1] = {1600};  // {1600,2000,3000,4000,5400,5900}
 int positionNPC2[9] = { 1200,2000,-500,4500,4000,-500,5000,2500,-500 };
 int positionNPC3[4] = { 1200,1500,1800,2100};
 int positionNPC4[4] = { 2200,3000,4000,5000 };
+int positionNPC5[3] = { 2000,3500,5000 };
+int positionNPC6[3] = { 2000,3500,5000 };
+int positionNPC7[3] = { 2000,3500,5000 };
+int positionNPC8[3] = { 2000,3500,5000 };
+int positionNPC9[3] = { 2000,3500,5000 };
 
 int idNPC1[1] = { ID_NPC_BABAYCAR };
 int idNPC2[9] = { ID_NPC_PAINT,ID_NPC_CAT,ID_NPC_CATLUV,ID_NPC_PAINT,ID_NPC_CAT,ID_NPC_CATLUV,ID_NPC_PAINT,ID_NPC_CAT,ID_NPC_CATLUV };
 int idNPC3[4] = { ID_NPC_PAINTER,ID_NPC_WRENCH,ID_NPC_TEACHER,ID_NPC_FOOTBALL };
 int idNPC4[4] = { ID_NPC_FRIEND1,ID_NPC_FRIEND2,ID_NPC_FRIEND3 ,ID_NPC_FRIEND4 };
+int idNPC5[3] = { ID_NPC_OFFICE_1,ID_NPC_OFFICE_2,ID_NPC_OFFICE_2 };
+int idNPC6[3] = { ID_NPC_OFFICE_1,ID_NPC_BOX,ID_NPC_OFFICE_2 };
+int idNPC7[3] = { ID_NPC_OFFICE_1,ID_NPC_BOX,ID_NPC_OFFICE_2 };
+int idNPC8[3] = { ID_NPC_OFFICE_1,ID_NPC_BOX,ID_NPC_OFFICE_2 };
+int idNPC9[3] = { ID_NPC_OFFICE_1,ID_NPC_BOX,ID_NPC_OFFICE_2 };
+
+
+
+///----------///
+/*
+map 5 normal
+map 6 paint
+map 7 wrench
+map 8 teacher
+map 9 football
+*/
+///----------///

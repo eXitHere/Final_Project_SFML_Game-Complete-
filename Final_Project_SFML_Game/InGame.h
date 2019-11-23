@@ -55,7 +55,7 @@ private:
 	int calc(int idNPC);
 
 	// Variable counter Item all
-	int counter[18] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
+	int counter[33] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
 	int countSpawn[4] = { 0,0,0,0 };
 
 
@@ -79,7 +79,7 @@ private:
 
 	// NPC
 	float yPos;
-	Texture T_NPC[12];
+	Texture T_NPC[17];
 	vector<NPC*> npcList;
 
 	// Face
