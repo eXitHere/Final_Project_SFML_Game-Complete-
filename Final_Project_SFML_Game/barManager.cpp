@@ -155,7 +155,7 @@ void barManager::setup(int* O1, bool* O2, bool* O3, int* D, int* I1, int* I2, in
 		this->Rec.height = 0;
 		for (int i = 0; i < 3; i++)
 		{
-		
+
 			this->S_onLoad[i].setTextureRect(this->Rec);
 		}
 	}
@@ -300,7 +300,6 @@ void barManager::loadTextureAll()
 	this->T_grid[0].loadFromFile("Texture/barmanage/gridTOP.png");
 	this->T_grid[1].loadFromFile("Texture/barmanage/gridDOWN.png");
 	this->T_lop.loadFromFile("Texture/barmanage/E.png");
-
 	// Down
 	this->T_object.loadFromFile("Texture/barmanage/Active1.png");
 	this->T_itemCount.loadFromFile("Texture/barmanage/itemCount.png");

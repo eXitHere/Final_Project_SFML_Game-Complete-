@@ -670,7 +670,7 @@ void Menu::enterName()
 				this->stateEnterName = 2;
 				*this->stateGame = 1;
 			}
-			else if (this->event->text.unicode == 27)
+			else if (this->event->text.unicode == 27) 
 			{
 				this->stateEnterName = 0;
 				this->B_enterStart = false;

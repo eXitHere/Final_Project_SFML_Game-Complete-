@@ -214,15 +214,19 @@ void InGame::DRAW()
 			switch (this->mainArchiveChoice)
 			{
 			case 1:
-				cout << "paint MAP " << endl;
+				this->next = 5;
+				cout << "paint MAP " << endl; ////<<< ---- -
 				break;
 			case 2:
+				this->next = 7;
 				cout << "Teacher MAP " << endl;
 				break;
 			case 3:
+				this->next = 6;
 				cout << "Wrench MAP" << endl;
 				break;
 			case 4:
+				this->next = 8;
 				cout << "Football MAP" << endl;
 
 			}
@@ -350,13 +354,14 @@ void InGame::moveMap()
 		if (this->S_new_Map.getPosition().x + this->T_Map[this->next].getSize().x == 1800)
 		{
 			B_nowusemap = !B_nowusemap;
+
 			this->S_cur_Map.setTexture(T_Map[this->next]);
 			this->S_cur_Map.setPosition(1800.0f, 0.0f);
 			this->S_door.setPosition(1800, 0.0f);
 			this->next++;
 		}
 	}
-	if (this->next == 6)
+	if (this->next == 3)
 	{
 		*this->stateGame = 2;
 	}
@@ -715,6 +720,15 @@ int InGame::calc(int idNPC)
 	switch (idNPC)
 	{
 	case ID_NPC_FRIEND1:
+		base += this->counter[ID_PAINTACTION] * 25;
+		base += this->counter[ID_PAINTACTION] * 25;
+		base += this->counter[ID_PAINTACTION] * 25;
+		base += this->counter[ID_PAINTACTION] * 25;
+		base += this->counter[ID_PAINTACTION] * 25;
+		base += this->counter[ID_PAINTACTION] * 25;
+		base += this->counter[ID_PAINTACTION] * 25;
+		base += this->counter[ID_PAINTACTION] * 25;
+		base += this->counter[ID_PAINTACTION] * 25;
 		base += this->counter[ID_PAINTACTION] * 25;
 		break;
 	case ID_NPC_FRIEND2:

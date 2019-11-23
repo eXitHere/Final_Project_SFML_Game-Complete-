@@ -5,7 +5,7 @@
 #endif
 
 #include"initial.h"
-#define P_COUNT 5
+#define P_COUNT 10
 class Player
 {
 public:
@@ -34,7 +34,7 @@ private:
 	double totalTime = 0;
 	Clock clock;
 	int X_now = 0;
-	int countPic[P_COUNT] = { 4,4,6,4,6 };
+	int countPic[P_COUNT] = { 4,4,6,4,6,6,6,6,6,6 };
 	float baseHeight[2] = { 600,500 };
 
 

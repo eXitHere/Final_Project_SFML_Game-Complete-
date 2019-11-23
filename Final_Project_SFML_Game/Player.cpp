@@ -13,6 +13,11 @@ Player::Player(RenderWindow* window, Event* event,bool *pause, soundPlayBack* so
 	this->T_texture[2].loadFromFile("Texture/Player/p3.0.png");
 	this->T_texture[3].loadFromFile("Texture/Player/p3.1.png");
 	this->T_texture[4].loadFromFile("Texture/Player/p4.png");
+	this->T_texture[5].loadFromFile("Texture/Player/p5.1.png");
+	this->T_texture[6].loadFromFile("Texture/Player/p5.2.png");
+	this->T_texture[7].loadFromFile("Texture/Player/p5.3.png");
+	this->T_texture[8].loadFromFile("Texture/Player/p5.4.png");
+	this->T_texture[9].loadFromFile("Texture/Player/p5.5.png");
 }
 
 void Player::DRAW()
