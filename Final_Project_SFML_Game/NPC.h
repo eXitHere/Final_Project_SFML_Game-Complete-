@@ -16,6 +16,8 @@ public:
 	int getYesNo();
 
 private:
+	bool checkDRAW();
+	bool check();
 	bool setTexture = false;
 	int yesno = 0;
 	bool spacial = false;

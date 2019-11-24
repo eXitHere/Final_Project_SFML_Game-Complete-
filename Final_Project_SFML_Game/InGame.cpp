@@ -144,76 +144,185 @@ void InGame::DRAW()
 		}
 		else if (this->npcList[j]->checkState() == 3)
 		{
-			//cout << "Check state!" << endl;
-			if (this->next - 1 >= 5 && this->next - 1 <= 9)
+			switch (this->npcList[j]->getID())
 			{
-				switch (this->next - 1)
+			case ID_NPC_FRIEND1:
+				if (counter[ID_FRIEND1] == 0)
 				{
-				case 5:
-					if (counter[ID_FRIEND1] == 0)
-					{
-						this->npcList[j]->setYesNo(this->calc(ID_NPC_FRIEND1));
-						this->counter[ID_FRIEND1] = 1;
-						if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-3);
-						else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(3);
-					}
-					break;
-				case 6: //             24                    
-				
-					break;
-				case 7: //             24                    
-					
-					break;
-				case 8: //             24                    
-				
-					break;
-				case 9: //             24                    
-					
-					break;
+					this->npcList[j]->setYesNo(this->calc(ID_NPC_FRIEND1));
+					this->counter[ID_FRIEND1] = 1;
+					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-3);
+					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(3);
 				}
+				break;
+			case ID_NPC_FRIEND2:
+				if (counter[ID_FRIEND2] == 0)
+				{
+					this->npcList[j]->setYesNo(this->calc(ID_NPC_FRIEND2));
+					this->counter[ID_FRIEND2] = 1;
+					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-3);
+					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(3);
+				}
+				break;
+			case ID_NPC_FRIEND3:
+				if (counter[ID_FRIEND3] == 0)
+				{
+					this->npcList[j]->setYesNo(this->calc(ID_NPC_FRIEND3));
+					this->counter[ID_FRIEND3] = 1;
+					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-3);
+					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(3);
+				}
+				break;
+			case ID_NPC_FRIEND4:
+				if (counter[ID_FRIEND4] == 0)
+				{
+					this->npcList[j]->setYesNo(this->calc(ID_NPC_FRIEND4));
+					this->counter[ID_FRIEND4] = 1;
+					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-3);
+					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(3);
+				}
+				break;
+				//------//
+			case ID_NPC_PAINT_1:
+				if (counter[ID_PA1] == 0)
+				{
+					this->npcList[j]->setYesNo(this->calc(ID_NPC_PAINT_1));
+					this->counter[ID_PA1] = 1;
+					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
+					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+				}
+				break;
+			case ID_NPC_PAINT_2:
+				if (counter[ID_PA2] == 0)
+				{
+					this->npcList[j]->setYesNo(this->calc(ID_NPC_PAINT_2));
+					this->counter[ID_PA2] = 1;
+					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
+					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+				}
+				break;
+			case ID_NPC_PAINT_3:
+				if (counter[ID_PA3] == 0)
+				{
+					this->npcList[j]->setYesNo(this->calc(ID_NPC_PAINT_3));
+					this->counter[ID_PA3] = 1;
+					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
+					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+				}
+				break;
+				//------//
+			case ID_NPC_OFFICE_1:
+				if (counter[ID_OF1] == 0)
+				{
+					this->npcList[j]->setYesNo(this->calc(ID_NPC_OFFICE_1));
+					this->counter[ID_OF1] = 1;
+					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
+					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+				}
+				break;
+			case ID_NPC_OFFICE_2:
+				if (counter[ID_OF2] == 0)
+				{
+					this->npcList[j]->setYesNo(this->calc(ID_NPC_OFFICE_2));
+					this->counter[ID_OF2] = 1;
+					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
+					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+				}
+				break;
+			case ID_NPC_OFFICE_3:
+				if (counter[ID_OF3] == 0)
+				{
+					this->npcList[j]->setYesNo(this->calc(ID_NPC_OFFICE_3));
+					this->counter[ID_OF3] = 1;
+					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
+					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+				}
+				break;
+				//------//
+			case ID_NPC_WRENCH_1:
+				if (counter[ID_WR1] == 0)
+				{
+					this->npcList[j]->setYesNo(this->calc(ID_NPC_WRENCH_1));
+					this->counter[ID_WR1] = 1;
+					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
+					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+				}
+				break;
+			case ID_NPC_WRENCH_2:
+				if (counter[ID_WR2] == 0)
+				{
+					this->npcList[j]->setYesNo(this->calc(ID_NPC_WRENCH_2));
+					this->counter[ID_WR2] = 1;
+					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
+					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+				}
+				break;
+			case ID_NPC_WRENCH_3:
+				if (counter[ID_WR3] == 0)
+				{
+					this->npcList[j]->setYesNo(this->calc(ID_NPC_WRENCH_3));
+					this->counter[ID_WR3] = 1;
+					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
+					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+				}
+				break;
+				//------//
+			case ID_NPC_FOOTBALL_1:
+				if (counter[ID_FO1] == 0)
+				{
+					this->npcList[j]->setYesNo(this->calc(ID_NPC_FOOTBALL_1));
+					this->counter[ID_FO1] = 1;
+					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
+					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+				}
+				break;
+			case ID_NPC_FOOTBALL_2:
+				if (counter[ID_FO2] == 0)
+				{
+					this->npcList[j]->setYesNo(this->calc(ID_NPC_FOOTBALL_2));
+					this->counter[ID_FO2] = 1;
+					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
+					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+				}
+				break;
+			case ID_NPC_FOOTBALL_3:
+				if (counter[ID_FO3] == 0)
+				{
+					this->npcList[j]->setYesNo(this->calc(ID_NPC_FOOTBALL_3));
+					this->counter[ID_FO3] = 1;
+					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
+					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+				}
+				break;
+				//------//
+			case ID_NPC_TEACHER_1:
+				if (counter[ID_TA1] == 0)
+				{
+					this->npcList[j]->setYesNo(this->calc(ID_NPC_TEACHER_1));
+					this->counter[ID_TA1] = 1;
+					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
+					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+				}
+				break;
+			case ID_NPC_TEACHER_2:
+				if (counter[ID_TA2] == 0)
+				{
+					this->npcList[j]->setYesNo(this->calc(ID_NPC_TEACHER_2));
+					this->counter[ID_TA2] = 1;
+					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
+					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+				}
+				break;
+			case ID_NPC_TEACHER_3:
+				if (counter[ID_TA3] == 0)
+				{
+					this->npcList[j]->setYesNo(this->calc(ID_NPC_TEACHER_3));
+					this->counter[ID_TA3] = 1;
+					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
+					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+				}
+				break;
 			}
-			else
-			{
-				switch (this->npcList[j]->getID())
-				{
-				case ID_NPC_FRIEND1:
-					if (counter[ID_FRIEND1] == 0)
-					{
-						this->npcList[j]->setYesNo(this->calc(ID_NPC_FRIEND1));
-						this->counter[ID_FRIEND1] = 1;
-						if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-3);
-						else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(3);
-					}
-					break;
-				case ID_NPC_FRIEND2:
-					if (counter[ID_FRIEND2] == 0)
-					{
-						this->npcList[j]->setYesNo(this->calc(ID_NPC_FRIEND2));
-						this->counter[ID_FRIEND2] = 1;
-						if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-3);
-						else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(3);
-					}
-					break;
-				case ID_NPC_FRIEND3:
-					if (counter[ID_FRIEND3] == 0)
-					{
-						this->npcList[j]->setYesNo(this->calc(ID_NPC_FRIEND3));
-						this->counter[ID_FRIEND3] = 1;
-						if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-3);
-						else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(3);
-					}
-					break;
-				case ID_NPC_FRIEND4:
-					if (counter[ID_FRIEND4] == 0)
-					{
-						this->npcList[j]->setYesNo(this->calc(ID_NPC_FRIEND4));
-						this->counter[ID_FRIEND4] = 1;
-						if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-3);
-						else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(3);
-					}
-					break;
-				}
-			}		
 		}
 	}
 	
@@ -264,8 +373,13 @@ void InGame::DRAW()
 	}
 
 	bar.DRAW();
-
 }
+
+int InGame::calBase(int val)
+{
+	return (val<=5?val*2:10+(val%5)*5);
+}
+
 
 
 
@@ -298,6 +412,14 @@ void InGame::loadTextureAll()
 	this->T_items[9].loadFromFile("Texture/items/wrench.png");
 	this->T_items[10].loadFromFile("Texture/items/IQ.png");
 
+/*
+map 5 normal
+map 6 paint
+map 7 wrench
+map 8 teacher
+map 9 football
+*/
+
 	//NPC
 	this->T_NPC[0].loadFromFile("Texture/NPC/NPC01.png");
 	this->T_NPC[1].loadFromFile("Texture/NPC/NPC02.png");
@@ -311,11 +433,26 @@ void InGame::loadTextureAll()
 	this->T_NPC[9].loadFromFile("Texture/NPC/F2.png");
 	this->T_NPC[10].loadFromFile("Texture/NPC/F3.png");
 	this->T_NPC[11].loadFromFile("Texture/NPC/F4.png");
+	//normal
 	this->T_NPC[12].loadFromFile("Texture/NPC/map3.1.1.png");
-	this->T_NPC[13].loadFromFile("Texture/NPC/map3.1.2.png");
-	this->T_NPC[14].loadFromFile("Texture/NPC/map3.2.1.png");
-	this->T_NPC[15].loadFromFile("Texture/NPC/map3.2.2.png");
+	this->T_NPC[13].loadFromFile("Texture/NPC/Box.png");
+	this->T_NPC[14].loadFromFile("Texture/NPC/map3.1.2.png");
+	//paint
+	this->T_NPC[15].loadFromFile("Texture/NPC/map3.2.1.png");
 	this->T_NPC[16].loadFromFile("Texture/NPC/Box.png");
+	this->T_NPC[17].loadFromFile("Texture/NPC/map3.2.2.png");
+	//Wrench
+	this->T_NPC[18].loadFromFile("Texture/NPC/Box.png");
+	this->T_NPC[19].loadFromFile("Texture/NPC/Box.png");
+	this->T_NPC[20].loadFromFile("Texture/NPC/Box.png");
+	//teacher
+	this->T_NPC[21].loadFromFile("Texture/NPC/Box.png");
+	this->T_NPC[22].loadFromFile("Texture/NPC/Box.png");
+	this->T_NPC[23].loadFromFile("Texture/NPC/Box.png");
+	//football
+	this->T_NPC[24].loadFromFile("Texture/NPC/Box.png");
+	this->T_NPC[25].loadFromFile("Texture/NPC/Box.png");
+	this->T_NPC[26].loadFromFile("Texture/NPC/Box.png");
 
 	//Face
 	this->T_face[0].loadFromFile("Texture/items/happy.png");
@@ -828,48 +965,71 @@ int InGame::calc(int idNPC)
 	srand(time(NULL));
 	int ran = rand() % 100 + 1;
 	int base = 10;
+	switch (idNPC)
+	{
+	case ID_NPC_FRIEND1:
+		base += this->counter[ID_PAINTACTION] * 25;
+		break;
+	case ID_NPC_FRIEND2:
+		base += this->counter[ID_CAT] * 25;
+		break;
+	case ID_NPC_FRIEND3:
+		base += this->counter[ID_CAT] * 25;
+		break;
+	case ID_NPC_FRIEND4:
+		base += this->counter[ID_CAT] * 25;
+		break;
+		//------//    IQ 9
+	case ID_NPC_PAINT_1://								1-5						6-8
+		base += this->counter[ID_IQ] * 1 + calBase(this->counter[ID_PAINTER]) + this->counter[ID_PAINTACTION] * 3;
+		break;
+	case ID_NPC_PAINT_2:
 
-	if (this->next-1 >=5 && this->next-1 <=9)
-	{
-		switch (this->next-1)
-		{
-		case 5:
-			base += this->counter[ID_IQ] * 5;
-			break;
-		case 6: //             24                    
-			base += this->counter[ID_IQ] * 2 + this->counter[ID_PAINTER] *3 ;
-			break;
-		case 7: //             24                    
-			base += this->counter[ID_IQ] * 2 + this->counter[ID_WRENCH] * 3;
-			break;
-		case 8: //             24                    
-			base += this->counter[ID_IQ] * 2 + this->counter[ID_TEACHER] * 3;
-			break;
-		case 9: //             24                    
-			base += this->counter[ID_IQ] * 2 + this->counter[ID_FOOTBALL] * 3;
-			break;
-		}
+		break;
+	case ID_NPC_PAINT_3:
+
+		break;
+		//------//
+	case ID_NPC_OFFICE_1:
+
+		break;
+	case ID_NPC_OFFICE_2:
+
+		break;
+	case ID_NPC_OFFICE_3:
+
+		break;
+		//------//
+	case ID_NPC_WRENCH_1:
+
+		break;
+	case ID_NPC_WRENCH_2:
+
+		break;
+	case ID_NPC_WRENCH_3:
+
+		break;
+		//------//
+	case ID_NPC_FOOTBALL_1:
+
+		break;
+	case ID_NPC_FOOTBALL_2:
+
+		break;
+	case ID_NPC_FOOTBALL_3:
+
+		break;
+		//------//
+	case ID_NPC_TEACHER_1:
+
+		break;
+	case ID_NPC_TEACHER_2:
+
+		break;
+	case ID_NPC_TEACHER_3:
+
+		break;
 	}
-	else
-	{
-		switch (idNPC)
-		{
-		case ID_NPC_FRIEND1:
-			base += this->counter[ID_PAINTACTION] * 25;
-			break;
-		case ID_NPC_FRIEND2:
-			base += this->counter[ID_CAT] * 25;
-			break;
-		case ID_NPC_FRIEND3:
-			base += this->counter[ID_CAT] * 25;
-			break;
-		case ID_NPC_FRIEND4:
-			base += this->counter[ID_CAT] * 25;
-			break;
-		}
-	}
-	
-	
 	cout << "----- :: ID " << idNPC << " : rand : " << ran << " : base : " << base << endl;
 	if (ran <= base)
 	{

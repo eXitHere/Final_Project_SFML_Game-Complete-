@@ -23,6 +23,7 @@ public:
 	
 	 
 private:
+	int calBase(int val);
 
 	MutiChoice mutiChoice;
 	int countChoice = 0;
@@ -79,7 +80,7 @@ private:
 
 	// NPC
 	float yPos;
-	Texture T_NPC[17];
+	Texture T_NPC[27];
 	vector<NPC*> npcList;
 
 	// Face
