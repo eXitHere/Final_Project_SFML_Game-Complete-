@@ -1,8 +1,9 @@
 #include "barManager.h"
 
-barManager::barManager(RenderWindow* window, Event* event)
+barManager::barManager(RenderWindow* window, Event* event, int* P)
 {
 	//this->ASDControl = ASD;
+	this->money_Val = P;
 	this->window = window;
 	this->event = event;
 	this->loadTextureAll();
@@ -98,6 +99,14 @@ barManager::barManager(RenderWindow* window, Event* event)
 	this->countItem[5].setFillColor(Color::White);
 	this->countItem[5].setPosition(1080, 845);
 
+	this->money_Show.setFont(font);
+	this->money_Show.setString("0");
+	this->money_Show.setCharacterSize(20);
+	this->money_Show.setFillColor(Color::White);
+	this->money_Show.setPosition(1160 - 200, 70);
+
+	this->S_money.setTexture(this->T_money);
+	this->S_money.setPosition(1100 - 200, 50);
 	// For Test Only!
 	//this->S_archiveInobject.setTexture(this->T_Archive[0]);
 	this->S_Family.setTexture(this->T_Family[1]);
@@ -106,6 +115,16 @@ barManager::barManager(RenderWindow* window, Event* event)
 
 void barManager::DRAW()
 {
+	if (this->moneyNow != *this->money_Val)
+	{
+		this->moneyTotal += moneyClock.restart().asSeconds();
+		if (this->moneyTotal > 0.01)
+		{
+			this->moneyTotal = 0;
+			this->moneyNow++;
+			this->money_Show.setString(to_string(this->moneyNow));
+		}
+	}
 
 	//Top
 	updateHpHappy();
@@ -116,6 +135,8 @@ void barManager::DRAW()
 	this->window->draw(this->S_lop[0]);
 	this->window->draw(this->S_lop[1]);
 	this->window->draw(this->S_hpHappy);
+	this->window->draw(this->S_money);
+	this->window->draw(this->money_Show);
 
 	// Down
 	press();
@@ -328,6 +349,8 @@ void barManager::loadTextureAll()
 	this->T_I[11].loadFromFile("Texture/barmanage/i12.png");
 
 	this->T_Q.loadFromFile("Texture/barmanage/Q.png");
+
+	this->T_money.loadFromFile("Texture/barmanage/money.png");
 }
 
 void barManager::updateHpHappy()

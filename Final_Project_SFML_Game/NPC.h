@@ -14,8 +14,10 @@ public:
 	void setPosition(Vector2f pos);
 	void setYesNo(int state);
 	int getYesNo();
+	void setCanBuy(bool state);
 
 private:
+	bool canBuy = false;
 	bool checkDRAW();
 	bool check();
 	bool setTexture = false;

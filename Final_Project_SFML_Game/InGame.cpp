@@ -4,7 +4,7 @@
 #include <time.h>
 InGame::InGame(RenderWindow* window, Event* event, int* state,soundPlayBack* soundManage) :
 	player(window, event,&this->pause,soundManage),
-	bar(window,event),
+	bar(window,event,&this->money),
 	mutiChoice(window,event)
 {
 	this->soundManage = soundManage;
@@ -115,7 +115,7 @@ void InGame::DRAW()
 			}
 			switch (this->npcList[j]->getID())
 			{
-			case 0: this->indexPlayer = 1; updateChalacter(false); cout << "use BabyCar" << endl; this->counter[ID_BABYCAR] = 1; break;
+			case 0: this->indexPlayer = 1; updateChalacter(false); /*cout << "use BabyCar" << endl; */this->counter[ID_BABYCAR] = 1; break;
 			case 1: this->indexPlayer = 3; updateChalacter(false); break;
 			case ID_NPC_CAT: this->npcList[(__int64)j+1]->setPosition(this->npcList[j]->getPostiosion()); this->bar.happy(1); this->soundManage->playCat(); this->counter[ID_CAT]++; break;
 			case ID_NPC_FOOTBALL: firstArchive(ID_NPC_FOOTBALL); continue; break;
@@ -151,8 +151,18 @@ void InGame::DRAW()
 				{
 					this->npcList[j]->setYesNo(this->calc(ID_NPC_FRIEND1));
 					this->counter[ID_FRIEND1] = 1;
-					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-3);
-					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(3);
+					if (this->npcList[j]->getYesNo() == 1)
+					{
+						addFace(this->T_face[ID_FACE_SAD]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(-3);
+					}
+					else if (this->npcList[j]->getYesNo() == 2)
+					{
+						addFace(this->T_face[ID_FACE_HAPPY]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(3);
+					}
 				}
 				break;
 			case ID_NPC_FRIEND2:
@@ -160,8 +170,18 @@ void InGame::DRAW()
 				{
 					this->npcList[j]->setYesNo(this->calc(ID_NPC_FRIEND2));
 					this->counter[ID_FRIEND2] = 1;
-					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-3);
-					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(3);
+					if (this->npcList[j]->getYesNo() == 1)
+					{
+						addFace(this->T_face[ID_FACE_SAD]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(-3);
+					}
+					else if (this->npcList[j]->getYesNo() == 2)
+					{
+						addFace(this->T_face[ID_FACE_HAPPY]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(3);
+					}
 				}
 				break;
 			case ID_NPC_FRIEND3:
@@ -169,8 +189,18 @@ void InGame::DRAW()
 				{
 					this->npcList[j]->setYesNo(this->calc(ID_NPC_FRIEND3));
 					this->counter[ID_FRIEND3] = 1;
-					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-3);
-					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(3);
+					if (this->npcList[j]->getYesNo() == 1)
+					{
+						addFace(this->T_face[ID_FACE_SAD]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(-3);
+					}
+					else if (this->npcList[j]->getYesNo() == 2)
+					{
+						addFace(this->T_face[ID_FACE_HAPPY]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(3);
+					}
 				}
 				break;
 			case ID_NPC_FRIEND4:
@@ -178,8 +208,18 @@ void InGame::DRAW()
 				{
 					this->npcList[j]->setYesNo(this->calc(ID_NPC_FRIEND4));
 					this->counter[ID_FRIEND4] = 1;
-					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-3);
-					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(3);
+					if (this->npcList[j]->getYesNo() == 1)
+					{
+						addFace(this->T_face[ID_FACE_SAD]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(-3);
+					}
+					else if (this->npcList[j]->getYesNo() == 2)
+					{
+						addFace(this->T_face[ID_FACE_HAPPY]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(3);
+					}
 				}
 				break;
 				//------//
@@ -188,8 +228,21 @@ void InGame::DRAW()
 				{
 					this->npcList[j]->setYesNo(this->calc(ID_NPC_PAINT_1));
 					this->counter[ID_PA1] = 1;
-					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
-					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+					if (this->npcList[j]->getYesNo() == 1)
+					{
+						addFace(this->T_face[ID_FACE_SAD]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(-5);
+					}
+					else if (this->npcList[j]->getYesNo() == 2)
+					{
+						addFace(this->T_face[ID_FACE_HAPPY]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(5);
+						addFace(this->T_face[ID_FACE_MONEYUP]);
+						this->faceList.push_back(tempFace);
+						this->money += 100;
+					}
 				}
 				break;
 			case ID_NPC_PAINT_2:
@@ -197,8 +250,21 @@ void InGame::DRAW()
 				{
 					this->npcList[j]->setYesNo(this->calc(ID_NPC_PAINT_2));
 					this->counter[ID_PA2] = 1;
-					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
-					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+					if (this->npcList[j]->getYesNo() == 1)
+					{
+						addFace(this->T_face[ID_FACE_SAD]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(-5);
+					}
+					else if (this->npcList[j]->getYesNo() == 2)
+					{
+						addFace(this->T_face[ID_FACE_HAPPY]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(5);
+						addFace(this->T_face[ID_FACE_MONEYUP]);
+						this->faceList.push_back(tempFace);
+						this->money += 100;
+					}
 				}
 				break;
 			case ID_NPC_PAINT_3:
@@ -206,8 +272,21 @@ void InGame::DRAW()
 				{
 					this->npcList[j]->setYesNo(this->calc(ID_NPC_PAINT_3));
 					this->counter[ID_PA3] = 1;
-					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
-					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+					if (this->npcList[j]->getYesNo() == 1)
+					{
+						addFace(this->T_face[ID_FACE_SAD]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(-5);
+					}
+					else if (this->npcList[j]->getYesNo() == 2)
+					{
+						addFace(this->T_face[ID_FACE_HAPPY]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(5);
+						addFace(this->T_face[ID_FACE_MONEYUP]);
+						this->faceList.push_back(tempFace);
+						this->money += 100;
+					}
 				}
 				break;
 				//------//
@@ -217,8 +296,21 @@ void InGame::DRAW()
 					//cout << "CHECK" << endl;
 					this->npcList[j]->setYesNo(this->calc(ID_NPC_OFFICE_1));
 					this->counter[ID_OF1] = 1;
-					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
-					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+					if (this->npcList[j]->getYesNo() == 1)
+					{
+						addFace(this->T_face[ID_FACE_SAD]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(-5);
+					}
+					else if (this->npcList[j]->getYesNo() == 2)
+					{
+						addFace(this->T_face[ID_FACE_HAPPY]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(5);
+						addFace(this->T_face[ID_FACE_MONEYUP]);
+						this->faceList.push_back(tempFace);
+						this->money += 100;
+					}
 				}
 				break;
 			case ID_NPC_OFFICE_2:
@@ -227,8 +319,21 @@ void InGame::DRAW()
 					//cout << "CHECK" << endl;
 					this->npcList[j]->setYesNo(this->calc(ID_NPC_OFFICE_2));
 					this->counter[ID_OF2] = 1;
-					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
-					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+					if (this->npcList[j]->getYesNo() == 1)
+					{
+						addFace(this->T_face[ID_FACE_SAD]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(-5);
+					}
+					else if (this->npcList[j]->getYesNo() == 2)
+					{
+						addFace(this->T_face[ID_FACE_HAPPY]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(5);
+						addFace(this->T_face[ID_FACE_MONEYUP]);
+						this->faceList.push_back(tempFace);
+						this->money += 100;
+					}
 				}
 				break;
 			case ID_NPC_OFFICE_3:
@@ -237,8 +342,21 @@ void InGame::DRAW()
 					//cout << "CHECK" << endl;
 					this->npcList[j]->setYesNo(this->calc(ID_NPC_OFFICE_3));
 					this->counter[ID_OF3] = 1;
-					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
-					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+					if (this->npcList[j]->getYesNo() == 1)
+					{
+						addFace(this->T_face[ID_FACE_SAD]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(-5);
+					}
+					else if (this->npcList[j]->getYesNo() == 2)
+					{
+						addFace(this->T_face[ID_FACE_HAPPY]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(5);
+						addFace(this->T_face[ID_FACE_MONEYUP]);
+						this->faceList.push_back(tempFace);
+						this->money += 100;
+					}
 				}
 				break;
 				//------//
@@ -247,8 +365,21 @@ void InGame::DRAW()
 				{
 					this->npcList[j]->setYesNo(this->calc(ID_NPC_WRENCH_1));
 					this->counter[ID_WR1] = 1;
-					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
-					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+					if (this->npcList[j]->getYesNo() == 1)
+					{
+						addFace(this->T_face[ID_FACE_SAD]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(-5);
+					}
+					else if (this->npcList[j]->getYesNo() == 2)
+					{
+						addFace(this->T_face[ID_FACE_HAPPY]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(5);
+						addFace(this->T_face[ID_FACE_MONEYUP]);
+						this->faceList.push_back(tempFace);
+						this->money += 100;
+					}
 				}
 				break;
 			case ID_NPC_WRENCH_2:
@@ -256,8 +387,21 @@ void InGame::DRAW()
 				{
 					this->npcList[j]->setYesNo(this->calc(ID_NPC_WRENCH_2));
 					this->counter[ID_WR2] = 1;
-					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
-					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+					if (this->npcList[j]->getYesNo() == 1)
+					{
+						addFace(this->T_face[ID_FACE_SAD]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(-5);
+					}
+					else if (this->npcList[j]->getYesNo() == 2)
+					{
+						addFace(this->T_face[ID_FACE_HAPPY]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(5);
+						addFace(this->T_face[ID_FACE_MONEYUP]);
+						this->faceList.push_back(tempFace);
+						this->money += 100;
+					}
 				}
 				break;
 			case ID_NPC_WRENCH_3:
@@ -265,8 +409,21 @@ void InGame::DRAW()
 				{
 					this->npcList[j]->setYesNo(this->calc(ID_NPC_WRENCH_3));
 					this->counter[ID_WR3] = 1;
-					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
-					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+					if (this->npcList[j]->getYesNo() == 1)
+					{
+						addFace(this->T_face[ID_FACE_SAD]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(-5);
+					}
+					else if (this->npcList[j]->getYesNo() == 2)
+					{
+						addFace(this->T_face[ID_FACE_HAPPY]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(5);
+						addFace(this->T_face[ID_FACE_MONEYUP]);
+						this->faceList.push_back(tempFace);
+						this->money += 100;
+					}
 				}
 				break;
 				//------//
@@ -275,8 +432,21 @@ void InGame::DRAW()
 				{
 					this->npcList[j]->setYesNo(this->calc(ID_NPC_FOOTBALL_1));
 					this->counter[ID_FO1] = 1;
-					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
-					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+					if (this->npcList[j]->getYesNo() == 1)
+					{
+						addFace(this->T_face[ID_FACE_SAD]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(-5);
+					}
+					else if (this->npcList[j]->getYesNo() == 2)
+					{
+						addFace(this->T_face[ID_FACE_HAPPY]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(5);
+						addFace(this->T_face[ID_FACE_MONEYUP]);
+						this->faceList.push_back(tempFace);
+						this->money += 100;
+					}
 				}
 				break;
 			case ID_NPC_FOOTBALL_2:
@@ -284,8 +454,21 @@ void InGame::DRAW()
 				{
 					this->npcList[j]->setYesNo(this->calc(ID_NPC_FOOTBALL_2));
 					this->counter[ID_FO2] = 1;
-					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
-					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+					if (this->npcList[j]->getYesNo() == 1)
+					{
+						addFace(this->T_face[ID_FACE_SAD]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(-5);
+					}
+					else if (this->npcList[j]->getYesNo() == 2)
+					{
+						addFace(this->T_face[ID_FACE_HAPPY]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(5);
+						addFace(this->T_face[ID_FACE_MONEYUP]);
+						this->faceList.push_back(tempFace);
+						this->money += 100;
+					}
 				}
 				break;
 			case ID_NPC_FOOTBALL_3:
@@ -293,8 +476,21 @@ void InGame::DRAW()
 				{
 					this->npcList[j]->setYesNo(this->calc(ID_NPC_FOOTBALL_3));
 					this->counter[ID_FO3] = 1;
-					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
-					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+					if (this->npcList[j]->getYesNo() == 1)
+					{
+						addFace(this->T_face[ID_FACE_SAD]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(-5);
+					}
+					else if (this->npcList[j]->getYesNo() == 2)
+					{
+						addFace(this->T_face[ID_FACE_HAPPY]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(5);
+						addFace(this->T_face[ID_FACE_MONEYUP]);
+						this->faceList.push_back(tempFace);
+						this->money += 100;
+					}
 				}
 				break;
 				//------//
@@ -303,8 +499,21 @@ void InGame::DRAW()
 				{
 					this->npcList[j]->setYesNo(this->calc(ID_NPC_TEACHER_1));
 					this->counter[ID_TA1] = 1;
-					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
-					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+					if (this->npcList[j]->getYesNo() == 1)
+					{
+						addFace(this->T_face[ID_FACE_SAD]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(-5);
+					}
+					else if (this->npcList[j]->getYesNo() == 2)
+					{
+						addFace(this->T_face[ID_FACE_HAPPY]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(5);
+						addFace(this->T_face[ID_FACE_MONEYUP]);
+						this->faceList.push_back(tempFace);
+						this->money += 100;
+					}
 				}
 				break;
 			case ID_NPC_TEACHER_2:
@@ -312,8 +521,21 @@ void InGame::DRAW()
 				{
 					this->npcList[j]->setYesNo(this->calc(ID_NPC_TEACHER_2));
 					this->counter[ID_TA2] = 1;
-					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
-					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+					if (this->npcList[j]->getYesNo() == 1)
+					{
+						addFace(this->T_face[ID_FACE_SAD]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(-5);
+					}
+					else if (this->npcList[j]->getYesNo() == 2)
+					{
+						addFace(this->T_face[ID_FACE_HAPPY]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(5);
+						addFace(this->T_face[ID_FACE_MONEYUP]);
+						this->faceList.push_back(tempFace);
+						this->money += 100;
+					}
 				}
 				break;
 			case ID_NPC_TEACHER_3:
@@ -321,8 +543,21 @@ void InGame::DRAW()
 				{
 					this->npcList[j]->setYesNo(this->calc(ID_NPC_TEACHER_3));
 					this->counter[ID_TA3] = 1;
-					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
-					else if (this->npcList[j]->getYesNo() == 2) this->bar.happy(5);
+					if (this->npcList[j]->getYesNo() == 1)
+					{
+						addFace(this->T_face[ID_FACE_SAD]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(-5);
+					}
+					else if (this->npcList[j]->getYesNo() == 2)
+					{
+						addFace(this->T_face[ID_FACE_HAPPY]);
+						this->faceList.push_back(tempFace);
+						this->bar.happy(5);
+						addFace(this->T_face[ID_FACE_MONEYUP]);
+						this->faceList.push_back(tempFace);
+						this->money += 100;
+					}
 				}
 				break;
 			}
@@ -397,6 +632,8 @@ void InGame::loadTextureAll()
 	this->T_Map[6].loadFromFile("Texture/Map/map3.3.jpg");
 	this->T_Map[7].loadFromFile("Texture/Map/map3.4.jpg");
 	this->T_Map[8].loadFromFile("Texture/Map/map3.5.jpg");
+	this->T_Map[9].loadFromFile("Texture/Map/Map&shop-01.jpg");
+	this->T_Map[10].loadFromFile("Texture/Map/MapOnly-01.jpg");
 	this->S_cur_Map.setTexture(this->T_Map[0]);
 
 	this->T_door.loadFromFile("Texture/Map/door.png");
@@ -456,6 +693,17 @@ map 9 football
 	this->T_NPC[24].loadFromFile("Texture/NPC/Box.png");
 	this->T_NPC[25].loadFromFile("Texture/NPC/Box.png");
 	this->T_NPC[26].loadFromFile("Texture/NPC/Box.png");
+		//Shop Map
+	this->T_NPC[27].loadFromFile("Texture/NPC/Flower1.png");
+	this->T_NPC[28].loadFromFile("Texture/NPC/Flower2.png");
+	this->T_NPC[29].loadFromFile("Texture/NPC/Flower3.png");
+	this->T_NPC[30].loadFromFile("Texture/NPC/CarShow1.png");
+	this->T_NPC[31].loadFromFile("Texture/NPC/CarShow2.png");
+	this->T_NPC[32].loadFromFile("Texture/NPC/CarShow3.png");
+	this->T_NPC[33].loadFromFile("Texture/NPC/CarRun1.png");
+	this->T_NPC[34].loadFromFile("Texture/NPC/CarRun2.png");
+	this->T_NPC[34].loadFromFile("Texture/NPC/CarRun3.png");
+	this->T_NPC[35].loadFromFile("Texture/NPC/Bus.png");
 
 	//Face
 	this->T_face[0].loadFromFile("Texture/items/happy.png");
@@ -477,7 +725,6 @@ void InGame::moveMap()
 		{
 			this->S_new_Map.move(-3 * gameSpeed, 0);
 		}
-
 		//cout << S_cur_Map.getPosition().x << endl;
 		if (this->S_cur_Map.getPosition().x == 402)
 		{
@@ -490,10 +737,20 @@ void InGame::moveMap()
 		if (this->S_cur_Map.getPosition().x + this->T_Map[this->next].getSize().x == 1800)// Load New Map
 		{
 			B_nowusemap = !B_nowusemap;
-			this->S_new_Map.setTexture(this->T_Map[this->next]);
 			this->S_new_Map.setPosition(1800.0f, 0.0f);
-			this->S_door.setPosition(1800.0f, 0.0f);
-			this->next++;
+			if (this->next != 10) this->S_door.setPosition(1800, 0.0f);
+			if (this->next >= 5 && this->next <= 8)
+			{
+				this->next = 9;
+				this->S_new_Map.setTexture(this->T_Map[this->next]);
+				this->next++;
+				//cout << "Do This1" << endl;
+			}
+			else
+			{
+				this->S_new_Map.setTexture(this->T_Map[this->next]);
+				this->next++;
+			}
 		}
 	}
 	else
@@ -530,13 +787,24 @@ void InGame::moveMap()
 		{
 			B_nowusemap = !B_nowusemap;
 
-			this->S_cur_Map.setTexture(T_Map[this->next]);
+			//this->S_cur_Map.setTexture(T_Map[this->next]);
 			this->S_cur_Map.setPosition(1800.0f, 0.0f);
-			this->S_door.setPosition(1800, 0.0f);
-			this->next++;
+			if(this->next != 10) this->S_door.setPosition(1800, 0.0f);
+			if (this->next >= 5 && this->next <= 8)
+			{
+				this->next = 9;
+				this->S_cur_Map.setTexture(this->T_Map[this->next]);
+				this->next++;
+				//cout << "Do This2" << endl;
+			}
+			else
+			{
+				this->S_cur_Map.setTexture(this->T_Map[this->next]);
+				this->next++;
+			}
 		}
 	}
-	if (this->next == 10)
+	if (this->next == 13)
 	{
 		*this->stateGame = 2;
 	}
@@ -636,6 +904,11 @@ void InGame::loadItems()
 	case 4: // MAP5
 		this->itemList.clear();
 		this->npcList.clear();
+		for (int i = 0; i < 12; i++)
+		{
+			this->itemList.push_back(new Item());
+			this->itemList[this->itemList.size() - 1]->loadData(this->T_items[idItem56789[0] - 1], idItem56789[0], this->window, Vector2f(positionItem56789[i] + rand() % 200, tempPos[i]));
+		}
 		for (int i = 0; i < 3; i++)
 		{
 			this->npcList.push_back(new NPC());
@@ -678,6 +951,15 @@ void InGame::loadItems()
 			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC9[i]], positionNPC9[i], &this->yPos, idNPC9[i], this->window, this->event);
 		}
 		break;
+	case 9://Shop
+		this->itemList.clear();
+		this->npcList.clear();
+		for (int i = 0; i < 6; i++)
+		{
+			this->npcList.push_back(new NPC());
+			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC10[i]], positionNPC10[i], &this->yPos, idNPC10[i], this->window, this->event);
+		}
+		break;
 	}
 }
 
@@ -706,21 +988,21 @@ void InGame::updateChalacter(bool state)
 			//cout << "Check case" << endl;
 			break;
 		case 4:
-			switch (this->next)
+			switch (this->next-1)
 			{
-			case 5:
+			case 4:
 				this->indexPlayer = 5;
 				break;
-			case 6: // Paint
+			case 5: // Paint
 				this->indexPlayer = 6;
 				break;
-			case 7:
+			case 6:
 				this->indexPlayer = 7;
 				break;
-			case 8:
+			case 7:
 				this->indexPlayer = 8;
 				break;
-			case 9:
+			case 8:
 				this->indexPlayer = 9;
 				break;
 			}
@@ -820,7 +1102,12 @@ void InGame::showFaceEffect(int index)
 		this->counter[ID_IQ]++;
 		break;
 	case ID_MONEY:
-		
+		this->money += 70;
+		addFace(this->T_face[ID_FACE_MONEYUP]);
+		this->faceList.push_back(tempFace);
+		addFace(this->T_face[ID_FACE_SAD]);
+		this->faceList.push_back(tempFace);
+		this->bar.happy(-3.0f);
 		break;
 	case ID_PAINTER:
 		this->counter[ID_PAINTER]++;

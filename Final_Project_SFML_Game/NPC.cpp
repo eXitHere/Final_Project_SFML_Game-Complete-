@@ -14,7 +14,14 @@ void NPC::setDATA(Texture texture,int positionX, float* yPos, int ID,RenderWindo
 	this->event = event;
 	this->texture = texture;
 	this->body.setTexture(this->texture);
-	this->body.setPosition(positionX, 740);
+	if (this->ID == ID_NPC_FLOWER1 || this->ID == ID_NPC_FLOWER2 || this->ID == ID_NPC_FLOWER3)
+	{
+		this->body.setPosition(positionX, 650);
+	}
+	else
+	{
+		this->body.setPosition(positionX, 740);
+	}
 	this->rect = IntRect(0, 0, this->texture.getSize().x / 4, this->texture.getSize().y);	
 	this->xNow = 0;
 	this->Tpess.loadFromFile("Texture/NPC/pressF.png");
@@ -44,7 +51,7 @@ void NPC::setDATA(Texture texture,int positionX, float* yPos, int ID,RenderWindo
 
 void NPC::DRAW()
 {
-	if(!this->spacial) checkOnHold();
+	if(!this->spacial && !this->canBuy) checkOnHold();
 	if(check())
 		this->update();
 	if(checkDRAW()) this->window->draw(this->body);
@@ -113,19 +120,26 @@ int NPC::getYesNo()
 	return this->yesno;
 }
 
+void NPC::setCanBuy(bool state)
+{
+	this->canBuy = state;
+}
+
 bool NPC::checkDRAW() // LIST
 {
 	return this->ID != ID_NPC_PAINT_2  && this->ID != ID_NPC_OFFICE_2
 		&& this->ID != ID_NPC_WRENCH_1 && this->ID != ID_NPC_WRENCH_2 && this->ID != ID_NPC_WRENCH_3 && this->ID != ID_NPC_FOOTBALL_1 && this->ID != ID_NPC_FOOTBALL_2 && this->ID != ID_NPC_FOOTBALL_3
-		&& this->ID != ID_NPC_TEACHER_1 && this->ID != ID_NPC_TEACHER_2 && this->ID != ID_NPC_TEACHER_3;
+		&& this->ID != ID_NPC_TEACHER_1 && this->ID != ID_NPC_TEACHER_2 && this->ID != ID_NPC_TEACHER_3 ;
 }
 
 bool NPC::check()
 {
-	return this->ID != ID_NPC_FRIEND1   && this->ID != ID_NPC_FRIEND2   && this->ID != ID_NPC_FRIEND3  && this->ID != ID_NPC_FRIEND4
-		&& this->ID != ID_NPC_PAINT_1   && this->ID != ID_NPC_PAINT_2   && this->ID != ID_NPC_PAINT_3  && this->ID != ID_NPC_OFFICE_1   && this->ID != ID_NPC_OFFICE_2   && this->ID != ID_NPC_OFFICE_3
-		&& this->ID != ID_NPC_WRENCH_1  && this->ID != ID_NPC_WRENCH_2  && this->ID != ID_NPC_WRENCH_3 && this->ID != ID_NPC_FOOTBALL_1 && this->ID != ID_NPC_FOOTBALL_2 && this->ID != ID_NPC_FOOTBALL_3
-		&& this->ID != ID_NPC_TEACHER_1 && this->ID != ID_NPC_TEACHER_2 && this->ID != ID_NPC_TEACHER_3;
+	return this->ID != ID_NPC_FRIEND1   && this->ID != ID_NPC_FRIEND2   && this->ID != ID_NPC_FRIEND3   && this->ID != ID_NPC_FRIEND4
+		&& this->ID != ID_NPC_PAINT_1   && this->ID != ID_NPC_PAINT_2   && this->ID != ID_NPC_PAINT_3   && this->ID != ID_NPC_OFFICE_1   && this->ID != ID_NPC_OFFICE_2   && this->ID != ID_NPC_OFFICE_3
+		&& this->ID != ID_NPC_WRENCH_1  && this->ID != ID_NPC_WRENCH_2  && this->ID != ID_NPC_WRENCH_3  && this->ID != ID_NPC_FOOTBALL_1 && this->ID != ID_NPC_FOOTBALL_2 && this->ID != ID_NPC_FOOTBALL_3
+		&& this->ID != ID_NPC_TEACHER_1 && this->ID != ID_NPC_TEACHER_2 && this->ID != ID_NPC_TEACHER_3 && this->ID != ID_NPC_CARRUN1    && this->ID != ID_NPC_CARRUN2    && this->ID != ID_NPC_CARRUN3
+		&& this->ID != ID_NPC_CARSHOW1  && this->ID != ID_NPC_CARSHOW2  && this->ID != ID_NPC_CARSHOW3  && this->ID != ID_NPC_BUS        && this->ID != ID_NPC_FLOWER1    && this->ID != ID_NPC_FLOWER2
+		&& this->ID != ID_NPC_FLOWER3;
 }
 
 void NPC::move()
@@ -162,7 +176,7 @@ void NPC::checkOnHold()
 	if (abs(this->body.getPosition().x + 20 - 350) < this->texture.getSize().x / 4 / 2 + 40 &&
 		abs(this->body.getPosition().y - this->texture.getSize().y / 2 - *this->yPosPlayer) < this->texture.getSize().y / 2 + 100)
 	{
-		if (Keyboard::isKeyPressed(Keyboard::F) && !isSpacial())
+		if (Keyboard::isKeyPressed(Keyboard::F) && !isSpacial() && !this->canBuy)
 		{
 			if (check())
 			{

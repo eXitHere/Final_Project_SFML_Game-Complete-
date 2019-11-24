@@ -12,7 +12,7 @@
 class barManager
 {
 public:
-	barManager(RenderWindow *window,Event *event);
+	barManager(RenderWindow *window,Event *event,int *P);
 	void DRAW();
 	void setup(int* O1, bool* O2, bool* O3, int* D, int* I1, int* I2, int* I3, int* I4, int* I5, int* I6,int map);
 	void press();
@@ -32,12 +32,15 @@ private:
 	// Variable
 
 	//-> Bar Top
-	Texture T_value[7],T_hpHappy,T_grid[2],T_lop;
-	Sprite S_value[2], S_hpHappy, S_grid[2],S_lop[2];
+	Texture T_value[7],T_hpHappy,T_grid[2],T_lop,T_money;
+	Sprite S_value[2], S_hpHappy, S_grid[2],S_lop[2],S_money;
 	IntRect rect[2];
 	float hp_Val = 60;
 	float happy_Val = 60;
-
+	int* money_Val = 0;
+	int moneyNow = 0;
+	Clock moneyClock;
+	double moneyTotal = 0;
 
 	//-> Bar Down
 	Texture T_object,T_itemCount,T_onLoad,T_Grid[2],T_Archive[4],T_Friend[2],T_Family[2],T_I[12],T_Q;
@@ -47,7 +50,7 @@ private:
 	int* pointerCount[6];
 	int map;
 	Font font;
-	Text countItem[6];
+	Text countItem[6],money_Show;
 	double totalTimeLoad = 0.0 , timeLoad = delay, totalTime =0;
 	Clock clock;
 	int RecHeigh;

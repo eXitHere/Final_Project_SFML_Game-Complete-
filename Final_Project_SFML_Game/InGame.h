@@ -23,6 +23,8 @@ public:
 	
 	 
 private:
+	int money = 0;
+
 	int calBase(int val);
 
 	MutiChoice mutiChoice;
@@ -56,7 +58,7 @@ private:
 	int calc(int idNPC);
 
 	// Variable counter Item all
-	int counter[40] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
+	int counter[44] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
 	int countSpawn[4] = { 0,0,0,0 };
 
 
@@ -90,7 +92,7 @@ private:
 	statusFace* tempFace;
 
 	// MAP
-	Texture T_Map[9],T_door;
+	Texture T_Map[11],T_door;
 	Sprite S_cur_Map, S_new_Map,S_door;
 	bool B_nowusemap = true;
 	

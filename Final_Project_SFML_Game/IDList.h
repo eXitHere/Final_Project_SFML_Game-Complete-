@@ -34,7 +34,17 @@ using namespace std;
 #define ID_FO2 31
 #define ID_FO3 32
 #define ID_BABYCAR 33
-#define
+#define ID_FLOWER1 34
+#define ID_FLOWER2 35
+#define ID_FLOWER3 36
+#define ID_CARSHOW1 37
+#define ID_CARSHOW2 38
+#define ID_CARSHOW3 39
+#define ID_CARRUN1 40
+#define ID_CARRUN2 41
+#define ID_CARRUN3 42
+#define ID_BUS 43
+
 
 #define ID_FACE_HAPPY 0
 #define ID_FACE_SAD 1
@@ -83,6 +93,16 @@ using namespace std;
 #define ID_NPC_FOOTBALL_1 24
 #define ID_NPC_FOOTBALL_2 25
 #define ID_NPC_FOOTBALL_3 26
+#define ID_NPC_FLOWER1 27
+#define ID_NPC_FLOWER2 28
+#define ID_NPC_FLOWER3 29
+#define ID_NPC_CARSHOW1 30
+#define ID_NPC_CARSHOW2 31
+#define ID_NPC_CARSHOW3 32
+#define ID_NPC_CARRUN1 33
+#define ID_NPC_CARRUN2 34
+#define ID_NPC_CARRUN3 35
+#define ID_NPC_BUS 36
 
 
 #define ID_NPC_BOX 16
