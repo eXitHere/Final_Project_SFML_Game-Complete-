@@ -34,6 +34,7 @@ using namespace std;
 #define ID_FO2 31
 #define ID_FO3 32
 #define ID_BABYCAR 33
+#define
 
 #define ID_FACE_HAPPY 0
 #define ID_FACE_SAD 1

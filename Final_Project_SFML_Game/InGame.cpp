@@ -214,7 +214,7 @@ void InGame::DRAW()
 			case ID_NPC_OFFICE_1:
 				if (counter[ID_OF1] == 0)
 				{
-					cout << "CHECK" << endl;
+					//cout << "CHECK" << endl;
 					this->npcList[j]->setYesNo(this->calc(ID_NPC_OFFICE_1));
 					this->counter[ID_OF1] = 1;
 					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
@@ -224,7 +224,7 @@ void InGame::DRAW()
 			case ID_NPC_OFFICE_2:
 				if (counter[ID_OF2] == 0)
 				{
-					cout << "CHECK" << endl;
+					//cout << "CHECK" << endl;
 					this->npcList[j]->setYesNo(this->calc(ID_NPC_OFFICE_2));
 					this->counter[ID_OF2] = 1;
 					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
@@ -234,7 +234,7 @@ void InGame::DRAW()
 			case ID_NPC_OFFICE_3:
 				if (counter[ID_OF3] == 0)
 				{
-					cout << "CHECK" << endl;
+					//cout << "CHECK" << endl;
 					this->npcList[j]->setYesNo(this->calc(ID_NPC_OFFICE_3));
 					this->counter[ID_OF3] = 1;
 					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
