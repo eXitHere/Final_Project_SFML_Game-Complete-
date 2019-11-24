@@ -115,7 +115,7 @@ void InGame::DRAW()
 			}
 			switch (this->npcList[j]->getID())
 			{
-			case 0: this->indexPlayer = 1; updateChalacter(false); break;
+			case 0: this->indexPlayer = 1; updateChalacter(false); cout << "use BabyCar" << endl; this->counter[ID_BABYCAR] = 1; break;
 			case 1: this->indexPlayer = 3; updateChalacter(false); break;
 			case ID_NPC_CAT: this->npcList[(__int64)j+1]->setPosition(this->npcList[j]->getPostiosion()); this->bar.happy(1); this->soundManage->playCat(); this->counter[ID_CAT]++; break;
 			case ID_NPC_FOOTBALL: firstArchive(ID_NPC_FOOTBALL); continue; break;
@@ -214,6 +214,7 @@ void InGame::DRAW()
 			case ID_NPC_OFFICE_1:
 				if (counter[ID_OF1] == 0)
 				{
+					cout << "CHECK" << endl;
 					this->npcList[j]->setYesNo(this->calc(ID_NPC_OFFICE_1));
 					this->counter[ID_OF1] = 1;
 					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
@@ -223,6 +224,7 @@ void InGame::DRAW()
 			case ID_NPC_OFFICE_2:
 				if (counter[ID_OF2] == 0)
 				{
+					cout << "CHECK" << endl;
 					this->npcList[j]->setYesNo(this->calc(ID_NPC_OFFICE_2));
 					this->counter[ID_OF2] = 1;
 					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
@@ -232,6 +234,7 @@ void InGame::DRAW()
 			case ID_NPC_OFFICE_3:
 				if (counter[ID_OF3] == 0)
 				{
+					cout << "CHECK" << endl;
 					this->npcList[j]->setYesNo(this->calc(ID_NPC_OFFICE_3));
 					this->counter[ID_OF3] = 1;
 					if (this->npcList[j]->getYesNo() == 1) this->bar.happy(-5);
@@ -971,63 +974,63 @@ int InGame::calc(int idNPC)
 		base += this->counter[ID_PAINTACTION] * 25;
 		break;
 	case ID_NPC_FRIEND2:
-		base += this->counter[ID_CAT] * 25;
+		base += this->counter[ID_CAT] * 25 - this->counter[ID_FRIEND1] * 10;
 		break;
 	case ID_NPC_FRIEND3:
-		base += this->counter[ID_CAT] * 25;
+		base += this->counter[ID_CAT] * 25 - this->counter[ID_FRIEND1] * 10;
 		break;
 	case ID_NPC_FRIEND4:
-		base += this->counter[ID_CAT] * 25;
+		base += this->counter[ID_CAT] * 25 - this->counter[ID_FRIEND1] * 10;
 		break;
 		//------//    IQ 9
-	case ID_NPC_PAINT_1://								1-5						6-8
-		base += this->counter[ID_IQ] * 1 + calBase(this->counter[ID_PAINTER]) + this->counter[ID_PAINTACTION] * 3;
+	case ID_NPC_PAINT_1://		10+24+25+15 = 74
+		base += this->counter[ID_IQ] * 2 + calBase(this->counter[ID_PAINTER]) + this->counter[ID_PAINTACTION] * 5;
 		break;
 	case ID_NPC_PAINT_2:
-
+		base += this->counter[ID_IQ] * 2 + calBase(this->counter[ID_PAINTER]) + this->counter[ID_PAINTACTION] * 5;
 		break;
 	case ID_NPC_PAINT_3:
-
+		base += this->counter[ID_IQ] * 2 + calBase(this->counter[ID_PAINTER]) + this->counter[ID_PAINTACTION] * 5;
 		break;
 		//------//
-	case ID_NPC_OFFICE_1:
-
+	case ID_NPC_OFFICE_1: // 10+60+3+3+3 = 79
+		base += this->counter[ID_IQ] * 5 + this->counter[ID_FRIEND2] * 3 + this->counter[ID_FRIEND3] * 3 + this->counter[ID_FRIEND4] * 3;
 		break;
 	case ID_NPC_OFFICE_2:
-
+		base += this->counter[ID_IQ] * 5 + this->counter[ID_FRIEND2] * 3 + this->counter[ID_FRIEND3] * 3 + this->counter[ID_FRIEND4] * 3;
 		break;
 	case ID_NPC_OFFICE_3:
-
+		base += this->counter[ID_IQ] * 5 + this->counter[ID_FRIEND2] * 3 + this->counter[ID_FRIEND3] * 3 + this->counter[ID_FRIEND4] * 3;
 		break;
 		//------//
-	case ID_NPC_WRENCH_1:
-
+	case ID_NPC_WRENCH_1: // 10+24+25+9+4 = 69
+		base += this->counter[ID_IQ] * 2 + calBase(this->counter[ID_WRENCH]) + this->counter[ID_PAINTACTION] * 3 + this->counter[ID_FRIEND1] * 4;
 		break;
 	case ID_NPC_WRENCH_2:
-
+		base += this->counter[ID_IQ] * 2 + calBase(this->counter[ID_WRENCH]) + this->counter[ID_PAINTACTION] * 3 + this->counter[ID_FRIEND1] * 4;
 		break;
 	case ID_NPC_WRENCH_3:
-
+		base += this->counter[ID_IQ] * 2 + calBase(this->counter[ID_WRENCH]) + this->counter[ID_PAINTACTION] * 3 + this->counter[ID_FRIEND1] * 4;
 		break;
 		//------//
-	case ID_NPC_FOOTBALL_1:
-
+	case ID_NPC_FOOTBALL_1: // 10+24+25+4+9 = 72
+		base += this->counter[ID_IQ] * 2 + calBase(this->counter[ID_FOOTBALL]) + this->counter[ID_BABYCAR] * 4 + this->counter[ID_PAINTACTION] * 3;
 		break;
 	case ID_NPC_FOOTBALL_2:
-
+		base += this->counter[ID_IQ] * 2 + calBase(this->counter[ID_FOOTBALL]) + this->counter[ID_BABYCAR] * 4 + this->counter[ID_PAINTACTION] * 3;
 		break;
 	case ID_NPC_FOOTBALL_3:
-
+		base += this->counter[ID_IQ] * 2 + calBase(this->counter[ID_FOOTBALL]) + this->counter[ID_BABYCAR] * 4 + this->counter[ID_PAINTACTION] * 3;
 		break;
-		//------//
+		//------// 10 + 24 + 25 +9+3+3+3 = 77
 	case ID_NPC_TEACHER_1:
-
+		base += this->counter[ID_IQ] * 2 + calBase(this->counter[ID_TEACHER]) + this->counter[ID_CAT] * 3 + this->counter[ID_FRIEND2] * 3 + this->counter[ID_FRIEND3] * 3 + this->counter[ID_FRIEND4] * 3;
 		break;
 	case ID_NPC_TEACHER_2:
-
+		base += this->counter[ID_IQ] * 2 + calBase(this->counter[ID_TEACHER]) + this->counter[ID_CAT] * 3 + this->counter[ID_FRIEND2] * 3 + this->counter[ID_FRIEND3] * 3 + this->counter[ID_FRIEND4] * 3;
 		break;
 	case ID_NPC_TEACHER_3:
-
+		base += this->counter[ID_IQ] * 2 + calBase(this->counter[ID_TEACHER]) + this->counter[ID_CAT] * 3 + this->counter[ID_FRIEND2] * 3 + this->counter[ID_FRIEND3] * 3 + this->counter[ID_FRIEND4] * 3;
 		break;
 	}
 	cout << "----- :: ID " << idNPC << " : rand : " << ran << " : base : " << base << endl;

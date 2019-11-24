@@ -164,7 +164,7 @@ void NPC::checkOnHold()
 	{
 		if (Keyboard::isKeyPressed(Keyboard::F) && !isSpacial())
 		{
-			if (this->ID != ID_NPC_FRIEND1 && this->ID != ID_NPC_FRIEND2 && this->ID != ID_NPC_FRIEND3 && this->ID != ID_NPC_FRIEND4)
+			if (check())
 			{
 				this->delme = 1;
 			}
