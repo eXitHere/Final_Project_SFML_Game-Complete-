@@ -18,11 +18,11 @@ int positionNPC1[1] = {1600};  // {1600,2000,3000,4000,5400,5900}
 int positionNPC2[9] = { 1200,2000,-500,4500,4000,-500,5000,2500,-500 };
 int positionNPC3[4] = { 1200,1500,1800,2100};
 int positionNPC4[4] = { 2200,3000,4000,5000 };
-int positionNPC5[3] = { 2000,3500,5000 };
+int positionNPC5[3] = { 1800,3500,5000 };
 int positionNPC6[3] = { 1800,3300,4800 };
 int positionNPC7[3] = { 1800,3500,5200 };
 int positionNPC8[3] = { 2000,3100,5000 };
-int positionNPC9[3] = { 1800,3100,5000 };
+int positionNPC9[3] = { 1800,3500,5000 };
 int positionNPC10[6] = { 1600,1800,2000,3000,3400,3800 };
 
 int idNPC1[1] = { ID_NPC_BABAYCAR };

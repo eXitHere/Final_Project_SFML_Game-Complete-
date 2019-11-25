@@ -19,7 +19,9 @@ int main()
 	setupWindow(&window);
 	soundPlayBack soundManage;
 
-	int stateGame = 1;
+	string playerName;
+	float scoreMain;
+	int stateGame = 0;
 	Menu* menu = nullptr; // new Menu(&window, &event, &stateGame);
 	InGame* ingame = nullptr;
 	EndGame* endgame = new EndGame(&window, &event, &stateGame);
@@ -40,10 +42,11 @@ int main()
 		case 0:  // --> Menu
 			//cout << "Load Menu" << endl;
 			if (!menu)
-			{
+			{		
 				soundManage.restartMusicBackground();
 				//cout << "Create Menu !" << endl;
 				menu = new Menu(&window, &event, &stateGame,&soundManage);
+				menu->setPointerName(&playerName);
 				delete endgame;
 				endgame = nullptr;
 			}
@@ -58,6 +61,7 @@ int main()
 				delete menu;
 				menu = nullptr;
 				ingame = new InGame(&window, &event, &stateGame, &soundManage);
+				ingame->setPointScore(&scoreMain);
 			}
 			ingame->DRAW();
 			break;
@@ -68,6 +72,7 @@ int main()
 				delete ingame;
 				ingame = nullptr;
 				endgame = new EndGame(&window, &event, &stateGame);
+				endgame->setPointer(&playerName, &scoreMain);
 			}
 			endgame->DRAW();
 			break;

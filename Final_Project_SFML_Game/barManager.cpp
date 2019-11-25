@@ -281,7 +281,7 @@ void barManager::press()
 		if (Keyboard::isKeyPressed(Keyboard::A) && this->active[0])
 		{
 			(this->Ar[0])++;
-			cout << "barManager :: Press A" << endl;
+			//cout << "barManager :: Press A" << endl;
 			this->ASD.setAction(this->I_choose);
 			this->B_onLoad = true;
 			this->S_Grid[0].setTexture(this->T_Grid[0]);
@@ -291,7 +291,7 @@ void barManager::press()
 		if (Keyboard::isKeyPressed(Keyboard::S) && this->active[1])
 		{
 			(this->Ar[1])++;
-			cout << "barManager :: Press S" << endl;
+			//cout << "barManager :: Press S" << endl;
 			this->ASD.setAction(4);
 			this->B_onLoad = true;
 			this->S_Grid[0].setTexture(this->T_Grid[0]);
@@ -301,7 +301,7 @@ void barManager::press()
 		if (Keyboard::isKeyPressed(Keyboard::D) && this->active[2])
 		{
 			(this->Ar[2])++;
-			cout << "barManager :: Press D" << endl;
+			//cout << "barManager :: Press D" << endl;
 			this->ASD.setAction(5);
 			this->B_onLoad = true;
 			this->S_Grid[0].setTexture(this->T_Grid[0]);

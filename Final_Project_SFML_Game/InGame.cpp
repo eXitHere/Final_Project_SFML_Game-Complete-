@@ -16,6 +16,11 @@ InGame::InGame(RenderWindow* window, Event* event, int* state,soundPlayBack* sou
 	this->stateGame = state;
 	this->window = window;
 	this->event = event;
+
+	this->S_pause.setTexture(this->T_pause[0]);
+	this->S_pause.setPosition(1400, 15);
+
+	
 	//this->indexPlayer++;
 
 	//bar.setup(&this->Object, &this->Object2[0], &this->Object2[1], &this->ID[0], &this->Status[0], &this->Status[1], &this->Status[2], &this->Status[3], &this->Status[4], &this->Status[5]);
@@ -30,6 +35,7 @@ InGame::InGame(RenderWindow* window, Event* event, int* state,soundPlayBack* sou
 
 void InGame::DRAW()
 {
+	checkPause();
 	//this->T_Map[0].loadFromFile("Texture/Map/map0.jpg");
 	//this->T_Map[1].loadFromFile("Texture/Map/map1.jpg");
 	if (this->npcList.size()>0 && this->npcList[0]->getID() == ID_NPC_FLOWER3)
@@ -121,7 +127,7 @@ void InGame::DRAW()
 	for (int i = 0; i < itemList.size(); i++)
 	{
 		if(!this->pause) this->itemList[i]->Move(-4.8f);
-		else this->itemList[i]->Move(-2.4f);
+		//else this->itemList[i]->Move(-2.4f);
 		this->itemList[i]->DRAW();
 		if (this->itemList[i]->deleteMe())
 		{
@@ -144,7 +150,7 @@ void InGame::DRAW()
 			continue;
 			//cout << itemList.size() << " -- " << i << endl;
 		}
-		if (this->checkColilistion(this->itemList[i]))
+		if(!this->pause) if (this->checkColilistion(this->itemList[i]))
 		{
 			this->soundManage->playHitItem();
 			//cout << "colision Item ID" << this->itemList[i]->getID() << endl;
@@ -173,7 +179,7 @@ void InGame::DRAW()
 		//this->npcList[j]->DRAW();
 		if (!pause && !this->npcList[j]->isSpacial()) this->npcList[j]->Move();
 		if (this->npcList[j]->checkState() == 1 ||
-			(this->next-1==2 && this->npcList.size()>3 && this-> npcList[3]->getPostiosion().x < 400)) // Press F
+			(this->next-1==2 && this->npcList.size()>3 && this-> npcList[3]->getPostiosion().x < 400) &&!this->pause) // Press F
 		{
 		//	cout << "Press F" << endl;
 			if (this->next - 1 == 2)
@@ -724,23 +730,23 @@ void InGame::DRAW()
 			case 1:
 				//this->next = 5;
 				this->useMap = 5;
-				cout << "paint MAP " << endl; ////<<< ---- --
+				//cout << "paint MAP " << endl; ////<<< ---- --
 				break;
 			case 3:
 				//this->next = 7;
 				this->useMap = 6;
-				cout << "Wrench MAP" << endl;
+				//cout << "Wrench MAP" << endl;
 				
 				break;
 			case 2:
 				//this->next = 6;
 				this->useMap = 7;
-				cout << "Teacher MAP " << endl;
+				//cout << "Teacher MAP " << endl;
 				break;
 			case 4:
 				//this->next = 8;
 				this->useMap = 8;
-				cout << "Football MAP" << endl;
+				//cout << "Football MAP" << endl;
 				break;
 			}
 			this->way = this->useMap+1;
@@ -753,29 +759,121 @@ void InGame::DRAW()
 		{
 			this->mainArchiveChoice = 3;
 			this->useMap = 6;
-			cout << "Wrench MAP" << endl;
+			//cout << "Wrench MAP" << endl;
 		}
 		else if (this->counter[ID_TEACHER] >= 6)
 		{
 			this->mainArchiveChoice = 2;
 			this->useMap = 7;
-			cout << "Teacher MAP" << endl;
+			//cout << "Teacher MAP" << endl;
 		}
 		else if (this->counter[ID_PAINTER] >= 6)
 		{
 			this->useMap = 5;
 			this->mainArchiveChoice = 1;
-			cout << "Painter MAP" << endl;
+			//cout << "Painter MAP" << endl;
 		}
 		else if (this->counter[ID_FOOTBALL] >= 6)
 		{
 			this->useMap = 8;
 			this->mainArchiveChoice = 4;
-			cout << "FOOTBALL MAP" << endl;
+			//cout << "FOOTBALL MAP" << endl;
 		}
 	}
 
 	bar.DRAW();
+	if (this->pause)
+	{
+		this->window->draw(this->S_pause);
+		if (Mouse::getPosition(*this->window).x >= this->S_pause.getPosition().x &&
+			Mouse::getPosition(*this->window).x <= this->S_pause.getPosition().x + this->T_pause[0].getSize().x &&
+			Mouse::getPosition(*this->window).y >= this->S_pause.getPosition().y &&
+			Mouse::getPosition(*this->window).y <= this->S_pause.getPosition().y + this->T_pause[0].getSize().y)
+		{
+			this->holdPause = true;
+			if (Mouse::isButtonPressed(Mouse::Left))
+			{
+				*this->PScore = -1;
+				*this->stateGame = 2;
+			}
+		}
+		else
+		{
+			this->holdPause = false;
+		}
+		if (this->change != this->holdPause)
+		{
+			//cout << "eiei" << endl;
+			this->S_pause.setTexture(this->T_pause[this->holdPause]);
+			this->change = this->holdPause;
+		}
+	}
+
+}
+
+void InGame::setPointScore(float* P)
+{
+	this->PScore = P;
+}
+
+void InGame::calcScore()
+{
+	*this->PScore = 0;
+	*this->PScore -= this->counter[ID_BEAR] * 10;
+	*this->PScore += this->counter[ID_CANDY] * 5;
+	*this->PScore += this->counter[ID_FOOD] * 5;
+	*this->PScore += this->counter[ID_FOOD2] * 5;
+	*this->PScore += this->counter[ID_FOOTBALL] * 20;
+	*this->PScore += this->counter[ID_MILK] * 5;
+	*this->PScore += this->counter[ID_MONEY] * 10;
+	*this->PScore += this->counter[ID_PAINTER] * 20;
+	*this->PScore += this->counter[ID_TEACHER] * 20;
+	*this->PScore += this->counter[ID_WRENCH] * 20;
+	*this->PScore += this->counter[ID_IQ] * 10;
+	*this->PScore += this->counter[ID_CAT] * 5;
+	*this->PScore += this->counter[ID_PAINTACTION] * 5;
+	*this->PScore -= this->counter[ID_FRIEND1] * 30;
+	*this->PScore += this->counter[ID_FRIEND2] * 20;
+	*this->PScore += this->counter[ID_FRIEND3] * 20;
+	*this->PScore += this->counter[ID_FRIEND4] * 30;
+	*this->PScore += this->counter[ID_OF1] * 20;
+	*this->PScore += this->counter[ID_OF2] * 20;
+	*this->PScore += this->counter[ID_OF3] * 30;
+	*this->PScore += this->counter[ID_PA1] * 20;
+	*this->PScore += this->counter[ID_PA2] * 20;
+	*this->PScore += this->counter[ID_PA3] * 30;
+	*this->PScore += this->counter[ID_WR1] * 20;
+	*this->PScore += this->counter[ID_WR2] * 20;
+	*this->PScore += this->counter[ID_WR3] * 30;
+	*this->PScore += this->counter[ID_TA1] * 20;
+	*this->PScore += this->counter[ID_TA2] * 20;
+	*this->PScore += this->counter[ID_TA3] * 30;
+	*this->PScore += this->counter[ID_FO1] * 20;
+	*this->PScore += this->counter[ID_FO2] * 20;
+	*this->PScore += this->counter[ID_FO3] * 30;
+	*this->PScore += this->counter[ID_BABYCAR] * 10;
+	*this->PScore += this->counter[ID_FLOWER1] * 50;
+	*this->PScore += this->counter[ID_FLOWER2] * 40;
+	*this->PScore += this->counter[ID_FLOWER3] * 30;
+	*this->PScore += this->counter[ID_CARSHOW1] * 150;
+	*this->PScore += this->counter[ID_CARSHOW2] * 100;
+	*this->PScore += this->counter[ID_CARSHOW3] * 50;
+	*this->PScore += round(this->money/10);
+}
+
+void InGame::checkPause()
+{
+	if (Keyboard::isKeyPressed(Keyboard::Escape) && !this->unPause)
+	{
+		this->unPause = true;
+		this->pause = !this->pause;
+		//cout << "Pause";
+	}
+	if (this->event->type == Event::KeyReleased)
+	{
+		this->unPause = false;
+	}
+
 }
 
 int InGame::calBase(int val)
@@ -877,6 +975,9 @@ map 9 football
 	this->T_face[3].loadFromFile("Texture/items/hpDown.png");
 	this->T_face[4].loadFromFile("Texture/items/moneyP.png");
 	this->T_face[5].loadFromFile("Texture/items/moneyD.png");
+
+	this->T_pause[0].loadFromFile("Texture/barmanage/pause.png");
+	this->T_pause[1].loadFromFile("Texture/barmanage/exit.png");
 }
 
 void InGame::moveMap()
@@ -906,7 +1007,7 @@ void InGame::moveMap()
 			if (this->next != 10) this->S_door.setPosition(1800, 0.0f);
 			if (this->useMap != -1)
 			{
-				cout << "DO1" << endl;
+				//cout << "DO1" << endl;
 				this->S_new_Map.setTexture(this->T_Map[this->useMap]);
 				this->next = 9;
 				//this->way = this->useMap;
@@ -914,7 +1015,7 @@ void InGame::moveMap()
 			}
 			else if (this->next - 1 >= 4 && this->next - 1 <= 8)
 			{
-				cout << "DO2" << endl;
+				//cout << "DO2" << endl;
 				this->next = 9;
 				this->S_new_Map.setTexture(this->T_Map[this->next]);
 				this->next++;
@@ -922,7 +1023,7 @@ void InGame::moveMap()
 			}
 			else
 			{
-				cout << "DO3" << endl;
+				//cout << "DO3" << endl;
 				this->S_new_Map.setTexture(this->T_Map[this->next]);
 				if (this->next == 4)
 				{
@@ -972,16 +1073,16 @@ void InGame::moveMap()
 			if(this->next != 10) this->S_door.setPosition(1800, 0.0f);
 			if (this->useMap != -1)
 			{
-				cout << "DO" << endl;
+				//cout << "DO" << endl;
 				this->S_cur_Map.setTexture(this->T_Map[this->useMap]);
 				this->next=9;
 				this->way = this->useMap;
-				cout << " " << this->way << endl;
+				//cout << " " << this->way << endl;
 				this->useMap = -1;
 			}
 			else if (this->next - 1 >= 4 && this->next -1 <= 8)
 			{
-				cout << "DO2" << endl;
+				//cout << "DO2" << endl;
 				this->next = 9;
 				this->S_cur_Map.setTexture(this->T_Map[this->next]);
 				this->next++;
@@ -989,7 +1090,7 @@ void InGame::moveMap()
 			}
 			else
 			{
-				cout << "DO3" << endl;
+				//cout << "DO3" << endl;
 				this->S_cur_Map.setTexture(this->T_Map[this->next]);
 
 				if (this->next == 4)
@@ -1001,9 +1102,10 @@ void InGame::moveMap()
 			}
 		}
 	}
-	if (this->next == 13)
+	if (this->next == 11)
 	{
 		*this->stateGame = 2;
+		calcScore();
 	}
 	if (!pause) this->S_door.move(-3 * gameSpeed, 0);
 	//cout << this->next << endl;
@@ -1100,6 +1202,7 @@ void InGame::loadItems()
 		}
 		break;
 	case 4: // MAP5
+		cout << "MAP5" << endl;
 		this->itemList.clear();
 		this->npcList.clear();
 		for (int i = 0; i < 12; i++)
@@ -1114,43 +1217,6 @@ void InGame::loadItems()
 			this->itemList.push_back(new Item());
 			this->itemList[this->itemList.size() - 1]->loadData(this->T_items[idItem567893[i%2] - 1], idItem567893[i%2], this->window, Vector2f(positionItem567893[i] + rand() % 200, tempPos[(i + rand()) % 5]));
 		}
-		/*if (this->useMap != -1)
-		{
-			switch (this->useMap)
-			{
-			case 5: // Painter
-				for (int i = 0; i < 3; i++)
-				{
-					this->npcList.push_back(new NPC());
-					this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC6[i]], positionNPC6[i], &this->yPos, idNPC6[i], this->window, this->event);
-				}
-				break;
-			case 6:
-				for (int i = 0; i < 3; i++)
-				{
-					this->npcList.push_back(new NPC());
-					this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC7[i]], positionNPC7[i], &this->yPos, idNPC7[i], this->window, this->event);
-				}
-				break;
-			case 7:
-				for (int i = 0; i < 3; i++)
-				{
-					this->npcList.push_back(new NPC());
-					this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC8[i]], positionNPC8[i], &this->yPos, idNPC8[i], this->window, this->event);
-				}
-				break;
-			case 8:
-				for (int i = 0; i < 3; i++)
-				{
-					this->npcList.push_back(new NPC());
-					this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC9[i]], positionNPC9[i], &this->yPos, idNPC9[i], this->window, this->event);
-				}
-				break;
-			}
-		}
-		else
-		{*/
-			//cout << "Debug : " << this->useMap << " --- " << this->next - 1 << endl;
 		for (int i = 0; i < 3; i++)
 		{
 			this->npcList.push_back(new NPC());
@@ -1159,6 +1225,7 @@ void InGame::loadItems()
 		//}
 		break;
 	case 5: // MAP6
+		cout << "MAP6" << endl;
 		this->itemList.clear();
 		this->npcList.clear();
 		for (int i = 0; i < 3; i++)
@@ -1180,6 +1247,7 @@ void InGame::loadItems()
 		}
 		break;
 	case 6: // MAP7
+		cout << "MAP7" << endl;
 		this->itemList.clear();
 		this->npcList.clear();
 		for (int i = 0; i < 3; i++)
@@ -1201,6 +1269,7 @@ void InGame::loadItems()
 		}
 		break;
 	case 7: // MAP5
+		cout << "MAP8" << endl;
 		this->itemList.clear();
 		this->npcList.clear();
 		for (int i = 0; i < 3; i++)
@@ -1222,13 +1291,56 @@ void InGame::loadItems()
 		}
 		break;
 	case 8: // MAP5
+		//cout << "MAP9" << endl;
 		this->itemList.clear();
 		this->npcList.clear();
-		for (int i = 0; i < 3; i++)
+		if (this->way != -1)
 		{
-			this->npcList.push_back(new NPC());
-			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC9[i]], positionNPC9[i], &this->yPos, idNPC9[i], this->window, this->event);
+			switch (this->way)
+			{
+			case 5: // Paint
+				//cout << "MAP6" << endl;
+				for (int i = 0; i < 3; i++)
+				{
+					this->npcList.push_back(new NPC());
+					this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC6[i]], positionNPC6[i], &this->yPos, idNPC6[i], this->window, this->event);
+				}
+			case 6:
+				//cout << "MAP7" << endl;
+				for (int i = 0; i < 3; i++)
+				{
+					this->npcList.push_back(new NPC());
+					this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC7[i]], positionNPC7[i], &this->yPos, idNPC7[i], this->window, this->event);
+				}
+				break;
+			case 7:
+				//cout << "MAP8" << endl;
+				for (int i = 0; i < 3; i++)
+				{
+					this->npcList.push_back(new NPC());
+					this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC8[i]], positionNPC8[i], &this->yPos, idNPC8[i], this->window, this->event);
+				}
+				break;
+			case 8:
+				//cout << "MAP9" << endl;
+				for (int i = 0; i < 3; i++)
+				{
+					this->npcList.push_back(new NPC());
+					this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC9[i]], positionNPC9[i], &this->yPos, idNPC9[i], this->window, this->event);
+				}
+				break;
+			}
 		}
+		else
+		{
+			//cout << "MAP5" << endl;
+			for (int i = 0; i < 3; i++)
+			{
+				this->npcList.push_back(new NPC());
+				this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC5[i]], positionNPC5[i], &this->yPos, idNPC5[i], this->window, this->event);
+			}
+		}
+		
 		for (int i = 0; i < 12; i++)
 		{
 			this->itemList.push_back(new Item());
@@ -1291,11 +1403,11 @@ void InGame::updateChalacter(bool state)
 					break;
 				case 6:
 					this->indexPlayer = 7;
-					cout << "A" << endl;
+					//cout << "A" << endl;
 					break;
 				case 7:
 					this->indexPlayer = 8;
-					cout << "B" << endl;
+					//cout << "B" << endl;
 					break;
 				case 8:
 					this->indexPlayer = 9;
@@ -1351,6 +1463,11 @@ void InGame::showFaceEffect(int index)
 		addFace(this->T_face[ID_FACE_MONEYDOWN]);
 		this->faceList.push_back(tempFace);
 		this->counter[ID_BEAR]++;
+		if (counter[ID_BEAR] == 7)
+		{
+			*this->PScore = -1;
+			*this->stateGame = 2;
+		}
 		this->bar.hp(-0.5f);
 		this->bar.happy(0.3f);
 		break;
@@ -1558,6 +1675,14 @@ void InGame::updateBar()
 		}
 		this->ID[0] = ID_SHOWBAR_BEER;
 		this->Status[0] = &this->counter[ID_BEAR];
+		bar.setup(&this->Object, &this->Object2[0], &this->Object2[1], &this->ID[0], this->Status[0], this->Status[1], this->Status[2], this->Status[3], this->Status[4], this->Status[5], this->next - 1);
+		break;
+	case 9:
+		for (int i = 0; i < 6; i++)
+		{
+			this->ID[i] = 0;
+			this->Status[i] = 0;
+		}
 		bar.setup(&this->Object, &this->Object2[0], &this->Object2[1], &this->ID[0], this->Status[0], this->Status[1], this->Status[2], this->Status[3], this->Status[4], this->Status[5], this->next - 1);
 		break;
 	}

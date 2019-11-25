@@ -23,9 +23,13 @@ Player::Player(RenderWindow* window, Event* event,bool *pause, soundPlayBack* so
 void Player::DRAW()
 {
 	//cout << this->body.getPosition().x << endl;
-	controls();
-	jump();
-	update();
+	if (!*this->pause)
+	{
+		controls();
+		jump();
+		update();
+	}
+	
 	*this->pointerToY = this->body.getPosition().y;
 	this->window->draw(this->body);
 	//cout << this->body.getPosition().y << endl;

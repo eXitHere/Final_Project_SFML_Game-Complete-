@@ -32,8 +32,8 @@ void MutiChoice::DRAW()
 			this->keyReleased = true;
 			//this->forReturn = this->index + 1;
 			this->forReturn = this->compare[this->index];
-			cout <<"Inclass return : "<< this->forReturn << endl;
-			cout << "Inclass index : " << this->index << endl;
+			//cout <<"Inclass return : "<< this->forReturn << endl;
+			//cout << "Inclass index : " << this->index << endl;
 			//cout << "Set" << endl;
 		}
 	}

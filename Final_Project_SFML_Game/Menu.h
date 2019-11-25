@@ -13,10 +13,12 @@ class Menu
 {
 public:
 	Menu(RenderWindow* window, Event* event,int *state,soundPlayBack* sound);
-	~Menu() { cout << "delete 'Menu' complete" << endl; };
+	~Menu() {/* cout << "delete 'Menu' complete" << endl;*/ };
 	void DRAW();
+	void setPointerName(string* name);
 private:
 	//sound
+	string* PName;
 	soundPlayBack* soundManage;
 	void loadSettingSound();
 	void saveSettingSound();

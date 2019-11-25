@@ -145,6 +145,11 @@ void Menu::DRAW()
 	window->draw(this->S_setting);	
 }
 
+void Menu::setPointerName(string* name)
+{
+	this->PName = name;
+}
+
 void Menu::loadSettingSound()
 {
 	//cout << "11"
@@ -667,6 +672,7 @@ void Menu::enterName()
 			//cout << this->event->text.unicode << endl;
 			if (this->event->text.unicode == 13) // enter
 			{
+				*this->PName = this->string_GetName;
 				this->stateEnterName = 2;
 				*this->stateGame = 1;
 			}

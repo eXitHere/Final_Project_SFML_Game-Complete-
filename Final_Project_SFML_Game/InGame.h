@@ -18,12 +18,19 @@ class InGame
 {
 public:
 	InGame(RenderWindow *window,Event *event, int* state,soundPlayBack *soundManage);
-	~InGame() { cout << "delete 'ingame' complete" << endl; };
+	~InGame() { /*cout << "delete 'ingame' complete" << endl;*/ };
 	void DRAW();
-	
+	void setPointScore(float* P);
 	 
 private:
 
+	void calcScore();
+	bool holdPause = false, change = false;
+	Texture T_pause[2];
+	Sprite S_pause;
+	bool unPause = false;
+	void checkPause();
+	float* PScore;
 	int way = -1;
 	int counterASD[3] = { 0,0,0 };
 	int useMap = -1;
