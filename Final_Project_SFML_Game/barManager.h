@@ -18,6 +18,7 @@ public:
 	void press();
 	void hp(float val);
 	void happy(float val);
+	void setAr(int* P);
 
 private:
 
@@ -48,9 +49,10 @@ private:
 	int I_indexArchive = 0,I_choose = -1;
 	bool B_archive[2] = { false,false }, IHide[6], active[3],B_onLoad,B_Switch=false,setFirst = false;
 	int* pointerCount[6];
+	int* Ar;
 	int map;
 	Font font;
-	Text countItem[6],money_Show;
+	Text countItem[6],money_Show,Ar_Show[3];
 	double totalTimeLoad = 0.0 , timeLoad = delay, totalTime =0;
 	Clock clock;
 	int RecHeigh;

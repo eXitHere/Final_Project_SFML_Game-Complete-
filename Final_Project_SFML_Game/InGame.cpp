@@ -8,6 +8,8 @@ InGame::InGame(RenderWindow* window, Event* event, int* state,soundPlayBack* sou
 	mutiChoice(window,event)
 {
 	this->soundManage = soundManage;
+	//this->bar.setAr(&this->counter[]);
+	this->bar.setAr(this->counterASD);
 	player.updateRec(this->indexPlayer);
 	player.setPointerToY(&this->yPos);
 	loadTextureAll();
@@ -30,6 +32,71 @@ void InGame::DRAW()
 {
 	//this->T_Map[0].loadFromFile("Texture/Map/map0.jpg");
 	//this->T_Map[1].loadFromFile("Texture/Map/map1.jpg");
+	if (this->npcList.size()>0 && this->npcList[0]->getID() == ID_NPC_FLOWER3)
+	{
+		//cout << "This Map" << endl;
+		if (this->counter[ID_FLOWER1] != 0 || this->counter[ID_FLOWER2] != 0 || this->counter[ID_FLOWER3] != 0)
+		{
+			this->npcList[0]->setCanBuy(false);
+			this->npcList[1]->setCanBuy(false);
+			this->npcList[2]->setCanBuy(false);
+		}
+		else if (this->money >= 90-10 )
+		{
+			this->npcList[0]->setCanBuy(true);
+			this->npcList[1]->setCanBuy(true);
+			this->npcList[2]->setCanBuy(true);
+		}
+		else if (this->money >= 60-10)
+		{
+			this->npcList[0]->setCanBuy(false);
+			this->npcList[1]->setCanBuy(true);
+			this->npcList[2]->setCanBuy(true);
+		}
+		else if (this->money >= 30-10)
+		{
+			this->npcList[0]->setCanBuy(false);
+			this->npcList[1]->setCanBuy(false);
+			this->npcList[2]->setCanBuy(true);
+		}
+		else
+		{
+			this->npcList[0]->setCanBuy(false);
+			this->npcList[1]->setCanBuy(false);
+			this->npcList[2]->setCanBuy(false);
+		}
+		
+		if (this->counter[ID_CARSHOW1] != 0 || this->counter[ID_CARSHOW2] != 0 || this->counter[ID_CARSHOW3] != 0)
+		{
+			this->npcList[3]->setCanBuy(false);
+			this->npcList[4]->setCanBuy(false);
+			this->npcList[5]->setCanBuy(false);
+		}
+		else if (this->money >= 500-50)
+		{
+			this->npcList[3]->setCanBuy(true);
+			this->npcList[4]->setCanBuy(true);
+			this->npcList[5]->setCanBuy(true);
+		}
+		else if (this->money >= 400-50)
+		{
+			this->npcList[3]->setCanBuy(false);
+			this->npcList[4]->setCanBuy(true);
+			this->npcList[5]->setCanBuy(true);
+		}
+		else if (this->money >= 300-50)
+		{
+			this->npcList[3]->setCanBuy(false);
+			this->npcList[4]->setCanBuy(false);
+			this->npcList[5]->setCanBuy(true);
+		}
+		else
+		{
+			this->npcList[3]->setCanBuy(false);
+			this->npcList[4]->setCanBuy(false);
+			this->npcList[5]->setCanBuy(false);
+		}
+	}
 
 	if(!this->pause) this->mainTime += this->clockMain.restart().asSeconds();
 	if (this->mainTime >= 3)
@@ -132,9 +199,15 @@ void InGame::DRAW()
 		{
 			//cout << "DEl npc" << endl;
 			if (this->npcList[j]->getID() != ID_NPC_FOOTBALL &&
-				this->npcList[j]->getID() != ID_NPC_PAINTER &&
-				this->npcList[j]->getID() != ID_NPC_TEACHER &&
-				this->npcList[j]->getID() != ID_NPC_WRENCH)
+				this->npcList[j]->getID() != ID_NPC_PAINTER  &&
+				this->npcList[j]->getID() != ID_NPC_TEACHER  &&
+				this->npcList[j]->getID() != ID_NPC_WRENCH   &&
+				this->npcList[j]->getID() != ID_NPC_FLOWER1  &&
+				this->npcList[j]->getID() != ID_NPC_FLOWER2  &&
+				this->npcList[j]->getID() != ID_NPC_FLOWER3  &&
+				this->npcList[j]->getID() != ID_NPC_CARSHOW1 &&
+				this->npcList[j]->getID() != ID_NPC_CARSHOW2 &&
+				this->npcList[j]->getID() != ID_NPC_CARSHOW3 )
 			{ /// <<--- don't delete npc
 				//cout << "Delete " << this->npcList[j]->getID() << endl;
 				NPC* p = npcList.at(j);
@@ -144,8 +217,66 @@ void InGame::DRAW()
 		}
 		else if (this->npcList[j]->checkState() == 3)
 		{
+			//cout << this->npcList[j]->getID() << endl;
 			switch (this->npcList[j]->getID())
 			{
+			case ID_NPC_FLOWER1:
+				//cout << "EIEI1" << endl;
+				if (this->counter[ID_FLOWER1] != 1)
+				{
+					this->counter[ID_FLOWER1] = 1;
+					this->money -= 30;
+					addFace(this->T_face[ID_FACE_MONEYDOWN]);
+					this->faceList.push_back(tempFace);
+				}
+				break;
+			case ID_NPC_FLOWER2:
+				//cout << "EIEI2" << endl;
+				if (this->counter[ID_FLOWER2] != 1)
+				{
+					this->counter[ID_FLOWER2] = 1;
+					this->money -= 60;
+					addFace(this->T_face[ID_FACE_MONEYDOWN]);
+					this->faceList.push_back(tempFace);
+				}
+				break;
+			case ID_NPC_FLOWER3:
+				//cout << "EIEI3" << endl;
+				if (this->counter[ID_FLOWER3] != 1)
+				{
+					this->counter[ID_FLOWER3] = 1;
+					this->money -= 90;
+					addFace(this->T_face[ID_FACE_MONEYDOWN]);
+					this->faceList.push_back(tempFace);
+				}
+				break;
+			case ID_NPC_CARSHOW1:
+				if (this->counter[ID_CARSHOW1] != 1)
+				{
+					this->counter[ID_CARSHOW1] = 1;
+					this->money -= 300;
+					addFace(this->T_face[ID_FACE_MONEYDOWN]);
+					this->faceList.push_back(tempFace);
+				}
+				break;
+			case ID_NPC_CARSHOW2:
+				if (this->counter[ID_CARSHOW2] != 1)
+				{
+					this->counter[ID_CARSHOW2] = 1;
+					this->money -= 400;
+					addFace(this->T_face[ID_FACE_MONEYDOWN]);
+					this->faceList.push_back(tempFace);
+				}
+				break;
+			case ID_NPC_CARSHOW3:
+				if (this->counter[ID_CARSHOW3] != 1)
+				{
+					this->counter[ID_CARSHOW3] = 1;
+					this->money -= 500;
+					addFace(this->T_face[ID_FACE_MONEYDOWN]);
+					this->faceList.push_back(tempFace);
+				}
+				break;
 			case ID_NPC_FRIEND1:
 				if (counter[ID_FRIEND1] == 0)
 				{
@@ -591,20 +722,24 @@ void InGame::DRAW()
 			switch (this->mainArchiveChoice)
 			{
 			case 1:
-				this->next = 5;
-				cout << "paint MAP " << endl; ////<<< ---- --
+				//this->next = 5;
+				this->useMap = 5;
+				//cout << "paint MAP " << endl; ////<<< ---- --
 				break;
 			case 2:
-				this->next = 7;
-				cout << "Teacher MAP " << endl;
+				//this->next = 7;
+				this->useMap = 6;
+				//cout << "Teacher MAP " << endl;
 				break;
 			case 3:
-				this->next = 6;
-				cout << "Wrench MAP" << endl;
+				//this->next = 6;
+				this->useMap = 7;
+				//cout << "Wrench MAP" << endl;
 				break;
 			case 4:
-				this->next = 8;
-				cout << "Football MAP" << endl;
+				//this->next = 8;
+				this->useMap = 8;
+				//cout << "Football MAP" << endl;
 
 			}
 		}
@@ -739,15 +874,24 @@ void InGame::moveMap()
 			B_nowusemap = !B_nowusemap;
 			this->S_new_Map.setPosition(1800.0f, 0.0f);
 			if (this->next != 10) this->S_door.setPosition(1800, 0.0f);
-			if (this->next >= 5 && this->next <= 8)
+			if (this->useMap != -1)
 			{
+				//cout << "DO1" << endl;
+				this->S_new_Map.setTexture(this->T_Map[this->useMap]);
+				this->next++;
+				this->useMap = -1;
+			}
+			else if (this->next - 1 >= 4 && this->next - 1 <= 8)
+			{
+				//cout << "DO2" << endl;
 				this->next = 9;
 				this->S_new_Map.setTexture(this->T_Map[this->next]);
 				this->next++;
-				//cout << "Do This1" << endl;
+				//cout << "Do This2" << endl;
 			}
 			else
 			{
+				//cout << "DO3" << endl;
 				this->S_new_Map.setTexture(this->T_Map[this->next]);
 				this->next++;
 			}
@@ -790,8 +934,16 @@ void InGame::moveMap()
 			//this->S_cur_Map.setTexture(T_Map[this->next]);
 			this->S_cur_Map.setPosition(1800.0f, 0.0f);
 			if(this->next != 10) this->S_door.setPosition(1800, 0.0f);
-			if (this->next >= 5 && this->next <= 8)
+			if (this->useMap != -1)
 			{
+				//cout << "DO" << endl;
+				this->S_cur_Map.setTexture(this->T_Map[this->useMap]);
+				this->next++;
+				this->useMap = -1;
+			}
+			else if (this->next - 1 >= 4 && this->next -1 <= 8)
+			{
+				//cout << "DO2" << endl;
 				this->next = 9;
 				this->S_cur_Map.setTexture(this->T_Map[this->next]);
 				this->next++;
@@ -799,6 +951,7 @@ void InGame::moveMap()
 			}
 			else
 			{
+				//cout << "DO3" << endl;
 				this->S_cur_Map.setTexture(this->T_Map[this->next]);
 				this->next++;
 			}
@@ -907,7 +1060,14 @@ void InGame::loadItems()
 		for (int i = 0; i < 12; i++)
 		{
 			this->itemList.push_back(new Item());
-			this->itemList[this->itemList.size() - 1]->loadData(this->T_items[idItem56789[0] - 1], idItem56789[0], this->window, Vector2f(positionItem56789[i] + rand() % 200, tempPos[i]));
+			this->itemList[this->itemList.size() - 1]->loadData(this->T_items[idItem56789[0] - 1], idItem56789[0], this->window, Vector2f(positionItem56789[i] + rand() % 200, tempPos[i%5]));
+		}
+		for (int i = 0; i < 7; i++)
+		{
+			this->itemList.push_back(new Item());
+			this->itemList[this->itemList.size() - 1]->loadData(this->T_items[idItem567892[0] - 1], idItem567892[0], this->window, Vector2f(positionItem567892[i] + rand() % 200, tempPos[(i+rand()) % 5]));
+			this->itemList.push_back(new Item());
+			this->itemList[this->itemList.size() - 1]->loadData(this->T_items[idItem567893[i%2] - 1], idItem567893[i%2], this->window, Vector2f(positionItem567893[i] + rand() % 200, tempPos[(i + rand()) % 5]));
 		}
 		for (int i = 0; i < 3; i++)
 		{
@@ -923,6 +1083,18 @@ void InGame::loadItems()
 			this->npcList.push_back(new NPC());
 			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC6[i]], positionNPC6[i], &this->yPos, idNPC6[i], this->window, this->event);
 		}
+		for (int i = 0; i < 12; i++)
+		{
+			this->itemList.push_back(new Item());
+			this->itemList[this->itemList.size() - 1]->loadData(this->T_items[idItem56789[0] - 1], idItem56789[0], this->window, Vector2f(positionItem56789[i] + rand() % 200, tempPos[i % 5]));
+		}
+		for (int i = 0; i < 7; i++)
+		{
+			this->itemList.push_back(new Item());
+			this->itemList[this->itemList.size() - 1]->loadData(this->T_items[idItem567892[0] - 1], idItem567892[0], this->window, Vector2f(positionItem567892[i] + rand() % 200, tempPos[(i + rand()) % 5]));
+			this->itemList.push_back(new Item());
+			this->itemList[this->itemList.size() - 1]->loadData(this->T_items[idItem567893[i % 2] - 1], idItem567893[i % 2], this->window, Vector2f(positionItem567893[i] + rand() % 200, tempPos[(i + rand()) % 5]));
+		}
 		break;
 	case 6: // MAP7
 		this->itemList.clear();
@@ -931,6 +1103,18 @@ void InGame::loadItems()
 		{
 			this->npcList.push_back(new NPC());
 			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC7[i]], positionNPC7[i], &this->yPos, idNPC7[i], this->window, this->event);
+		}
+		for (int i = 0; i < 12; i++)
+		{
+			this->itemList.push_back(new Item());
+			this->itemList[this->itemList.size() - 1]->loadData(this->T_items[idItem56789[0] - 1], idItem56789[0], this->window, Vector2f(positionItem56789[i] + rand() % 200, tempPos[i % 5]));
+		}
+		for (int i = 0; i < 7; i++)
+		{
+			this->itemList.push_back(new Item());
+			this->itemList[this->itemList.size() - 1]->loadData(this->T_items[idItem567892[0] - 1], idItem567892[0], this->window, Vector2f(positionItem567892[i] + rand() % 200, tempPos[(i + rand()) % 5]));
+			this->itemList.push_back(new Item());
+			this->itemList[this->itemList.size() - 1]->loadData(this->T_items[idItem567893[i % 2] - 1], idItem567893[i % 2], this->window, Vector2f(positionItem567893[i] + rand() % 200, tempPos[(i + rand()) % 5]));
 		}
 		break;
 	case 7: // MAP5
@@ -941,6 +1125,18 @@ void InGame::loadItems()
 			this->npcList.push_back(new NPC());
 			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC8[i]], positionNPC8[i], &this->yPos, idNPC8[i], this->window, this->event);
 		}
+		for (int i = 0; i < 12; i++)
+		{
+			this->itemList.push_back(new Item());
+			this->itemList[this->itemList.size() - 1]->loadData(this->T_items[idItem56789[0] - 1], idItem56789[0], this->window, Vector2f(positionItem56789[i] + rand() % 200, tempPos[i % 5]));
+		}
+		for (int i = 0; i < 7; i++)
+		{
+			this->itemList.push_back(new Item());
+			this->itemList[this->itemList.size() - 1]->loadData(this->T_items[idItem567892[0] - 1], idItem567892[0], this->window, Vector2f(positionItem567892[i] + rand() % 200, tempPos[(i + rand()) % 5]));
+			this->itemList.push_back(new Item());
+			this->itemList[this->itemList.size() - 1]->loadData(this->T_items[idItem567893[i % 2] - 1], idItem567893[i % 2], this->window, Vector2f(positionItem567893[i] + rand() % 200, tempPos[(i + rand()) % 5]));
+		}
 		break;
 	case 8: // MAP5
 		this->itemList.clear();
@@ -949,6 +1145,18 @@ void InGame::loadItems()
 		{
 			this->npcList.push_back(new NPC());
 			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC9[i]], positionNPC9[i], &this->yPos, idNPC9[i], this->window, this->event);
+		}
+		for (int i = 0; i < 12; i++)
+		{
+			this->itemList.push_back(new Item());
+			this->itemList[this->itemList.size() - 1]->loadData(this->T_items[idItem56789[0] - 1], idItem56789[0], this->window, Vector2f(positionItem56789[i] + rand() % 200, tempPos[i % 5]));
+		}
+		for (int i = 0; i < 7; i++)
+		{
+			this->itemList.push_back(new Item());
+			this->itemList[this->itemList.size() - 1]->loadData(this->T_items[idItem567892[0] - 1], idItem567892[0], this->window, Vector2f(positionItem567892[i] + rand() % 200, tempPos[(i + rand()) % 5]));
+			this->itemList.push_back(new Item());
+			this->itemList[this->itemList.size() - 1]->loadData(this->T_items[idItem567893[i % 2] - 1], idItem567893[i % 2], this->window, Vector2f(positionItem567893[i] + rand() % 200, tempPos[(i + rand()) % 5]));
 		}
 		break;
 	case 9://Shop
@@ -992,18 +1200,23 @@ void InGame::updateChalacter(bool state)
 			{
 			case 4:
 				this->indexPlayer = 5;
+				cout << "Normal" << endl;
 				break;
 			case 5: // Paint
 				this->indexPlayer = 6;
+				cout << "Painter" << endl;
 				break;
 			case 6:
 				this->indexPlayer = 7;
+				cout << "A" << endl;
 				break;
 			case 7:
 				this->indexPlayer = 8;
+				cout << "B" << endl;
 				break;
 			case 8:
 				this->indexPlayer = 9;
+				cout << "C" << endl;
 				break;
 			}
 			break;
@@ -1064,18 +1277,24 @@ void InGame::showFaceEffect(int index)
 		this->faceList.push_back(tempFace);
 		addFace(this->T_face[ID_FACE_HPUP]);
 		this->faceList.push_back(tempFace);
+		addFace(this->T_face[ID_FACE_MONEYDOWN]);
+		this->faceList.push_back(tempFace);
 		this->counter[ID_FOOD]++;
-		this->bar.hp(0.3f);
-		this->bar.happy(0.3f);
+		this->bar.hp(2.0f);
+		this->bar.happy(2.0f);
+		this->money -= 20;
 		break;
 	case ID_FOOD2:
 		addFace(this->T_face[ID_FACE_HAPPY]);
 		this->faceList.push_back(tempFace);
 		addFace(this->T_face[ID_FACE_HPUP]);
 		this->faceList.push_back(tempFace);
+		addFace(this->T_face[ID_FACE_MONEYDOWN]);
+		this->faceList.push_back(tempFace);
 		this->counter[ID_FOOD2]++;
-		this->bar.hp(0.3f);
-		this->bar.happy(0.3f);
+		this->bar.hp(2.0f);
+		this->bar.happy(2.0f);
+		this->money -= 20;
 		break;
 	case ID_FOOTBALL:
 		this->counter[ID_FOOTBALL]++;
@@ -1098,11 +1317,11 @@ void InGame::showFaceEffect(int index)
 	case ID_IQ:
 		addFace(this->T_face[ID_FACE_HAPPY]);
 		this->faceList.push_back(tempFace);
-		this->bar.happy(0.3f);
+		this->bar.happy(0.5f);
 		this->counter[ID_IQ]++;
 		break;
 	case ID_MONEY:
-		this->money += 70;
+		this->money += 55;
 		addFace(this->T_face[ID_FACE_MONEYUP]);
 		this->faceList.push_back(tempFace);
 		addFace(this->T_face[ID_FACE_SAD]);
@@ -1236,6 +1455,20 @@ void InGame::updateBar()
 		}
 		bar.setup(&this->Object, &this->Object2[0], &this->Object2[1], &this->ID[0], this->Status[0], this->Status[1], this->Status[2], this->Status[3], this->Status[4], this->Status[5], this->next - 1);
 		break;
+	case 4:
+	case 5:
+	case 6:
+	case 7:
+	case 8:
+		for (int i = 0; i < 6; i++)
+		{
+			this->ID[i] = 0;
+			this->Status[i] = 0;
+		}
+		this->ID[0] = ID_SHOWBAR_BEER;
+		this->Status[0] = &this->counter[ID_BEAR];
+		bar.setup(&this->Object, &this->Object2[0], &this->Object2[1], &this->ID[0], this->Status[0], this->Status[1], this->Status[2], this->Status[3], this->Status[4], this->Status[5], this->next - 1);
+		break;
 	}
 }
 
@@ -1320,7 +1553,7 @@ int InGame::calc(int idNPC)
 		base += this->counter[ID_IQ] * 2 + calBase(this->counter[ID_TEACHER]) + this->counter[ID_CAT] * 3 + this->counter[ID_FRIEND2] * 3 + this->counter[ID_FRIEND3] * 3 + this->counter[ID_FRIEND4] * 3;
 		break;
 	}
-	cout << "----- :: ID " << idNPC << " : rand : " << ran << " : base : " << base << endl;
+	//cout << "----- :: ID " << idNPC << " : rand : " << ran << " : base : " << base << endl;
 	if (ran <= base)
 	{
 		return 2;

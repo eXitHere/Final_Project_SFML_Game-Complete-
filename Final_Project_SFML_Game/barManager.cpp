@@ -101,9 +101,27 @@ barManager::barManager(RenderWindow* window, Event* event, int* P)
 
 	this->money_Show.setFont(font);
 	this->money_Show.setString("0");
-	this->money_Show.setCharacterSize(20);
+	this->money_Show.setCharacterSize(30);
 	this->money_Show.setFillColor(Color::White);
-	this->money_Show.setPosition(1160 - 200, 70);
+	this->money_Show.setPosition(1160 - 200, 55);
+
+	this->Ar_Show[0].setFont(font);
+	this->Ar_Show[0].setString("00");
+	this->Ar_Show[0].setCharacterSize(20);
+	this->Ar_Show[0].setFillColor(Color::White);
+	this->Ar_Show[0].setPosition(85, 865);
+
+	this->Ar_Show[1].setFont(font);
+	this->Ar_Show[1].setString("00");
+	this->Ar_Show[1].setCharacterSize(20);
+	this->Ar_Show[1].setFillColor(Color::White);
+	this->Ar_Show[1].setPosition(85+150, 865);
+
+	this->Ar_Show[2].setFont(font);
+	this->Ar_Show[2].setString("00");
+	this->Ar_Show[2].setCharacterSize(20);
+	this->Ar_Show[2].setFillColor(Color::White);
+	this->Ar_Show[2].setPosition(85+300, 865);
 
 	this->S_money.setTexture(this->T_money);
 	this->S_money.setPosition(1100 - 200, 50);
@@ -115,9 +133,10 @@ barManager::barManager(RenderWindow* window, Event* event, int* P)
 
 void barManager::DRAW()
 {
-	if (this->moneyNow != *this->money_Val)
+	if (this->moneyNow < *this->money_Val)
 	{
 		this->moneyTotal += moneyClock.restart().asSeconds();
+		this->money_Show.setFillColor(Color::Green);
 		if (this->moneyTotal > 0.01)
 		{
 			this->moneyTotal = 0;
@@ -125,7 +144,22 @@ void barManager::DRAW()
 			this->money_Show.setString(to_string(this->moneyNow));
 		}
 	}
-
+	else if (this->moneyNow > *this->money_Val)
+	{
+		this->moneyTotal += moneyClock.restart().asSeconds();
+		this->money_Show.setFillColor(Color::Red);
+		if (this->moneyTotal > 0.01)
+		{
+			this->moneyTotal = 0;
+			this->moneyNow--;
+			this->money_Show.setString(to_string(this->moneyNow));
+		}
+	}
+	else
+	{
+		if(*this->money_Val<0) this->money_Show.setFillColor(Color::Red);
+		else this->money_Show.setFillColor(Color::White);
+	}
 	//Top
 	updateHpHappy();
 	this->window->draw(this->S_grid[0]);
@@ -164,6 +198,13 @@ void barManager::DRAW()
 	if (this->B_onLoad) onLoad();
 	else Active();
 	this->ASD.draw(this->window);
+
+
+	//Update Counter
+	for (int i = 0; i < 3; i++) this->Ar_Show[i].setString(to_string(*&this->Ar[i]));
+	window->draw(this->Ar_Show[0]);
+	window->draw(this->Ar_Show[1]);
+	window->draw(this->Ar_Show[2]);
 }
 
 void barManager::setup(int* O1, bool* O2, bool* O3, int* D, int* I1, int* I2, int* I3, int* I4, int* I5, int* I6,int map)
@@ -239,6 +280,7 @@ void barManager::press()
 		//cout << "Can press!" << endl;
 		if (Keyboard::isKeyPressed(Keyboard::A) && this->active[0])
 		{
+			(this->Ar[0])++;
 			cout << "barManager :: Press A" << endl;
 			this->ASD.setAction(this->I_choose);
 			this->B_onLoad = true;
@@ -248,6 +290,7 @@ void barManager::press()
 		}
 		if (Keyboard::isKeyPressed(Keyboard::S) && this->active[1])
 		{
+			(this->Ar[1])++;
 			cout << "barManager :: Press S" << endl;
 			this->ASD.setAction(4);
 			this->B_onLoad = true;
@@ -257,6 +300,7 @@ void barManager::press()
 		}
 		if (Keyboard::isKeyPressed(Keyboard::D) && this->active[2])
 		{
+			(this->Ar[2])++;
 			cout << "barManager :: Press D" << endl;
 			this->ASD.setAction(5);
 			this->B_onLoad = true;
@@ -287,6 +331,11 @@ void barManager::happy(float val)
 	this->happy_Val += val;
 	if (this->happy_Val > 60) this->happy_Val = 60;
 	if (this->happy_Val < 0 ) this->happy_Val = 0;
+}
+
+void barManager::setAr(int* P)
+{
+	this->Ar = P;
 }
 
 void barManager::Active()
@@ -430,8 +479,25 @@ void barManager::updateCounter()
 		{
 			if (this->pointerCount[i] != nullptr)
 			{
-				if (*this->pointerCount[i] != 0) this->countItem[i].setFillColor(Color::Green);
+				if (*this->pointerCount[i] >= 6) this->countItem[i].setFillColor(Color::Green);
+				else this->countItem[i].setFillColor(Color::White);
 				this->countItem[i].setString(to_string(*this->pointerCount[i]) + "/8");
+			}
+		}
+		break;
+	case 3:
+		break;
+	case 4:
+	case 5:
+	case 6:
+	case 7:
+	case 8:
+		for (int i = 0; i < 6; i++)
+		{
+			if (this->pointerCount[i] != nullptr)
+			{
+				if (*this->pointerCount[i] != 0) this->countItem[i].setFillColor(Color::Red);
+				this->countItem[i].setString(to_string(*this->pointerCount[i]) + "/7");
 			}
 		}
 		break;

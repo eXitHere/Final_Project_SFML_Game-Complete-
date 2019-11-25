@@ -36,6 +36,7 @@ void actionASD::draw(RenderWindow* window)
 	}
 }
 
+
 void actionASD::reset()
 {
 	this->deltaTime = 0;

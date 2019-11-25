@@ -19,7 +19,7 @@ int main()
 	setupWindow(&window);
 	soundPlayBack soundManage;
 
-	int stateGame = 0;
+	int stateGame = 1;
 	Menu* menu = nullptr; // new Menu(&window, &event, &stateGame);
 	InGame* ingame = nullptr;
 	EndGame* endgame = new EndGame(&window, &event, &stateGame);

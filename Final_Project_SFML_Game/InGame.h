@@ -23,6 +23,9 @@ public:
 	
 	 
 private:
+
+	int counterASD[3] = { 0,0,0 };
+	int useMap = -1;
 	int money = 0;
 
 	int calBase(int val);

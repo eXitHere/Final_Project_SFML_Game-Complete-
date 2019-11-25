@@ -7,7 +7,6 @@ public:
 	actionASD();
 	void setAction(int index);
 	void draw(RenderWindow *window);
-
 private:
 	void reset();
 	void update();

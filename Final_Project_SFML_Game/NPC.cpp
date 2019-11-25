@@ -16,7 +16,7 @@ void NPC::setDATA(Texture texture,int positionX, float* yPos, int ID,RenderWindo
 	this->body.setTexture(this->texture);
 	if (this->ID == ID_NPC_FLOWER1 || this->ID == ID_NPC_FLOWER2 || this->ID == ID_NPC_FLOWER3)
 	{
-		this->body.setPosition(positionX, 650);
+		this->body.setPosition(positionX, 740);
 	}
 	else
 	{
@@ -51,7 +51,7 @@ void NPC::setDATA(Texture texture,int positionX, float* yPos, int ID,RenderWindo
 
 void NPC::DRAW()
 {
-	if(!this->spacial && !this->canBuy) checkOnHold();
+	if(!this->spacial || this->canBuy) checkOnHold();
 	if(check())
 		this->update();
 	if(checkDRAW()) this->window->draw(this->body);
@@ -123,6 +123,14 @@ int NPC::getYesNo()
 void NPC::setCanBuy(bool state)
 {
 	this->canBuy = state;
+	if (state == false)
+	{
+		this->spacial = true;
+	}
+	else
+	{
+		this->spacial = false;
+	}
 }
 
 bool NPC::checkDRAW() // LIST
@@ -176,7 +184,7 @@ void NPC::checkOnHold()
 	if (abs(this->body.getPosition().x + 20 - 350) < this->texture.getSize().x / 4 / 2 + 40 &&
 		abs(this->body.getPosition().y - this->texture.getSize().y / 2 - *this->yPosPlayer) < this->texture.getSize().y / 2 + 100)
 	{
-		if (Keyboard::isKeyPressed(Keyboard::F) && !isSpacial() && !this->canBuy)
+		if (Keyboard::isKeyPressed(Keyboard::F) && (!this->spacial || this->canBuy))
 		{
 			if (check())
 			{
@@ -185,6 +193,7 @@ void NPC::checkOnHold()
 			else
 			{
 				this->delme = 3;
+				//cout << "Press F" << endl;
 			}
 			//cout << "Press !" << endl;
 		}
