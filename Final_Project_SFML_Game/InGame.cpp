@@ -724,24 +724,54 @@ void InGame::DRAW()
 			case 1:
 				//this->next = 5;
 				this->useMap = 5;
-				//cout << "paint MAP " << endl; ////<<< ---- --
-				break;
-			case 2:
-				//this->next = 7;
-				this->useMap = 6;
-				//cout << "Teacher MAP " << endl;
+				cout << "paint MAP " << endl; ////<<< ---- --
 				break;
 			case 3:
+				//this->next = 7;
+				this->useMap = 6;
+				cout << "Wrench MAP" << endl;
+				
+				break;
+			case 2:
 				//this->next = 6;
 				this->useMap = 7;
-				//cout << "Wrench MAP" << endl;
+				cout << "Teacher MAP " << endl;
 				break;
 			case 4:
 				//this->next = 8;
 				this->useMap = 8;
-				//cout << "Football MAP" << endl;
-
+				cout << "Football MAP" << endl;
+				break;
 			}
+			this->way = this->useMap+1;
+			//cout << this->useMap << endl;
+		}
+	}
+	else if (this->countChoice == 1 && this->mainArchiveChoice ==0)
+	{
+		if (this->counter[ID_WRENCH] >= 6)
+		{
+			this->mainArchiveChoice = 3;
+			this->useMap = 6;
+			cout << "Wrench MAP" << endl;
+		}
+		else if (this->counter[ID_TEACHER] >= 6)
+		{
+			this->mainArchiveChoice = 2;
+			this->useMap = 7;
+			cout << "Teacher MAP" << endl;
+		}
+		else if (this->counter[ID_PAINTER] >= 6)
+		{
+			this->useMap = 5;
+			this->mainArchiveChoice = 1;
+			cout << "Painter MAP" << endl;
+		}
+		else if (this->counter[ID_FOOTBALL] >= 6)
+		{
+			this->useMap = 8;
+			this->mainArchiveChoice = 4;
+			cout << "FOOTBALL MAP" << endl;
 		}
 	}
 
@@ -876,14 +906,15 @@ void InGame::moveMap()
 			if (this->next != 10) this->S_door.setPosition(1800, 0.0f);
 			if (this->useMap != -1)
 			{
-				//cout << "DO1" << endl;
+				cout << "DO1" << endl;
 				this->S_new_Map.setTexture(this->T_Map[this->useMap]);
-				this->next++;
+				this->next = 9;
+				//this->way = this->useMap;
 				this->useMap = -1;
 			}
 			else if (this->next - 1 >= 4 && this->next - 1 <= 8)
 			{
-				//cout << "DO2" << endl;
+				cout << "DO2" << endl;
 				this->next = 9;
 				this->S_new_Map.setTexture(this->T_Map[this->next]);
 				this->next++;
@@ -891,9 +922,14 @@ void InGame::moveMap()
 			}
 			else
 			{
-				//cout << "DO3" << endl;
+				cout << "DO3" << endl;
 				this->S_new_Map.setTexture(this->T_Map[this->next]);
-				this->next++;
+				if (this->next == 4)
+				{
+					this->next = 9;
+					this->way = -1;
+				}
+				else this->next++;
 			}
 		}
 	}
@@ -910,10 +946,10 @@ void InGame::moveMap()
 			if (this->next - 1 == 3) // P T W F
 			{
 				//cout << "EIEI" << endl;
-				if (this->counter[ID_FOOTBALL] >= 5) { this->mutiChoice.Set(3); this->countChoice++;/* cout << "EIEI" << endl;*/ }
-				if (this->counter[ID_PAINTER] >= 5) { this->mutiChoice.Set(0); this->countChoice++; /*cout << "EIEI" << endl; */}
-				if (this->counter[ID_WRENCH] >= 5) { this->mutiChoice.Set(2); this->countChoice++; /*cout << "EIEI" << endl;*/ }
-				if (this->counter[ID_TEACHER] >= 5) { this->mutiChoice.Set(1); this->countChoice++;/* cout << "EIEI" << endl; */}
+				if (this->counter[ID_FOOTBALL] >= 6) { this->mutiChoice.Set(3); this->countChoice++;/* cout << "EIEI" << endl;*/ }
+				if (this->counter[ID_PAINTER] >= 6) { this->mutiChoice.Set(0); this->countChoice++; /*cout << "EIEI" << endl; */}
+				if (this->counter[ID_WRENCH] >= 6) { this->mutiChoice.Set(2); this->countChoice++; /*cout << "EIEI" << endl;*/ }
+				if (this->counter[ID_TEACHER] >= 6) { this->mutiChoice.Set(1); this->countChoice++;/* cout << "EIEI" << endl; */}
 				if (this->countChoice > 1)
 				{
 					//cout << "Show" << endl;
@@ -936,14 +972,16 @@ void InGame::moveMap()
 			if(this->next != 10) this->S_door.setPosition(1800, 0.0f);
 			if (this->useMap != -1)
 			{
-				//cout << "DO" << endl;
+				cout << "DO" << endl;
 				this->S_cur_Map.setTexture(this->T_Map[this->useMap]);
-				this->next++;
+				this->next=9;
+				this->way = this->useMap;
+				cout << " " << this->way << endl;
 				this->useMap = -1;
 			}
 			else if (this->next - 1 >= 4 && this->next -1 <= 8)
 			{
-				//cout << "DO2" << endl;
+				cout << "DO2" << endl;
 				this->next = 9;
 				this->S_cur_Map.setTexture(this->T_Map[this->next]);
 				this->next++;
@@ -951,9 +989,15 @@ void InGame::moveMap()
 			}
 			else
 			{
-				//cout << "DO3" << endl;
+				cout << "DO3" << endl;
 				this->S_cur_Map.setTexture(this->T_Map[this->next]);
-				this->next++;
+
+				if (this->next == 4)
+				{
+					this->next = 9;
+					this->way = -1;
+				}
+				else this->next++;
 			}
 		}
 	}
@@ -962,6 +1006,7 @@ void InGame::moveMap()
 		*this->stateGame = 2;
 	}
 	if (!pause) this->S_door.move(-3 * gameSpeed, 0);
+	//cout << this->next << endl;
 }
 
 
@@ -1069,11 +1114,49 @@ void InGame::loadItems()
 			this->itemList.push_back(new Item());
 			this->itemList[this->itemList.size() - 1]->loadData(this->T_items[idItem567893[i%2] - 1], idItem567893[i%2], this->window, Vector2f(positionItem567893[i] + rand() % 200, tempPos[(i + rand()) % 5]));
 		}
+		/*if (this->useMap != -1)
+		{
+			switch (this->useMap)
+			{
+			case 5: // Painter
+				for (int i = 0; i < 3; i++)
+				{
+					this->npcList.push_back(new NPC());
+					this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC6[i]], positionNPC6[i], &this->yPos, idNPC6[i], this->window, this->event);
+				}
+				break;
+			case 6:
+				for (int i = 0; i < 3; i++)
+				{
+					this->npcList.push_back(new NPC());
+					this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC7[i]], positionNPC7[i], &this->yPos, idNPC7[i], this->window, this->event);
+				}
+				break;
+			case 7:
+				for (int i = 0; i < 3; i++)
+				{
+					this->npcList.push_back(new NPC());
+					this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC8[i]], positionNPC8[i], &this->yPos, idNPC8[i], this->window, this->event);
+				}
+				break;
+			case 8:
+				for (int i = 0; i < 3; i++)
+				{
+					this->npcList.push_back(new NPC());
+					this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC9[i]], positionNPC9[i], &this->yPos, idNPC9[i], this->window, this->event);
+				}
+				break;
+			}
+		}
+		else
+		{*/
+			//cout << "Debug : " << this->useMap << " --- " << this->next - 1 << endl;
 		for (int i = 0; i < 3; i++)
 		{
 			this->npcList.push_back(new NPC());
 			this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC5[i]], positionNPC5[i], &this->yPos, idNPC5[i], this->window, this->event);
 		}
+		//}
 		break;
 	case 5: // MAP6
 		this->itemList.clear();
@@ -1186,6 +1269,7 @@ int InGame::positionNow()
 
 void InGame::updateChalacter(bool state)
 {
+	int temp;
 	if (state)
 	{
 		switch (this->indexPlayer)
@@ -1196,29 +1280,36 @@ void InGame::updateChalacter(bool state)
 			//cout << "Check case" << endl;
 			break;
 		case 4:
-			switch (this->next-1)
+			if(this->next != 4)
+			if (this->way != -1)
 			{
-			case 4:
-				this->indexPlayer = 5;
-				cout << "Normal" << endl;
-				break;
-			case 5: // Paint
-				this->indexPlayer = 6;
-				cout << "Painter" << endl;
-				break;
-			case 6:
-				this->indexPlayer = 7;
-				cout << "A" << endl;
-				break;
-			case 7:
-				this->indexPlayer = 8;
-				cout << "B" << endl;
-				break;
-			case 8:
-				this->indexPlayer = 9;
-				cout << "C" << endl;
-				break;
+				switch (this->way)
+				{
+				case 5: // Paint
+					this->indexPlayer = 6;
+					//cout << "Painter" << endl;
+					break;
+				case 6:
+					this->indexPlayer = 7;
+					cout << "A" << endl;
+					break;
+				case 7:
+					this->indexPlayer = 8;
+					cout << "B" << endl;
+					break;
+				case 8:
+					this->indexPlayer = 9;
+				//	cout << "C" << endl;
+					break;
+				}
+			//	cout << "ASDAASDAQSDASDASD" <<this->way << endl;
 			}
+			else
+			{
+				this->indexPlayer = 5;
+			//cout << "Do Normal" << endl;
+			}
+			
 			break;
 		}
 		this->soundManage->playLvUp();

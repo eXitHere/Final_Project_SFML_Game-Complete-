@@ -24,6 +24,7 @@ public:
 	 
 private:
 
+	int way = -1;
 	int counterASD[3] = { 0,0,0 };
 	int useMap = -1;
 	int money = 0;

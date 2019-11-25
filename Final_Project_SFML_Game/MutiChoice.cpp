@@ -32,6 +32,8 @@ void MutiChoice::DRAW()
 			this->keyReleased = true;
 			//this->forReturn = this->index + 1;
 			this->forReturn = this->compare[this->index];
+			cout <<"Inclass return : "<< this->forReturn << endl;
+			cout << "Inclass index : " << this->index << endl;
 			//cout << "Set" << endl;
 		}
 	}
@@ -68,22 +70,22 @@ void MutiChoice::Set(int number)
 {
 	if (number == 0)
 	{
-		this->textProcess.push_back(this->texture[1]);
-		this->compare.push_back(1);
+		this->textProcess.push_back(this->texture[1]); //* p
+		this->compare.push_back(1); 
 	}
 	if (number == 1)
 	{
-		this->textProcess.push_back(this->texture[2]);
+		this->textProcess.push_back(this->texture[2]); //* t 
 		this->compare.push_back(2);
 	}
 	if (number == 2)
 	{
-		this->textProcess.push_back(this->texture[3]);
+		this->textProcess.push_back(this->texture[3]); //*w
 		this->compare.push_back(3);
 	}
 	if (number == 3)
 	{
-		this->textProcess.push_back(this->texture[4]);
+		this->textProcess.push_back(this->texture[4]); //*f
 		this->compare.push_back(4);
 	}
 	if (this->textProcess.size() > 0)
