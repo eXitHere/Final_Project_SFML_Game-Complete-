@@ -4,7 +4,7 @@
 #include <time.h>
 InGame::InGame(RenderWindow* window, Event* event, int* state,soundPlayBack* soundManage) :
 	player(window, event,&this->pause,soundManage),
-	bar(window,event,&this->money),
+	bar(window,event,&this->money,soundManage),
 	mutiChoice(window,event)
 {
 	this->soundManage = soundManage;
@@ -12,6 +12,7 @@ InGame::InGame(RenderWindow* window, Event* event, int* state,soundPlayBack* sou
 	this->bar.setAr(this->counterASD);
 	player.updateRec(this->indexPlayer);
 	player.setPointerToY(&this->yPos);
+	player.setTemp(&this->indexPlayer);
 	loadTextureAll();
 	this->stateGame = state;
 	this->window = window;
@@ -35,7 +36,12 @@ InGame::InGame(RenderWindow* window, Event* event, int* state,soundPlayBack* sou
 
 void InGame::DRAW()
 {
-	checkPause();
+	if (this->indexPlayer != 3) checkPause();
+	if (this->bar.getHappy() <= 1 || this->bar.getHappy() <=1)
+	{
+		*PScore = -1;
+		*this->stateGame = 2;
+	}
 	//this->T_Map[0].loadFromFile("Texture/Map/map0.jpg");
 	//this->T_Map[1].loadFromFile("Texture/Map/map1.jpg");
 	if (this->npcList.size()>0 && this->npcList[0]->getID() == ID_NPC_FLOWER3)
@@ -182,6 +188,7 @@ void InGame::DRAW()
 			(this->next-1==2 && this->npcList.size()>3 && this-> npcList[3]->getPostiosion().x < 400) &&!this->pause) // Press F
 		{
 		//	cout << "Press F" << endl;
+			this->soundManage->playHitItem();
 			if (this->next - 1 == 2)
 			{
 				//cout << this->npcList[3]->getPostiosion().x << endl;
@@ -782,7 +789,7 @@ void InGame::DRAW()
 	}
 
 	bar.DRAW();
-	if (this->pause)
+	if (this->indexPlayer != 3) if (this->pause)
 	{
 		this->window->draw(this->S_pause);
 		if (Mouse::getPosition(*this->window).x >= this->S_pause.getPosition().x &&
@@ -859,6 +866,10 @@ void InGame::calcScore()
 	*this->PScore += this->counter[ID_CARSHOW2] * 100;
 	*this->PScore += this->counter[ID_CARSHOW3] * 50;
 	*this->PScore += round(this->money/10);
+	srand(time(NULL));
+	*this->PScore += round(bar.getHappy());
+	*this->PScore += round(bar.getHp());
+	*this->PScore += rand() % 50; // this bonus
 }
 
 void InGame::checkPause()
@@ -1202,7 +1213,7 @@ void InGame::loadItems()
 		}
 		break;
 	case 4: // MAP5
-		cout << "MAP5" << endl;
+		//cout << "MAP5" << endl;
 		this->itemList.clear();
 		this->npcList.clear();
 		for (int i = 0; i < 12; i++)
@@ -1225,8 +1236,8 @@ void InGame::loadItems()
 		//}
 		break;
 	case 5: // MAP6
-		cout << "MAP6" << endl;
-		this->itemList.clear();
+		//cout << "MAP6" << endl;
+		/*this->itemList.clear();
 		this->npcList.clear();
 		for (int i = 0; i < 3; i++)
 		{
@@ -1245,9 +1256,9 @@ void InGame::loadItems()
 			this->itemList.push_back(new Item());
 			this->itemList[this->itemList.size() - 1]->loadData(this->T_items[idItem567893[i % 2] - 1], idItem567893[i % 2], this->window, Vector2f(positionItem567893[i] + rand() % 200, tempPos[(i + rand()) % 5]));
 		}
-		break;
+		break;*/
 	case 6: // MAP7
-		cout << "MAP7" << endl;
+		//cout << "MAP7" << endl;
 		this->itemList.clear();
 		this->npcList.clear();
 		for (int i = 0; i < 3; i++)
@@ -1269,7 +1280,7 @@ void InGame::loadItems()
 		}
 		break;
 	case 7: // MAP5
-		cout << "MAP8" << endl;
+		//cout << "MAP8" << endl;
 		this->itemList.clear();
 		this->npcList.clear();
 		for (int i = 0; i < 3; i++)
@@ -1305,6 +1316,7 @@ void InGame::loadItems()
 					this->npcList.push_back(new NPC());
 					this->npcList[this->npcList.size() - 1]->setDATA(T_NPC[idNPC6[i]], positionNPC6[i], &this->yPos, idNPC6[i], this->window, this->event);
 				}
+				break;
 			case 6:
 				//cout << "MAP7" << endl;
 				for (int i = 0; i < 3; i++)

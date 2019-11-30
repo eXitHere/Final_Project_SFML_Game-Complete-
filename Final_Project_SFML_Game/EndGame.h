@@ -1,4 +1,9 @@
 #include"initial.h"
+#include<algorithm>
+#include<vector>
+#include<fstream>
+#include<stdlib.h>
+#include<time.h>
 
 class EndGame
 {
@@ -7,6 +12,15 @@ public:
 	void DRAW();
 	void setPointer(string *P,float *F);
 private:
+	//DB
+
+	vector<pair<int, string> > score;
+	fstream myFile;
+	string temp;
+	string tempString;
+	int tempInt = 0, X = 1;
+	bool state = false;
+
 	Font font;
 	Text Text_score;
 	string* PName;

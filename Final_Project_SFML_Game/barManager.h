@@ -12,16 +12,18 @@
 class barManager
 {
 public:
-	barManager(RenderWindow *window,Event *event,int *P);
+	barManager(RenderWindow *window,Event *event,int *P,soundPlayBack *a);
 	void DRAW();
 	void setup(int* O1, bool* O2, bool* O3, int* D, int* I1, int* I2, int* I3, int* I4, int* I5, int* I6,int map);
 	void press();
 	void hp(float val);
 	void happy(float val);
 	void setAr(int* P);
+	float getHappy();
+	float getHp();
 
 private:
-
+	soundPlayBack* sound;
 	actionASD ASD;
 	// Function
 	void Active();

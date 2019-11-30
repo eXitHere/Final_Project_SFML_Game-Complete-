@@ -1,6 +1,9 @@
 #include "Menu.h"
 Menu::Menu(RenderWindow* window, Event* event, int* state, soundPlayBack* sound)
 {
+	this->howto_T.loadFromFile("Texture/Menu/howto.png");
+	this->howto_S.setTexture(this->howto_T);
+	this->howto_S.setPosition(50, 50);
 	this->soundManage = sound;
 
 	this->stateGame = state;
@@ -160,6 +163,7 @@ void Menu::loadSettingSound()
 	{
 		getline(this->myFile, temp);
 		//cout << temp << endl;
+		if (index == 5) break;
 		if (index == 0)
 		{
 			for (int i = temp.length()-1; i>=0 ; i--,P*=10)
@@ -488,10 +492,26 @@ void Menu::loadScore()
 	this->myFile.open("database/score.txt");
 	string temp;
 	int tempIndex = 0;
-	while (!this->myFile.eof())
+	int i = 0;
+	while (getline(this->myFile, this->temp))
 	{
-		getline(this->myFile, temp);
-		this->string_score[tempIndex++] = temp;
+		if (this->state == false)
+		{
+			this->tempString = this->temp;
+		}
+		else
+		{
+			for (int i = this->temp.length() - 1; i >= 0; i--, X *= 10)
+			{
+				this->tempInt += (this->temp[i] - '0') * X;
+			}
+			string_score[i] = this->tempString +" - "+to_string(this->tempInt);
+			this->X = 1;
+			this->tempInt = 0;
+			i++;
+		}
+		this->state = !this->state;
+		//cout << Temp << endl;
 	}
 	this->myFile.close();
 }
@@ -508,6 +528,7 @@ void Menu::loadSetting()
 		this->B += 0.01;
 		this->S_boardSetting.move(0, -this->B);
 		for (int i = 0; i < 4; i++) this->S_soundBar[i].move(0, -this->B);
+
 		this->S_soundBtn[0].move(0, -this->B);
 		this->S_soundBtn[1].move(0, -this->B);
 		this->text_valMusic.move(0, -this->B);
@@ -529,6 +550,7 @@ void Menu::loadSetting()
 		}
 		break;
 	case 2:
+		this->window->draw(this->howto_S);
 		this->S_soundBar[1].setTextureRect(this->R_soundBar[0]);
 		this->S_soundBar[3].setTextureRect(this->R_soundBar[1]);
 		window->draw(this->S_boardSetting);
@@ -672,6 +694,9 @@ void Menu::enterName()
 			//cout << this->event->text.unicode << endl;
 			if (this->event->text.unicode == 13) // enter
 			{
+
+				this->text_GetName.setString("Loading...");
+				this->rectangle_focus.setPosition(690 + this->text_GetName.getGlobalBounds().width + 5, 750);
 				*this->PName = this->string_GetName;
 				this->stateEnterName = 2;
 				*this->stateGame = 1;

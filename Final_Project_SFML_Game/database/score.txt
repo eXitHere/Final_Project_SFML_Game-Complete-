@@ -1,5 +1,10 @@
-Player1 400
-Player2 300
-Player3 200
-Player4 100
-Player5 50
+tk
+926
+test
+920
+aaaa
+864
+thana
+846
+pokpok
+815

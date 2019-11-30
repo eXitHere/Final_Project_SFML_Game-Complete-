@@ -32,6 +32,7 @@ EndGame::EndGame(RenderWindow* window, Event* event, int* state)
 	this->Text_score.setFillColor(Color::Blue);
 	this->Text_score.setStyle(sf::Text::Bold);
 	this->Text_score.setPosition(120, 660);
+	//cout << "Load1" << endl;
 }
 
 void EndGame::DRAW()
@@ -61,9 +62,42 @@ void EndGame::setPointer(string* P, float* F)
 	}
 	else
 	{
+		//cout << "Load2" << endl;
+		this->myFile.open("database/score.txt");
+		while (getline(this->myFile, this->temp))
+		{
+			if (this->state == false)
+			{
+				this->tempString = this->temp;
+			}
+			else
+			{
+				for (int i = this->temp.length() - 1; i >= 0; i--, X *= 10)
+				{
+					this->tempInt += (this->temp[i] - '0') * X;
+				}
+				this->score.push_back(make_pair(this->tempInt, this->tempString));
+				this->X = 1;
+				this->tempInt = 0;
+			}
+			this->state = !this->state;
+			//cout << Temp << endl;
+		}
+		this->myFile.close();
+		this->score.push_back(make_pair(int(*this->PScore), *this->PName));
+		sort(this->score.begin(), this->score.end());
+		this->myFile.open("database/score.txt");
+		for (int i = 5; i >= 1; i--)
+		{
+			this->myFile << this->score[i].second << "\n" << this->score[i].first << endl;
+		//	cout << score[i].first << " -- " << score[i].second << endl;
+		}
+		this->myFile.close();
 		this->Text_score.setString(to_string(int(*this->PScore)));
+		*this->PScore = 0;
 		this->Text_score.setCharacterSize(60);
 		this->Text_score.setPosition(320, 640);
+		//cout << "Load3" << endl;
 	}
 }
 

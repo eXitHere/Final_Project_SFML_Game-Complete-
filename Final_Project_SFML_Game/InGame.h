@@ -23,7 +23,7 @@ public:
 	void setPointScore(float* P);
 	 
 private:
-
+	int* temp;
 	void calcScore();
 	bool holdPause = false, change = false;
 	Texture T_pause[2];

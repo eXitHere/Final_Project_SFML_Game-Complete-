@@ -1,6 +1,9 @@
 #ifndef HEADER_H_
 #define HEADER_H_
 #include "soundPlayBack.h"
+#include<algorithm>
+#include<vector>
+#include<fstream>
 #endif
 
 
@@ -17,6 +20,14 @@ public:
 	void DRAW();
 	void setPointerName(string* name);
 private:
+
+	Texture howto_T;
+	Sprite howto_S;
+	string temp;
+	string tempString;
+	int tempInt = 0, X = 1;
+	bool state = false;
+
 	//sound
 	string* PName;
 	soundPlayBack* soundManage;
@@ -37,9 +48,9 @@ private:
 	char last_Char = ' ';
 	Clock clock,clock_score,clock_myname,clock_EnterName;
 	float totalTime = 0, totalTimeScore = 0, A = 100000, B = 0, totalTimeMyName = 0, C = 0, totalTimeEnterName = 0;
-	Text text_score[5],text_valMusic,text_ValEffect,text_GetName, text_showTitle;
+	Text text_score[6],text_valMusic,text_ValEffect,text_GetName, text_showTitle;
 	RectangleShape rectangle_GetName,rectangle_focus;
-	string string_score[5] = {"                    ","                    " ,"                    " ,"                    " ,"                    "}, string_Score_slid[5] = { "                    ","                    " ,"                    " ,"                    " ,"                    " };
+	string string_score[6] = {"                    ","                    " ,"                    " ,"                    " ,"                    "}, string_Score_slid[5] = { "                    ","                    " ,"                    " ,"                    " ,"                    " };
 	string string_GetName;
 	int stateScore = 1, indexSlid = 0, stateSetting = 0, valMusic = 50, valEffect = 50, stateMyName = 0,stateEnterName =0,indexGetName=0;
 	Font font;

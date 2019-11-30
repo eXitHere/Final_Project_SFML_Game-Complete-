@@ -1,8 +1,9 @@
 #include "barManager.h"
 
-barManager::barManager(RenderWindow* window, Event* event, int* P)
+barManager::barManager(RenderWindow* window, Event* event, int* P, soundPlayBack* a)
 {
 	//this->ASDControl = ASD;
+	this->sound = a;
 	this->money_Val = P;
 	this->window = window;
 	this->event = event;
@@ -148,7 +149,7 @@ void barManager::DRAW()
 	{
 		this->moneyTotal += moneyClock.restart().asSeconds();
 		this->money_Show.setFillColor(Color::Red);
-		if (this->moneyTotal > 0.01)
+		if (this->moneyTotal > 0.001)
 		{
 			this->moneyTotal = 0;
 			this->moneyNow--;
@@ -282,6 +283,7 @@ void barManager::press()
 		{
 			(this->Ar[0])++;
 			//cout << "barManager :: Press A" << endl;
+			this->sound->playHitItem();
 			this->ASD.setAction(this->I_choose);
 			this->B_onLoad = true;
 			this->S_Grid[0].setTexture(this->T_Grid[0]);
@@ -291,6 +293,7 @@ void barManager::press()
 		if (Keyboard::isKeyPressed(Keyboard::S) && this->active[1])
 		{
 			(this->Ar[1])++;
+			this->sound->playHitItem();
 			//cout << "barManager :: Press S" << endl;
 			this->ASD.setAction(4);
 			this->B_onLoad = true;
@@ -301,6 +304,7 @@ void barManager::press()
 		if (Keyboard::isKeyPressed(Keyboard::D) && this->active[2])
 		{
 			(this->Ar[2])++;
+			this->sound->playHitItem();
 			//cout << "barManager :: Press D" << endl;
 			this->ASD.setAction(5);
 			this->B_onLoad = true;
@@ -336,6 +340,16 @@ void barManager::happy(float val)
 void barManager::setAr(int* P)
 {
 	this->Ar = P;
+}
+
+float barManager::getHappy()
+{
+	return this->happy_Val;
+}
+
+float barManager::getHp()
+{
+	return this->hp_Val;
 }
 
 void barManager::Active()

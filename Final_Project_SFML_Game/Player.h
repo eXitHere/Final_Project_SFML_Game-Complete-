@@ -15,7 +15,10 @@ public:
 	void setPointerToY(float* Y);
 	Vector2f getHalfsize();
 	Vector2f getPosition();
+
+	void setTemp(int* p);
 private:
+	int *temp;
 	soundPlayBack* soundManage;
 	bool* pause;
 	float *pointerToY;

@@ -27,9 +27,9 @@ void Player::DRAW()
 	{
 		controls();
 		jump();
-		update();
+		
 	}
-	
+	update();
 	*this->pointerToY = this->body.getPosition().y;
 	this->window->draw(this->body);
 	//cout << this->body.getPosition().y << endl;
@@ -51,6 +51,11 @@ Vector2f Player::getPosition()
 	//cout << this->body.getPosition().x << " " << this->body.getPosition().y << endl;
 	//cout << getHalfsize().x << " " << this->getHalfsize().y << endl;
 	return (this->body.getPosition() - Vector2f(0,this->T_texture[this->action_now].getSize().y/2));
+}
+
+void Player::setTemp(int* p)
+{
+	this->temp = p;
 }
 
 void Player::controls()
@@ -84,6 +89,7 @@ void Player::update()
 			this->X_now = 0;
 			if (this->action_now == 3)
 			{
+				*this->temp = 2;
 				*this->pause = false;
 				updateRec(2);
 			}

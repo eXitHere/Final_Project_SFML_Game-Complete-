@@ -20,7 +20,7 @@ int main()
 	soundPlayBack soundManage;
 
 	string playerName;
-	float scoreMain;
+	float scoreMain=0;
 	int stateGame = 0;
 	Menu* menu = nullptr; // new Menu(&window, &event, &stateGame);
 	InGame* ingame = nullptr;
